@@ -16,7 +16,7 @@ FEHMotor motorC(FEHMotor::Motor2, 9);
 // Encoders
 DigitalEncoder encoderA(FEHIO::P0_0);
 DigitalEncoder encoderB(FEHIO::P0_1);
-DigitalEncoder encoderC(FEHIO::P0_1);
+DigitalEncoder encoderC(FEHIO::P0_2);
 
 const int COUNTS_PER_ENCODER = 318;
 

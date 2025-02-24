@@ -25,10 +25,14 @@ void driveStraight(int distance)
 {
     resetEncoders();
 
-    int targetCounts = distance * COUNTS_PER_ENCODER;
+    int targetCounts = inchesToCounts(distance) / cos(120 * M_PI / 180);
+
+    motorA.SetPercent(NORMAL_POWER);
+    motorB.SetPercent(NORMAL_POWER);
 
     while ((encoderA.Counts() + encoderB.Counts() + encoderC.Counts() / 3) <= targetCounts)
     {
+        // correction();
     }
 
     stopMotors();
