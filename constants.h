@@ -1,8 +1,8 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
 #include <FEHMotor.h>
 #include <FEHIO.h>
-
-#if !defined(CONSTANTS_H)
-#define CONSTANTS_H
 
 // Robot related
 const float ROBOT_DIAMETER = 5;
