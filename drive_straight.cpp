@@ -1,0 +1,54 @@
+#include "drive_straight.h"
+
+// Constructor
+DriveStraight::DriveStraight(FEHMotor &m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor, int s1)
+    : motorA(m1), motorB(m2), encoderA(e1), encoderB(e2), kP(correctionFactor), speed(s1) {}
+
+// Compute encoder error between two wheels
+int DriveStraight::computeError()
+{
+    return encoderA.Counts() - encoderB.Counts();
+}
+
+// Compute correction values based on error
+void DriveStraight::computeCorrection(int error, int &correction1, int &correction2)
+{
+    correction1 = -kP * error;
+    correction2 = kP * error;
+}
+
+// Apply motor power with correction
+void DriveStraight::applyMotorCorrection(int targetSpeed, int correction1, int correction2)
+{
+    motorA.SetPercent(targetSpeed + correction1);
+    motorB.SetPercent(targetSpeed + correction2);
+}
+
+// Main correction function
+void DriveStraight::correctDriveStraight()
+{
+    int error = computeError();
+    int correction1 = 0, correction2 = 0;
+
+    computeCorrection(error, correction1, correction2);
+    applyMotorCorrection(speed, correction1, correction2);
+}
+
+// Drive straight for a specified distance
+void DriveStraight::driveStraight(float distance)
+{
+    resetEncoders();
+    stopMotors();
+
+    int targetCounts = inchesToCounts(distance) / cos(120 * M_PI / 180);
+
+    motorA.SetPercent(speed);
+    motorB.SetPercent(speed);
+
+    while ((encoderA.Counts() + encoderB.Counts() / 2) <= targetCounts)
+    {
+        correctDriveStraight();
+    }
+
+    stopMotors();
+}
