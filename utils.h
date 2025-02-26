@@ -1,11 +1,31 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-float degToRad(int degrees);
+#include <math.h>
+#include "constants.h"
 
-void stopMotors();
-void resetEncoders();
+int inchesToCounts(float inches)
+{
+    return inches * COUNTS_PER_ENCODER / M_PI * WHEEL_DIAMETER;
+}
 
-int inchesToCounts(float inches);
+int degToRad(float deg)
+{
+    return deg * M_PI / 180;
+}
+
+void stopMotors()
+{
+    motorA.SetPercent(0);
+    motorB.SetPercent(0);
+    motorC.SetPercent(0);
+}
+
+void resetEncoders()
+{
+    encoderA.ResetCounts();
+    encoderB.ResetCounts();
+    encoderC.ResetCounts();
+}
 
 #endif

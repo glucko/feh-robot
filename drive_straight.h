@@ -1,3 +1,6 @@
+#ifndef DRIVE_STRAIGHT_H
+#define DRIVE_STRAIGHT_H
+
 #include <FEHMotor.h>
 #include <FEHIO.h>
 #include <math.h>
@@ -45,7 +48,7 @@ private:
 
 public:
     // Constructor takes in references to the two active motors and encoders
-    DriveStraight(FEHMotor m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor = 0.5, int s1 = 25)
+    DriveStraight(FEHMotor &m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor = 0.5, int s1 = 25)
         : motorA(m1), motorB(m2), encoderA(e1), encoderB(e2), kP(correctionFactor), speed(s1) {}
 
     void driveStraight(float distance)
@@ -66,3 +69,5 @@ public:
         stopMotors();
     }
 };
+
+#endif

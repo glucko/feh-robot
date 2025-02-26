@@ -1,7 +1,11 @@
-#include <drive.h>
+#include <FEHMotor.h>
+#include "constants.h"
+#include "drive_straight.h"
 
 int main()
 {
-    driveStraight(10);
-    driveStraight(-10);
+    DriveStraight driveStraight = DriveStraight(motorA, motorB, encoderA, encoderB);
+
+    // drive straight for 10 inches with motors A and B
+    driveStraight.driveStraight(10);
 }
