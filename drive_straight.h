@@ -1,28 +1,23 @@
 #ifndef DRIVE_STRAIGHT_H
 #define DRIVE_STRAIGHT_H
 
-#include <FEHMotor.h>
-#include <FEHIO.h>
-#include <math.h>
-#include "utils.h"
+#include "FEHMotor.h" // Include the header for FEHMotor
+#include "FEHIO.h"    // Include the header for DigitalEncoder
 
 class DriveStraight
 {
 private:
     float kP;                 // Proportional correction factor
     int speed;                // Motor power percentage for speed
-    FEHMotor &motorA;         // Reference to first active motor
-    FEHMotor &motorB;         // Reference to second active motor
-    DigitalEncoder &encoderA; // Reference to first active encoder
-    DigitalEncoder &encoderB; // Reference to second active encoder
+    FEHMotor &motor1;         // Reference to first active motor
+    FEHMotor &motor2;         // Reference to second active motor
+    DigitalEncoder &encoder1; // Reference to first active encoder
+    DigitalEncoder &encoder2; // Reference to second active encoder
 
     int computeError();                                                           // Compute encoder error between two wheels
     void computeCorrection(int error, int &correction1, int &correction2);        // Compute correction values based on error
     void applyMotorCorrection(int targetSpeed, int correction1, int correction2); // Apply motor power with correction
     void correctDriveStraight();                                                  // Main correction function
-    void resetEncoders();                                                         // Add method declaration
-    void stopMotors();                                                            // Add method declaration
-    int inchesToCounts(float inches);                                             // Add method declaration
 
 public:
     // Constructor

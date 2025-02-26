@@ -1,13 +1,17 @@
+#include <math.h>
+
 #include "drive_straight.h"
+#include "utils.h"
+#include "constants.h"
 
 // Constructor
 DriveStraight::DriveStraight(FEHMotor &m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor, int s1)
-    : motorA(m1), motorB(m2), encoderA(e1), encoderB(e2), kP(correctionFactor), speed(s1) {}
+    : motor1(m1), motor2(m2), encoder1(e1), encoder2(e2), kP(correctionFactor), speed(s1) {}
 
 // Compute encoder error between two wheels
 int DriveStraight::computeError()
 {
-    return encoderA.Counts() - encoderB.Counts();
+    return encoder1.Counts() - encoder2.Counts();
 }
 
 // Compute correction values based on error
@@ -20,8 +24,8 @@ void DriveStraight::computeCorrection(int error, int &correction1, int &correcti
 // Apply motor power with correction
 void DriveStraight::applyMotorCorrection(int targetSpeed, int correction1, int correction2)
 {
-    motorA.SetPercent(targetSpeed + correction1);
-    motorB.SetPercent(targetSpeed + correction2);
+    motor1.SetPercent(targetSpeed + correction1);
+    motor2.SetPercent(targetSpeed + correction2);
 }
 
 // Main correction function
@@ -42,10 +46,10 @@ void DriveStraight::driveStraight(float distance)
 
     int targetCounts = inchesToCounts(distance) / cos(120 * M_PI / 180);
 
-    motorA.SetPercent(speed);
-    motorB.SetPercent(speed);
+    motor1.SetPercent(speed);
+    motor2.SetPercent(speed);
 
-    while ((encoderA.Counts() + encoderB.Counts() / 2) <= targetCounts)
+    while ((encoder1.Counts() + encoder2.Counts() / 2) <= targetCounts)
     {
         correctDriveStraight();
     }
