@@ -1,8 +1,6 @@
 #include <math.h>
-
 #include "drive_straight.h"
 #include "utils.h"
-#include "constants.h"
 
 // Constructor
 DriveStraight::DriveStraight(FEHMotor &m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor, int s1)
@@ -44,6 +42,7 @@ void DriveStraight::driveStraight(float distance)
     resetEncoders();
     stopMotors();
 
+    // accounts for the fact that wheels are at an angle
     int targetCounts = inchesToCounts(distance) / cos(120 * M_PI / 180);
 
     motor1.SetPercent(speed);

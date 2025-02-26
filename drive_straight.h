@@ -1,8 +1,8 @@
 #ifndef DRIVE_STRAIGHT_H
 #define DRIVE_STRAIGHT_H
 
-#include "FEHMotor.h" // Include the header for FEHMotor
-#include "FEHIO.h"    // Include the header for DigitalEncoder
+#include <FEHMotor.h>
+#include <FEHIO.h>
 
 class DriveStraight
 {

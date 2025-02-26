@@ -3,7 +3,6 @@
 
 #include <FEHIO.h>
 #include <FEHMotor.h>
-#include <math.h>
 
 // Robot related
 const float ROBOT_DIAMETER = 5;
