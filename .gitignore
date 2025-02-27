@@ -1,3 +1,6 @@
+# ignore firmware
+fehproteusfirmware/
+
 # Prerequisites
 *.d
 
