@@ -48,9 +48,11 @@ void DriveStraight::driveStraight(float distance)
     motor1.SetPercent(speed);
     motor2.SetPercent(speed);
 
+    // TODO: also add a time limit
     while ((encoder1.Counts() + encoder2.Counts() / 2) <= targetCounts)
     {
         correctDriveStraight();
+        logger.logEncoderInfo(true);
     }
 
     stopMotors();
