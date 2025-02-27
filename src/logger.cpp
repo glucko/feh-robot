@@ -1,7 +1,7 @@
 #include "include/logger.h"
+#include "include/constants.h"
 #include <iostream>
 #include <FEHLCD.h>
-#include <constants.h>
 #include <FEHUtility.h>
 
 Logger::Logger(std::string name, bool overwrite, bool enabled)
@@ -13,7 +13,7 @@ Logger::Logger(std::string name, bool overwrite, bool enabled)
 
 void Logger::openLogger()
 {
-    char *mode = "a";
+    const char *mode = "a";
     if (overwriteFile)
     {
         fptr = SD.FOpen(fileName.c_str(), "w");

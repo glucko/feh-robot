@@ -1,4 +1,4 @@
-#include "../include/constants.h"
+#include "include/constants.h"
 
 // Motors (definitions)
 FEHMotor motorA(FEHMotor::Motor0, 9);

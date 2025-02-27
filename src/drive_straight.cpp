@@ -1,6 +1,6 @@
 #include <math.h>
-#include "../include/drive_straight.h"
-#include "../include/utils.h"
+#include "include/drive_straight.h"
+#include "include/utils.h"
 
 // Constructor
 DriveStraight::DriveStraight(FEHMotor &m1, FEHMotor &m2, DigitalEncoder &e1, DigitalEncoder &e2, float correctionFactor, int s1)

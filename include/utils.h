@@ -1,8 +1,10 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#include "include/logger.h"
+
 // Logger
-Logger logger;
+extern Logger logger;
 
 // Function declarations
 int inchesToCounts(float inches);

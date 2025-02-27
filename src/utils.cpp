@@ -1,7 +1,7 @@
 #include <math.h>
-#include "../include/utils.h"
-#include "../include/constants.h"
-#include "../include/logger.h"
+#include "include/utils.h"
+#include "include/constants.h"
+#include "include/logger.h"
 
 // Initialize Logger
 Logger logger = Logger("test.txt");
