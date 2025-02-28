@@ -9,26 +9,23 @@ class Logger
 private:
     std::string fileName;
     FEHFile *fptr;
-    bool overwriteFile;
     bool currentlyEnabled;
-    float lastFlushTime;
 
     void openLogger();
     void printToFile(std::string msg);
     void printToScreen(std::string msg);
 
-    void flushLogger();
-
 public:
     // Constructor
-    Logger(std::string name, bool overwriteFile = true, bool currentlyEnabled = true);
+    Logger(std::string name, bool currentlyEnabled = true);
 
-    void log(std::string msg, bool logToScreen);
-    void closeLogger();
-    void logEncoderInfo(bool logToScreen);
+    void logToSD(std::string msg);
+    void logToScreen(std::string msg);
 
-    void turnLoggerOn();
+    std::string getEncoderInfo();
+
     void turnLoggerOff();
+    void turnLoggerOn();
 };
 
 #endif // LOGGER_H

@@ -52,7 +52,7 @@ void DriveStraight::driveStraight(float distance)
     while ((encoder1.Counts() + encoder2.Counts() / 2) <= targetCounts)
     {
         correctDriveStraight();
-        logger.logEncoderInfo(true);
+        // logger.logEncoderInfo(true);
     }
 
     stopMotors();

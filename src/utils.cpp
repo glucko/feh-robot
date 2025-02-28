@@ -1,10 +1,25 @@
 #include <math.h>
+#include <FEHLCD.h>
 #include "include/utils.h"
 #include "include/constants.h"
 #include "include/logger.h"
 
 // Initialize Logger
 Logger logger = Logger("test.txt");
+
+void waitUntilTouch()
+{
+    float left;
+    float right;
+
+    while (!LCD.Touch(&left, &right))
+    {
+    }
+
+    while (LCD.Touch(&left, &right))
+    {
+    }
+}
 
 // Function to convert inches to counts based on wheel specifications
 int inchesToCounts(float inches)

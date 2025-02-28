@@ -7,6 +7,7 @@
 extern Logger logger;
 
 // Function declarations
+void waitUntilTouch();
 int inchesToCounts(float inches);
 float degToRad(float deg); // Change return type to float for correct conversion
 void stopMotors();
