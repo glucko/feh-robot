@@ -28,11 +28,11 @@ int main()
     waitUntilTouch();
 
     // Run motors forward until it is up ramp
-    motorA.SetPercent(20);
-    motorB.SetPercent(20);
+    motorA.SetPercent(26);
+    motorB.SetPercent(25);
     float curTime = TimeNow();
 
-    while (TimeNow() - curTime < 5)
+    while (TimeNow() - curTime < 7)
     {
     }
 
@@ -41,7 +41,7 @@ int main()
     motorB.SetPercent(-20);
 
     curTime = TimeNow();
-    while (TimeNow() - curTime < 5)
+    while (TimeNow() - curTime < 7)
     {
     }
 
