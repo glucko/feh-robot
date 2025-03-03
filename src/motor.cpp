@@ -1,8 +1,8 @@
 #include "include/motor.h"
 #include <FEHBattery.h>
 
-Motor::Motor(FEHMotor &m, DigitalEncoder &e, bool r, float a)
-    : motor(m), encoder(e), reversed(r), adjustment(a)
+Motor::Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, bool r, float a)
+    : motor(motorPort, voltage), encoder(encoderPort), reversed(r), adjustment(a)
 {
 }
 

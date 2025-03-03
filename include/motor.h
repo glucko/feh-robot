@@ -7,13 +7,13 @@
 class Motor
 {
 private:
-    FEHMotor &motor;
-    DigitalEncoder &encoder;
+    FEHMotor motor;
+    DigitalEncoder encoder;
     bool reversed;
     float adjustment;
 
 public:
-    Motor(FEHMotor &m, DigitalEncoder &e, bool reversed = false, float adjustment = 1.0);
+    Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, bool reversed = false, float adjustment = 1.0);
 
     void stopAndReset();
     void setPower(int power);

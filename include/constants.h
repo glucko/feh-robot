@@ -9,14 +9,9 @@ const float ROBOT_DIAMETER = 5;
 const float WHEEL_DIAMETER = 2.5;
 
 // Motors (declarations)
-extern FEHMotor motorA;
-extern FEHMotor motorB;
-extern FEHMotor motorC;
-
-// Encoders (declarations)
-extern DigitalEncoder encoderA;
-extern DigitalEncoder encoderB;
-extern DigitalEncoder encoderC;
+extern Motor motorA;
+extern Motor motorB;
+extern Motor motorC;
 
 const int COUNTS_PER_ENCODER = 318;
 

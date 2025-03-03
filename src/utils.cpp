@@ -3,6 +3,7 @@
 #include "include/utils.h"
 #include "include/constants.h"
 #include "include/logger.h"
+#include "include/motor.h"
 
 // Initialize Logger
 Logger logger = Logger("test.txt");
@@ -33,18 +34,10 @@ float degToRad(float deg) // Change return type to float for correct conversion
     return deg * M_PI / 180;
 }
 
-// Function to stop all motors
-void stopMotors()
+// Function to stop all motors and reset encoders
+void resetAll()
 {
-    motorA.SetPercent(0);
-    motorB.SetPercent(0);
-    motorC.SetPercent(0);
-}
-
-// Function to reset encoder counts
-void resetEncoders()
-{
-    encoderA.ResetCounts();
-    encoderB.ResetCounts();
-    encoderC.ResetCounts();
+    motorA.stopAndReset();
+    motorB.stopAndReset();
+    motorC.stopAndReset();
 }
