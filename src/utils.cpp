@@ -22,19 +22,16 @@ void waitUntilTouch()
     }
 }
 
-// Function to convert inches to counts based on wheel specifications
 int inchesToCounts(float inches)
 {
     return static_cast<int>(inches * COUNTS_PER_ENCODER / M_PI * WHEEL_DIAMETER);
 }
 
-// Function to convert degrees to radians
-float degToRad(float deg) // Change return type to float for correct conversion
+float degToRad(float deg)
 {
     return deg * M_PI / 180;
 }
 
-// Function to stop all motors and reset encoders
 void resetAll()
 {
     motorA.stopAndReset();

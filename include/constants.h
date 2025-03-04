@@ -16,7 +16,6 @@ extern Motor motorC;
 
 const int COUNTS_PER_ENCODER = 318;
 
-// Speeds
 const int NORMAL_POWER = 25;
 
 extern AnalogInputPin cdsCell;

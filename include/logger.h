@@ -16,9 +16,9 @@ private:
     void printToScreen(std::string msg);
 
 public:
-    // Constructor
     Logger(std::string name, bool currentlyEnabled = true);
 
+    // Logs message to SD card, automatically flushing the output
     void logToSD(std::string msg);
     void logToScreen(std::string msg);
 
