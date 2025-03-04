@@ -3,6 +3,8 @@
 
 #include <FEHIO.h>
 #include "motor.h"
+#include "constants.h"
+
 class Drive
 {
 private:
@@ -22,7 +24,7 @@ public:
     Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor = 0.5);
 
     // Drive straight in direction for a specified distance (inches) at power
-    void driveDirection(float distance, int direction, int power);
+    void driveDirection(float distance, Direction direction, int power);
 };
 
 #endif // DRIVE_H

@@ -18,7 +18,7 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     mot2->SetPercent(targetPower + correction2);
 }
 
-void Drive::driveDirection(float distance, int direction, int power)
+void Drive::driveDirection(float distance, Direction direction, int power)
 {
     resetAll();
 
@@ -28,17 +28,17 @@ void Drive::driveDirection(float distance, int direction, int power)
     // Determines which motors will be turning based on direction
     switch (direction)
     {
-    case FORWARD:
+    case Direction::FORWARD:
         mot1 = &motor1;
         mot2 = &motor2;
         break;
 
-    case LEFT:
+    case Direction::LEFT:
         mot1 = &motor2;
         mot2 = &motor3;
         break;
 
-    case RIGHT:
+    case Direction::RIGHT:
         mot1 = &motor1;
         mot2 = &motor3;
         break;

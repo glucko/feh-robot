@@ -32,9 +32,9 @@ void Logger::logToScreen(std::string msg)
 
 std::string Logger::getEncoderInfo()
 {
-    std::string encoderInfo = "Encoder A Counts: " + std::to_string(encoderA.Counts()) + "\n" +
-                              "Encoder B Counts: " + std::to_string(encoderB.Counts()) + "\n" +
-                              "Encoder C Counts: " + std::to_string(encoderC.Counts()) + "\n\n";
+    std::string encoderInfo = "Encoder A Counts: " + std::to_string(motorA.Counts()) + "\n" +
+                              "Encoder B Counts: " + std::to_string(motorB.Counts()) + "\n" +
+                              "Encoder C Counts: " + std::to_string(motorC.Counts()) + "\n\n";
     return encoderInfo;
 }
 

@@ -4,5 +4,5 @@ int main()
 {
     Drive drive = Drive(motorA, motorB, motorC);
 
-    drive.driveDirection(6, FORWARD, 25);
+    drive.driveDirection(6, Direction::FORWARD, 25);
 }

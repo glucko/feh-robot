@@ -3,12 +3,13 @@
 
 #include <FEHIO.h>
 #include <FEHMotor.h>
+#include "include/motor.h"
 
-// Robot related
+// Robot construction constants
 const float ROBOT_DIAMETER = 5;
 const float WHEEL_DIAMETER = 2.5;
 
-// Motors (declarations)
+// Motors
 extern Motor motorA;
 extern Motor motorB;
 extern Motor motorC;
@@ -22,10 +23,11 @@ extern AnalogInputPin cdsCell;
 const float redThreshold = .39;
 const float noLight = 1;
 
-const enum Direction {
-    LEFT = -1,
-    FORWARD = 0,
-    RIGHT = 1
+enum class Direction
+{
+    LEFT,
+    FORWARD,
+    RIGHT
 };
 
 #endif
