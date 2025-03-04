@@ -10,7 +10,6 @@ extern Logger logger;
 void waitUntilTouch();
 int inchesToCounts(float inches);
 float degToRad(float deg); // Change return type to float for correct conversion
-void stopMotors();
-void resetEncoders();
+void resetAll();
 
 #endif // UTILITIES_H

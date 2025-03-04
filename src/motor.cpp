@@ -12,7 +12,7 @@ void Motor::stopAndReset()
     encoder.ResetCounts();
 }
 
-void Motor::setPower(int power)
+void Motor::SetPercent(int power)
 {
     // adjusts based on motor differences
     int adjustedPower = power * adjustment;
@@ -28,7 +28,7 @@ void Motor::setPower(int power)
     motor.SetPercent(adjustedPower);
 }
 
-int Motor::getCounts()
+int Motor::Counts()
 {
     return encoder.Counts();
 }
