@@ -1,7 +1,4 @@
-#include <math.h>
-#include "include/drive.h"
-#include "include/utils.h"
-#include "include/constants.h"
+[-P ]
 
 // Constructor
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor)
@@ -41,6 +38,11 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     case Direction::RIGHT:
         mot1 = &motor1;
         mot2 = &motor3;
+        break;
+
+    case Direction::TURN:
+        mot1 = &motor1;
+        mot2 = &motor1;
         break;
     }
 

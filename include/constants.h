@@ -19,14 +19,15 @@ const int COUNTS_PER_ENCODER = 318;
 const int NORMAL_POWER = 25;
 
 extern AnalogInputPin cdsCell;
-const float redThreshold = .39;
+const float redThreshold = .4;
 const float noLight = 1;
 
 enum class Direction
 {
     LEFT,
     FORWARD,
-    RIGHT
+    RIGHT,
+    TURN
 };
 
 #endif
