@@ -22,9 +22,14 @@ void waitUntilTouch()
     }
 }
 
+float clip(float n, float lower, float upper)
+{
+    return std::max(lower, std::min(n, upper));
+}
+
 int inchesToCounts(float inches)
 {
-    return static_cast<int>(inches * COUNTS_PER_ENCODER / M_PI * WHEEL_DIAMETER);
+    return static_cast<int>(inches * (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER)));
 }
 
 float degToRad(float deg)

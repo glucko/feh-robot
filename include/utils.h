@@ -29,6 +29,21 @@ void waitUntilTouch();
 int inchesToCounts(float inches);
 
 /**
+ * @brief Clips a floating-point number to a specified range.
+ *
+ * This function takes a floating-point number and ensures that it falls within
+ * the specified lower and upper bounds. If the number is less than the lower
+ * bound, it returns the lower bound. If the number is greater than the upper
+ * bound, it returns the upper bound. Otherwise, it returns the number itself.
+ *
+ * @param n The floating-point number to be clipped.
+ * @param lower The lower bound of the range.
+ * @param upper The upper bound of the range.
+ * @return The clipped floating-point number.
+ */
+float clip(float n, float lower, float upper);
+
+/**
  * @brief Convert degrees to radians
  *
  * @param deg The angle in degrees
