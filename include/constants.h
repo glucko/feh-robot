@@ -1,3 +1,11 @@
+/**
+ * @file constants.h
+ * @brief Defines constants and global variables used throughout the FEH robot project
+ *
+ * @note All extern variables declared here must be defined in a corresponding .cpp file
+ * @author FEH Robot Team
+ */
+
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 

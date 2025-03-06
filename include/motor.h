@@ -1,3 +1,10 @@
+/**
+ * @file motor.h
+ * @brief Header file for the Motor class, which provides motor control functionality with encoder feedback.
+ *
+ * This file contains the definition of the Motor class, which encapsulates an FEHMotor and DigitalEncoder pair.
+ * The Motor class provides methods to control the motor, adjust its behavior, and retrieve encoder counts.
+ */
 #ifndef MOTOR_H
 #define MOTOR_H
 

@@ -1,3 +1,13 @@
+/**
+ * @file utils.h
+ * @brief Utility functions for the FEH robot project.
+ *
+ * This file contains various utility functions that are used throughout
+ * the FEH robot project, including functions for waiting for a touch
+ * on the Proteus screen, converting distances and angles, stopping motors,
+ * and getting the color of the humidifier light.
+ */
+
 #ifndef UTILITIES_H
 #define UTILITIES_H
 

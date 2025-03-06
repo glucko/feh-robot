@@ -1,3 +1,12 @@
+/**
+ * @file drive.h
+ * @brief Header file for the Drive class, which controls the movement of a three-motor robot with built-in drift correction.
+ *
+ * This file contains the definition of the Drive class, which provides methods to drive the robot in a specified direction,
+ * turn the robot by a specified angle, and apply correction to keep the robot driving straight.
+ *
+ */
+
 #ifndef DRIVE_H
 #define DRIVE_H
 

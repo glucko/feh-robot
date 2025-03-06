@@ -1,5 +1,8 @@
-# ignore firmware
+# Inore firmware
 fehproteusfirmware/
+
+# Ignore docs
+docs/
 
 # Prerequisites
 *.d
