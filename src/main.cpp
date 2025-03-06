@@ -7,18 +7,16 @@ int main()
 {
     Drive drive = Drive(motorA, motorB, motorC);
 
-    // Drive up ramp
-    drive.driveDirection(12, Direction::FORWARD, NORMAL_POWER);
+    drive.driveDirection(6, Direction::FORWARD, 25);
+    // Moves to ramp
+    drive.driveDirection(15, Direction::FORWARD, 25);
+    // Corrects to center
+    drive.driveDirection(1, Direction::RIGHT, 10);
+    // Drives up ramp
+    drive.driveDirection(13, Direction::FORWARD, 25);
 
-    // Face buttons
-    drive.turn(90, NORMAL_POWER, true);
-
-    // Drive to buttons
-    drive.driveDirection(12, Direction::FORWARD, NORMAL_POWER);
-
-    int lightColor = getHumidifierLight();
-
-    switch (lightColor)
+    // Face correct button
+    switch (getHumidifierLight())
     {
     case 0:
         LCD.WriteLine("Light is red");
