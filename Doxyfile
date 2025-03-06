@@ -13,7 +13,7 @@
 # TAG += value [value, ...]
 # Values that contain spaces should be placed between quotes (\" \").
 #
-# Note:
+# Note: test
 #
 # Use Doxygen to compare the used configuration file with the template
 # configuration file:
