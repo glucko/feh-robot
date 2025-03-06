@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ben-milestone2
 
 jobs:
   deploy:
