@@ -77,7 +77,7 @@ void Drive::turn(float degrees, int power, bool clockwise)
     }
 
     float angleInRadians = degToRad(degrees);
-    float arcLength = ROBOT_DIAMETER / 2 * angleInRadians;
+    float arcLength = (ROBOT_DIAMETER / 2) * angleInRadians;
 
     // Convert arc length to encoder counts
     int targetCounts = inchesToCounts(arcLength);
@@ -88,7 +88,7 @@ void Drive::turn(float degrees, int power, bool clockwise)
     motor3.SetPercent(power);
 
     // Wait until the rotation is complete
-    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
+    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 <= targetCounts)
     {
     }
 
