@@ -38,3 +38,20 @@ void resetAll()
     motorB.stopAndReset();
     motorC.stopAndReset();
 }
+
+int getHumidifierLight()
+{
+    float val = cdsCell.Value();
+
+    if (val > noLightThreshold)
+    {
+        return -1;
+    }
+
+    if (val > redThreshold)
+    {
+        return 0;
+    }
+
+    return 1;
+}

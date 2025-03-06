@@ -5,16 +5,37 @@
 
 extern Logger logger;
 
-// Stops code execution until Proteus screen is touched
+/**
+ * @brief Stops code execution until Proteus screen is touched
+ */
 void waitUntilTouch();
 
-// Converts inches to encoder counts based on wheel specifications
+/**
+ * @brief Converts distance in inches to encoder counts.
+ *
+ * @param inches The distance in inches to convert.
+ * @return int The equivalent number of encoder counts.
+ */
 int inchesToCounts(float inches);
 
-// Convert degrees to radians
-float degToRad(float deg); // Change return type to float for correct conversion
+/**
+ * @brief Convert degrees to radians
+ *
+ * @param deg The angle in degrees
+ * @return float The equivalent angle in radians
+ */
+float degToRad(float deg);
 
-// Stops all motors and resets encoders
+/**
+ * @brief Stops all motors and resets encoders
+ */
 void resetAll();
+
+/**
+ * @brief Gets the color of the humidifier light
+ *
+ * @return int 0 for red and 1 for blue
+ */
+int getHumidifierLight();
 
 #endif // UTILITIES_H

@@ -3,7 +3,6 @@
 #include "include/utils.h"
 #include "include/constants.h"
 
-// Constructor
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor)
     : motor1(m1), motor2(m2), motor3(m3), kP(correctionFactor) {}
 
@@ -54,6 +53,35 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     while ((mot1->Counts() + mot2->Counts() / 2) <= targetCounts)
     {
         correctDriveStraight(mot1, mot2, power);
+    }
+
+    resetAll();
+}
+
+void Drive::turn(float degrees, int power, bool clockwise)
+{
+    resetAll();
+
+    // If counterclockwise, invert the power
+    if (!clockwise)
+    {
+        power = -power;
+    }
+
+    float angleInRadians = degToRad(degrees);
+    float arcLength = ROBOT_DIAMETER / 2 * angleInRadians;
+
+    // Convert arc length to encoder counts
+    int targetCounts = inchesToCounts(arcLength);
+
+    // Set all motors to the same power to rotate the robot
+    motor1.SetPercent(power);
+    motor2.SetPercent(power);
+    motor3.SetPercent(power);
+
+    // Wait until the rotation is complete
+    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
+    {
     }
 
     resetAll();
