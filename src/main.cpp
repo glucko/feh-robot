@@ -22,14 +22,14 @@ void milestone2()
     Sleep(1.0);
 
     // Drives up ramp
-    drive.driveDirection(27, Direction::CA);
+    drive.driveDirection(27, Direction::AB);
     Sleep(1.0);
 
     // Go to humidifier light
     drive.turn(30, true);
     Sleep(1.0);
 
-    drive.driveDirection(16, Direction::BC);
+    drive.driveDirection(16, Direction::CA);
     Sleep(1.0);
 
     // Face correct button (no cds cell so just putting in left button for now)
