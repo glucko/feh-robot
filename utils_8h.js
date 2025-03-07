@@ -1,5 +1,6 @@
 var utils_8h =
 [
+    [ "clip", "utils_8h.html#a0f82e21ee54ee898bca7a27ba3f0bd9c", null ],
     [ "degToRad", "utils_8h.html#ae645817fbf89677ab8a3f779b4a10ae8", null ],
     [ "getHumidifierLight", "utils_8h.html#add91b046a29b710ad2316368aabf581f", null ],
     [ "inchesToCounts", "utils_8h.html#a5106a7ddc1c590b5d30a31713eebfb5c", null ],
