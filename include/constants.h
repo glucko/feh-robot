@@ -86,9 +86,9 @@ const int NORMAL_POWER = 25;
  */
 enum class Direction
 {
-    LEFT,
-    FORWARD,
-    RIGHT
+    AB,
+    BC,
+    CA
 };
 
 #endif

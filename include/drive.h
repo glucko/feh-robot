@@ -54,15 +54,15 @@ public:
      * @param direction Direction to travel (enum Direction)
      * @param power Motor power level to use
      */
-    void driveDirection(float distance, Direction direction, int power);
+    void driveDirection(float distance, Direction direction, int power = NORMAL_POWER);
 
     /**
      * @brief Turns the robot by a specified angle
      * @param degrees Angle to turn in degrees
-     * @param power Motor power level to use during the turn
      * @param clockwise True for clockwise rotation, false for counter-clockwise
+     * @param power Motor power level to use during the turn
      */
-    void turn(float degrees, int power, bool clockwise);
+    void turn(float degrees, bool clockwise = true, int power = NORMAL_POWER);
 };
 
 #endif // DRIVE_H

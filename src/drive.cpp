@@ -13,9 +13,6 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 
     int correction = clip(kP * error, -5, 5);
 
-    LCD.WriteLine("Correction:");
-    LCD.WriteLine(correction);
-
     mot1->SetPercent(targetPower - correction);
     // negative because this motor goes in opposite direction
     mot2->SetPercent(-(targetPower + correction));
@@ -31,24 +28,24 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // Determines which motors will be turning based on direction
     switch (direction)
     {
-    case Direction::FORWARD:
+    case Direction::AB:
         mot1 = &motor1;
         mot2 = &motor2;
         break;
 
-    case Direction::LEFT:
+    case Direction::BC:
         mot1 = &motor2;
         mot2 = &motor3;
         break;
 
-    case Direction::RIGHT:
+    case Direction::CA:
         mot1 = &motor1;
         mot2 = &motor3;
         break;
     }
 
     // accounts for the fact that wheels are at an 120 deg angle
-    int targetCounts = inchesToCounts(distance * cos(degToRad(60)));
+    int targetCounts = inchesToCounts(distance * .8);
 
     LCD.WriteLine("Target Counts: ");
     LCD.WriteLine(targetCounts);
@@ -59,14 +56,14 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        // logger.logToScreen(logger.getEncoderInfo());
+        logger.logToScreen(logger.getEncoderInfo());
         correctDriveStraight(mot1, mot2, power);
     }
 
     resetAll();
 }
 
-void Drive::turn(float degrees, int power, bool clockwise)
+void Drive::turn(float degrees, bool clockwise, int power)
 {
     resetAll();
 
@@ -88,7 +85,7 @@ void Drive::turn(float degrees, int power, bool clockwise)
     motor3.SetPercent(power);
 
     // Wait until the rotation is complete
-    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 <= targetCounts)
+    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
     {
     }
 
