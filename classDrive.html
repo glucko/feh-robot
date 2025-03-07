@@ -107,12 +107,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7a464b459a29d942b1fcc819edab3a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#ab7a464b459a29d942b1fcc819edab3a2">Drive</a> (<a class="el" href="classMotor.html">Motor</a> &amp;m1, <a class="el" href="classMotor.html">Motor</a> &amp;m2, <a class="el" href="classMotor.html">Motor</a> &amp;m3, float correctionFactor=0.5)</td></tr>
 <tr class="memdesc:ab7a464b459a29d942b1fcc819edab3a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classDrive.html" title="Controls the movement of a three-motor robot with built-in drift correction.">Drive</a> object with the provided motors.  <br /></td></tr>
 <tr class="separator:ab7a464b459a29d942b1fcc819edab3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d69c904375a721b8c5cbd64cc4ee12e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a3d69c904375a721b8c5cbd64cc4ee12e">driveDirection</a> (float distance, <a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power)</td></tr>
-<tr class="memdesc:a3d69c904375a721b8c5cbd64cc4ee12e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the robot in a specified direction for a given distance.  <br /></td></tr>
-<tr class="separator:a3d69c904375a721b8c5cbd64cc4ee12e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e682ff3c75faa7bfbf0a2be0e2b5ccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a3e682ff3c75faa7bfbf0a2be0e2b5ccc">turn</a> (float degrees, int power, bool clockwise)</td></tr>
-<tr class="memdesc:a3e682ff3c75faa7bfbf0a2be0e2b5ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the robot by a specified angle.  <br /></td></tr>
-<tr class="separator:a3e682ff3c75faa7bfbf0a2be0e2b5ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#ae55bc49816b1f8262641c2b61eb3cc7a">driveDirection</a> (float distance, <a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
+<tr class="memdesc:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the robot in a specified direction for a given distance.  <br /></td></tr>
+<tr class="separator:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a694f6fdf49162df147bfa313c2270a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a1a694f6fdf49162df147bfa313c2270a">turn</a> (float degrees, bool clockwise=true, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
+<tr class="memdesc:a1a694f6fdf49162df147bfa313c2270a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the robot by a specified angle.  <br /></td></tr>
+<tr class="separator:a1a694f6fdf49162df147bfa313c2270a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controls the movement of a three-motor robot with built-in drift correction. </p>
@@ -169,8 +169,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3d69c904375a721b8c5cbd64cc4ee12e" name="a3d69c904375a721b8c5cbd64cc4ee12e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d69c904375a721b8c5cbd64cc4ee12e">&#9670;&#160;</a></span>driveDirection()</h2>
+<a id="ae55bc49816b1f8262641c2b61eb3cc7a" name="ae55bc49816b1f8262641c2b61eb3cc7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae55bc49816b1f8262641c2b61eb3cc7a">&#9670;&#160;</a></span>driveDirection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,7 +191,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>power</em>&#160;</td>
+          <td class="paramname"><em>power</em> = <code><a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -213,8 +213,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3e682ff3c75faa7bfbf0a2be0e2b5ccc" name="a3e682ff3c75faa7bfbf0a2be0e2b5ccc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e682ff3c75faa7bfbf0a2be0e2b5ccc">&#9670;&#160;</a></span>turn()</h2>
+<a id="a1a694f6fdf49162df147bfa313c2270a" name="a1a694f6fdf49162df147bfa313c2270a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a694f6fdf49162df147bfa313c2270a">&#9670;&#160;</a></span>turn()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,14 +228,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>power</em>, </td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>clockwise</em> = <code>true</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>clockwise</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>power</em> = <code><a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -249,8 +249,8 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">degrees</td><td>Angle to turn in degrees </td></tr>
-    <tr><td class="paramname">power</td><td><a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> power level to use during the turn </td></tr>
     <tr><td class="paramname">clockwise</td><td>True for clockwise rotation, false for counter-clockwise </td></tr>
+    <tr><td class="paramname">power</td><td><a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> power level to use during the turn </td></tr>
   </table>
   </dd>
 </dl>

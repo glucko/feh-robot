@@ -1,9 +1,9 @@
 var constants_8h =
 [
     [ "Direction", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa", [
-      [ "LEFT", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaa684d325a7303f52e64011467ff5c5758", null ],
-      [ "FORWARD", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaabfec72bb37910c61f36b6c29a1f7ec31", null ],
-      [ "RIGHT", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaa21507b40c80068eda19865706fdc2403", null ]
+      [ "AB", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaab86fc6b051f63d73de262d4c34e3a0a9", null ],
+      [ "BC", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaaf85b7b377112c272bc87f3e73f10508d", null ],
+      [ "CA", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaa3e8d115eb4b32b9e9479f387dbe14ee1", null ]
     ] ],
     [ "cdsCell", "constants_8h.html#aa6fa8cf61e0976e676f97e67591c7a8f", null ],
     [ "COUNTS_PER_ENCODER", "constants_8h.html#a12d7b838ceb78d05143d3fed395b6899", null ],
