@@ -63,7 +63,7 @@ const float redThreshold = .39;
  *
  * When the CdS cell reading exceeds this value, the robot will identify it as no light present.
  */
-const float noLightThreshold = 1;
+const float noLightThreshold = 1.0;
 
 /**
  * @brief Number of counts per encoder revolution for the servo motors

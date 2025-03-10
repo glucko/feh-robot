@@ -56,6 +56,8 @@ public:
      */
     void driveDirection(float distance, Direction direction, int power = NORMAL_POWER);
 
+    void driveUntilLight(Direction direction, int power = NORMAL_POWER);
+
     /**
      * @brief Turns the robot by a specified angle
      * @param degrees Angle to turn in degrees

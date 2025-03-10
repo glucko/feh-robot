@@ -53,7 +53,7 @@ int getHumidifierLight()
         return -1;
     }
 
-    if (val > redThreshold)
+    if (val <= redThreshold)
     {
         return 0;
     }
