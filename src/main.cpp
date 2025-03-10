@@ -1,4 +1,5 @@
 #include "include/drive.h"
+#include "include/sensor.h"
 #include "include/constants.h"
 #include "include/utils.h"
 #include <FEHLCD.h>
@@ -75,7 +76,6 @@ void waitUntilLight()
 
 int main()
 {
-
     waitUntilLight();
 
     milestone2();
