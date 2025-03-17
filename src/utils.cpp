@@ -2,11 +2,20 @@
 #include <FEHLCD.h>
 #include "include/utils.h"
 #include "include/constants.h"
-#include "include/logger.h"
 #include "include/motor.h"
 
-// Initialize Logger
-Logger logger = Logger("test.txt");
+float clamp(float value, float min, float max)
+{
+    if (value < min)
+    {
+        return min;
+    }
+    else if (value > max)
+    {
+        return max;
+    }
+    return value;
+}
 
 void waitUntilTouch()
 {

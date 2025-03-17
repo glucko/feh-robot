@@ -17,8 +17,8 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 
     // Adjust the motor power with correction, ensuring it stays within 5 of targetPower
     int maxVal = targetPower + 5;
-    int adjustedPower1 = std::clamp(targetPower + static_cast<int>(correction * targetPower), -maxVal, maxVal);
-    int adjustedPower2 = std::clamp(targetPower - static_cast<int>(correction * targetPower), -maxVal, maxVal);
+    int adjustedPower1 = clamp(targetPower + static_cast<int>(correction * targetPower), -maxVal, maxVal);
+    int adjustedPower2 = clamp(targetPower - static_cast<int>(correction * targetPower), -maxVal, maxVal);
 
     mot1->SetPercent(adjustedPower1);
     mot2->SetPercent(adjustedPower2);
