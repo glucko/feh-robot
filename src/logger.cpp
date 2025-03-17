@@ -1,32 +1,22 @@
-#include "include/logger.h"
-#include "include/constants.h"
 #include <FEHLCD.h>
 #include <FEHUtility.h>
+#include "include/logger.h"
+#include "include/constants.h"
 
-Logger::Logger(std::string name, bool enabled)
-    : fileName(name), currentlyEnabled(enabled)
+Logger::Logger(float del, bool enabled)
+    : delay(del), currentlyEnabled(enabled)
 {
+    lastLogTime = TimeNow();
 }
 
-void Logger::logToSD(std::string msg)
+void Logger::log(std::string msg)
 {
-    if (!currentlyEnabled)
+    if (!currentlyEnabled || (TimeNow() - lastLogTime < delay))
     {
         return;
     }
 
-    fptr = SD.FOpen(fileName.c_str(), "a");
-    SD.FPrintf(fptr, "%s\n", msg.c_str());
-    SD.FCloseAll();
-}
-
-void Logger::logToScreen(std::string msg)
-{
-    if (!currentlyEnabled)
-    {
-        return;
-    }
-
+    lastLogTime = TimeNow();
     LCD.WriteLine(msg.c_str());
 }
 

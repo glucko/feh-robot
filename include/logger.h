@@ -7,23 +7,15 @@
 class Logger
 {
 private:
-    std::string fileName;
-    FEHFile *fptr;
+    float delay;
+    float lastLogTime;
     bool currentlyEnabled;
 
-    void openLogger();
-    void printToFile(std::string msg);
-    void printToScreen(std::string msg);
-
 public:
-    Logger(std::string name, bool currentlyEnabled = true);
-
-    // Logs message to SD card, automatically flushing the output
-    void logToSD(std::string msg);
-    void logToScreen(std::string msg);
+    Logger(float del = .1f, bool currentlyEnabled = true);
 
     std::string getEncoderInfo();
-
+    void log(std::string msg);
     void turnLoggerOff();
     void turnLoggerOn();
 };

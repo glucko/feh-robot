@@ -1,28 +1,27 @@
 #include <math.h>
+#include <FEHLCD.h>
 #include "include/drive.h"
 #include "include/utils.h"
 #include "include/constants.h"
-#include <FEHLCD.h>
+#include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor)
-    : motor1(m1), motor2(m2), motor3(m3), kP(correctionFactor) {}
+    : motor1(m1), motor2(m2), motor3(m3), kP(correctionFactor), pid(1, 1, 1)
+{
+}
 
 void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 {
-    int error = mot1->Counts() - mot2->Counts();
+    // Use PID to calculate the correction based on the encoder difference
+    float correction = pid.getOutput(mot1->Counts() - mot2->Counts(), 0.0);
 
-    int correction = clip(kP * error, -5, 5);
+    // Adjust the motor power with correction, ensuring it stays within 5 of targetPower
+    int maxVal = targetPower + 5;
+    int adjustedPower1 = std::clamp(targetPower + static_cast<int>(correction * targetPower), -maxVal, maxVal);
+    int adjustedPower2 = std::clamp(targetPower - static_cast<int>(correction * targetPower), -maxVal, maxVal);
 
-    int dir = 1;
-    if (targetPower < 0)
-    {
-        dir = -1;
-    }
-
-    mot1->SetPercent(dir * (abs(targetPower) - correction));
-
-    // negative because this motor goes in opposite direction
-    mot2->SetPercent(-dir * (abs(targetPower) + correction));
+    mot1->SetPercent(adjustedPower1);
+    mot2->SetPercent(adjustedPower2);
 }
 
 void Drive::driveDirection(float distance, Direction direction, int power)

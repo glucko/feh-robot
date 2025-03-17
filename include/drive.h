@@ -13,6 +13,7 @@
 #include <FEHIO.h>
 #include "motor.h"
 #include "constants.h"
+#include "MiniPID.h"
 
 /**
  * @class Drive
@@ -29,6 +30,8 @@ private:
     Motor &motor2; /**< Reference to motor B */
 
     Motor &motor3; /**< Reference to motor C */
+
+    MiniPID pid; /**< The PID system */
 
     /**
      * @brief Applies correction to keep the robot driving straight
