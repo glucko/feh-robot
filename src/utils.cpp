@@ -4,6 +4,8 @@
 #include "include/constants.h"
 #include "include/motor.h"
 
+Logger logger = Logger(1.0);
+
 float clamp(float value, float min, float max)
 {
     if (value < min)

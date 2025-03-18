@@ -11,6 +11,8 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#include "logger.h"
+
 /**
  * @brief Clamps a float value between a minimum and maximum range.
  *
@@ -53,5 +55,7 @@ void resetAll();
  * @return int 0 for red and 1 for blue
  */
 int getHumidifierLight();
+
+extern Logger logger;
 
 #endif // UTILITIES_H

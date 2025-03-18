@@ -1,19 +1,12 @@
-#include "include/logger.h"
 #include "include/utils.h"
 #include "include/constants.h"
+#include "include/drive.h"
 
-Logger logger = Logger(1.0);
+Drive drive = Drive(motorA, motorB, motorC);
 
 int main()
 {
     waitUntilTouch();
 
-    // motorA.SetPercent(10);
-    // motorB.SetPercent(10);
-    // motorC.SetPercent(10);
-
-    while (true)
-    {
-        logger.log(logger.getEncoderInfo());
-    }
+    drive.driveDirection(8, Direction::AB);
 }

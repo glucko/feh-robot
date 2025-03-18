@@ -5,23 +5,24 @@
 #include "include/constants.h"
 #include "include/MiniPID.h"
 
-Drive::Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor)
-    : motor1(m1), motor2(m2), motor3(m3), kP(correctionFactor), pid(1, 1, 1)
+Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.1, .1, 0)
 {
 }
 
 void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 {
-    // Use PID to calculate the correction based on the encoder difference
     float correction = pid.getOutput(mot1->Counts() - mot2->Counts(), 0.0);
+    float scalingFactor = 0.1;
+    float scaledCorrection = correction * scalingFactor;
 
-    // Adjust the motor power with correction, ensuring it stays within 5 of targetPower
-    int maxVal = targetPower + 5;
-    int adjustedPower1 = clamp(targetPower + static_cast<int>(correction * targetPower), -maxVal, maxVal);
-    int adjustedPower2 = clamp(targetPower - static_cast<int>(correction * targetPower), -maxVal, maxVal);
+    // Scale correction for motor power
+    float maxCorrection = 5.0;
+    scaledCorrection = clamp(scaledCorrection, -maxCorrection, maxCorrection);
 
-    mot1->SetPercent(adjustedPower1);
-    mot2->SetPercent(adjustedPower2);
+    // Apply the adjusted power to motors
+    mot1->SetPercent(targetPower + static_cast<int>(scaledCorrection));
+    mot2->SetPercent(targetPower - static_cast<int>(scaledCorrection));
 }
 
 void Drive::driveDirection(float distance, Direction direction, int power)
@@ -51,7 +52,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     }
 
     // accounts for the fact that wheels are at an 120 deg angle
-    int targetCounts = inchesToCounts(distance * .8);
+    int targetCounts = inchesToCounts(distance);
 
     mot1->SetPercent(power);
     mot2->SetPercent(-power);
@@ -59,7 +60,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        LCD.WriteLine(cdsCell.Value());
+        logger.log(logger.getEncoderInfo());
         correctDriveStraight(mot1, mot2, power);
     }
 
@@ -90,6 +91,7 @@ void Drive::turn(float degrees, bool clockwise, int power)
     // Wait until the rotation is complete
     while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
     {
+        logger.log(logger.getEncoderInfo());
     }
 
     resetAll();

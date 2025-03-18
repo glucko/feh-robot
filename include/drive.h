@@ -23,8 +23,6 @@ class Drive
 {
 
 private:
-    float kP; /**< Proportional correction factor for straight-line driving */
-
     Motor &motor1; /**< Reference to motor A */
 
     Motor &motor2; /**< Reference to motor B */
@@ -47,9 +45,8 @@ public:
      * @param m1 Reference to motor A
      * @param m2 Reference to motor B
      * @param m3 Reference to motor C
-     * @param correctionFactor Controls the aggressiveness of the straight-line correction (higher is more aggressive)
      */
-    Drive(Motor &m1, Motor &m2, Motor &m3, float correctionFactor = 0.5);
+    Drive(Motor &m1, Motor &m2, Motor &m3);
 
     /**
      * @brief Drives the robot in a specified direction for a given distance
