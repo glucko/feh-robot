@@ -22,10 +22,11 @@
 class Motor
 {
 private:
-    FEHMotor motor;         /**< The FEHMotor instance for controlling the motor */
-    DigitalEncoder encoder; /**< The DigitalEncoder for tracking motor rotation */
-    bool reversed;          /**< Flag indicating if motor direction is reversed */
-    float adjustment;       /**< Adjustment factor for motor power calibration */
+    FEHMotor motor;                  /**< The FEHMotor instance for controlling the motor */
+    DigitalEncoder encoder;          /**< The DigitalEncoder for tracking motor rotation */
+    DigitalEncoder encoderSecondary; /**< The secondary encoder */
+    bool reversed;                   /**< Flag indicating if motor direction is reversed */
+    float adjustment;                /**< Adjustment factor for motor power calibration */
 
 public:
     /**
@@ -34,10 +35,11 @@ public:
      * @param motorPort The port where the motor is connected
      * @param voltage The voltage level for the motor
      * @param encoderPort The pin where the encoder is connected
+     * @param encoderPortSecondary The pin where the extra encoder is connected
      * @param reversed Whether the motor direction should be reversed (default: false)
      * @param adjustment Power adjustment factor for calibration (default: 1.0)
      */
-    Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, bool reversed = false, float adjustment = 1.0);
+    Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, FEHIO::FEHIOPin encoderPortSecondary, bool reversed = false, float adjustment = 1.0);
 
     /**
      * @brief Stops the motor and resets the encoder counts
@@ -52,11 +54,25 @@ public:
     void SetPercent(int power);
 
     /**
-     * @brief Gets the current encoder counts
+     * @brief Gets the total encoder counts
      *
      * @return The number of encoder counts recorded
      */
     int Counts();
+
+    /**
+     * @brief Gets the secondary encoder counts
+     *
+     * @return The number of encoder counts recorded
+     */
+    int PrimaryCounts();
+
+    /**
+     * @brief Gets the secondary encoder counts
+     *
+     * @return The number of encoder counts recorded
+     */
+    int SecondaryCounts();
 };
 
 #endif // MOTOR_H

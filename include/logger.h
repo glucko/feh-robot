@@ -34,10 +34,22 @@ public:
     Logger(float del = .1f, bool currentlyEnabled = true);
 
     /**
-     * @brief Retrieves information about the encoder.
+     * @brief Retrieves information about the encoders.
      * @return A string containing the encoder information.
      */
     std::string getEncoderInfo();
+
+    /**
+     * @brief Retrieves information about the primary encoders.
+     * @return A string containing the encoder information.
+     */
+    std::string getPrimaryEncoderInfo();
+
+    /**
+     * @brief Retrieves information about the secondary encoders.
+     * @return A string containing the encoder information.
+     */
+    std::string getSecondaryEncoderInfo();
 
     /**
      * @brief Logs a message.

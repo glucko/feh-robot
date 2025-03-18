@@ -1,8 +1,8 @@
 #include "include/motor.h"
 #include <FEHBattery.h>
 
-Motor::Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, bool r, float a)
-    : motor(motorPort, voltage), encoder(encoderPort), reversed(r), adjustment(a)
+Motor::Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, FEHIO::FEHIOPin encoderPortSecondary, bool r, float a)
+    : motor(motorPort, voltage), encoder(encoderPort), encoderSecondary(encoderPortSecondary), reversed(r), adjustment(a)
 {
 }
 
@@ -30,5 +30,15 @@ void Motor::SetPercent(int power)
 
 int Motor::Counts()
 {
+    return encoder.Counts() + encoderSecondary.Counts();
+}
+
+int Motor::PrimaryCounts()
+{
     return encoder.Counts();
+}
+
+int Motor::SecondaryCounts()
+{
+    return encoderSecondary.Counts();
 }

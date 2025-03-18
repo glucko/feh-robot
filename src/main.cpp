@@ -1,14 +1,19 @@
-#include <FEHLCD.h>
-#include <FEHBattery.h>
-#include "include/drive.h"
-#include "include/constants.h"
-#include "include/utils.h"
 #include "include/logger.h"
+#include "include/utils.h"
+#include "include/constants.h"
 
-Drive drive = Drive(motorA, motorB, motorC, .5);
-Logger logger = Logger();
+Logger logger = Logger(1.0);
 
 int main()
 {
-    logger.log(logger.getEncoderInfo());
+    waitUntilTouch();
+
+    // motorA.SetPercent(10);
+    // motorB.SetPercent(10);
+    // motorC.SetPercent(10);
+
+    while (true)
+    {
+        logger.log(logger.getEncoderInfo());
+    }
 }

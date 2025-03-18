@@ -28,6 +28,22 @@ std::string Logger::getEncoderInfo()
     return encoderInfo;
 }
 
+std::string Logger::getPrimaryEncoderInfo()
+{
+    std::string encoderInfo = "Primary Encoder A Counts: " + std::to_string(motorA.PrimaryCounts()) + "\n" +
+                              "Primary Encoder B Counts: " + std::to_string(motorB.PrimaryCounts()) + "\n" +
+                              "Primary Encoder C Counts: " + std::to_string(motorC.PrimaryCounts()) + "\n\n";
+    return encoderInfo;
+}
+
+std::string Logger::getSecondaryEncoderInfo()
+{
+    std::string encoderInfo = "Secondary Encoder A Counts: " + std::to_string(motorA.SecondaryCounts()) + "\n" +
+                              "Secondary Encoder B Counts: " + std::to_string(motorB.SecondaryCounts()) + "\n" +
+                              "Secondary Encoder C Counts: " + std::to_string(motorC.SecondaryCounts()) + "\n\n";
+    return encoderInfo;
+}
+
 void Logger::turnLoggerOn()
 {
     currentlyEnabled = true;
