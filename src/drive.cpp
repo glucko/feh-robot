@@ -13,10 +13,10 @@ Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
 void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 {
     float correction = pid.getOutput(mot1->Counts() - mot2->Counts(), 0.0);
-    float scalingFactor = 0.1;
+
+    float scalingFactor = 0.077;
     float scaledCorrection = correction * scalingFactor;
 
-    // Scale correction for motor power
     float maxCorrection = 5.0;
     scaledCorrection = clamp(scaledCorrection, -maxCorrection, maxCorrection);
 
