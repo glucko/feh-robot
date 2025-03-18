@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['turn_0',['turn',['../classDrive.html#a1a694f6fdf49162df147bfa313c2270a',1,'Drive']]]
+  ['reset_0',['reset',['../classMiniPID.html#a6e0d9e706c95119bdab25e11e9d5b34b',1,'MiniPID']]],
+  ['resetall_1',['resetAll',['../utils_8h.html#ac6cb48261b2055e553b6efbafed4197b',1,'utils.cpp']]]
 ];

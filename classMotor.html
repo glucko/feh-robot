@@ -104,9 +104,9 @@ $(document).ready(function(){initNavTree('classMotor.html',''); initResizable();
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a822b13404ea3f33bd7542dbc0ff6d300"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotor.html#a822b13404ea3f33bd7542dbc0ff6d300">Motor</a> (FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, bool reversed=false, float adjustment=1.0)</td></tr>
-<tr class="memdesc:a822b13404ea3f33bd7542dbc0ff6d300"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> object with the specified parameters.  <br /></td></tr>
-<tr class="separator:a822b13404ea3f33bd7542dbc0ff6d300"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a9b07d026b32f51876d062cff94228"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotor.html#aa9a9b07d026b32f51876d062cff94228">Motor</a> (FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, FEHIO::FEHIOPin encoderPortSecondary, bool reversed=false, float adjustment=1.0)</td></tr>
+<tr class="memdesc:aa9a9b07d026b32f51876d062cff94228"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> object with the specified parameters.  <br /></td></tr>
+<tr class="separator:aa9a9b07d026b32f51876d062cff94228"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d756f635fd8161f35dc58651f907fd3"><td class="memItemLeft" align="right" valign="top"><a id="a6d756f635fd8161f35dc58651f907fd3" name="a6d756f635fd8161f35dc58651f907fd3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAndReset</b> ()</td></tr>
 <tr class="memdesc:a6d756f635fd8161f35dc58651f907fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the motor and resets the encoder counts. <br /></td></tr>
@@ -115,15 +115,21 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAndReset</b> ()</
 <tr class="memdesc:a37c5dbf0f1bba64064c68fc727b65c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets motor power with adjustments for motor-specific correction and voltage.  <br /></td></tr>
 <tr class="separator:a37c5dbf0f1bba64064c68fc727b65c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dd2f1b2ba7ede35048e370270998f33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotor.html#a7dd2f1b2ba7ede35048e370270998f33">Counts</a> ()</td></tr>
-<tr class="memdesc:a7dd2f1b2ba7ede35048e370270998f33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current encoder counts.  <br /></td></tr>
+<tr class="memdesc:a7dd2f1b2ba7ede35048e370270998f33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total encoder counts.  <br /></td></tr>
 <tr class="separator:a7dd2f1b2ba7ede35048e370270998f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6dd575c2fe50875d514e06ab040bf9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotor.html#a6b6dd575c2fe50875d514e06ab040bf9">PrimaryCounts</a> ()</td></tr>
+<tr class="memdesc:a6b6dd575c2fe50875d514e06ab040bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the secondary encoder counts.  <br /></td></tr>
+<tr class="separator:a6b6dd575c2fe50875d514e06ab040bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa78cfed9dacc69c2be668bc2b3324489"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotor.html#aa78cfed9dacc69c2be668bc2b3324489">SecondaryCounts</a> ()</td></tr>
+<tr class="memdesc:aa78cfed9dacc69c2be668bc2b3324489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the secondary encoder counts.  <br /></td></tr>
+<tr class="separator:aa78cfed9dacc69c2be668bc2b3324489"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A wrapper class that combines a motor with its encoder and provides motor control functionality. </p>
 <p>This class encapsulates an FEHMotor and DigitalEncoder pair, allowing for motor control with encoder feedback. It provides features to adjust motor behavior, such as reversing direction and applying power adjustments. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a822b13404ea3f33bd7542dbc0ff6d300" name="a822b13404ea3f33bd7542dbc0ff6d300"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a822b13404ea3f33bd7542dbc0ff6d300">&#9670;&#160;</a></span>Motor()</h2>
+<a id="aa9a9b07d026b32f51876d062cff94228" name="aa9a9b07d026b32f51876d062cff94228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9a9b07d026b32f51876d062cff94228">&#9670;&#160;</a></span>Motor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,6 +151,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAndReset</b> ()</
           <td></td>
           <td class="paramtype">FEHIO::FEHIOPin&#160;</td>
           <td class="paramname"><em>encoderPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FEHIO::FEHIOPin&#160;</td>
+          <td class="paramname"><em>encoderPortSecondary</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -172,6 +184,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAndReset</b> ()</
     <tr><td class="paramname">motorPort</td><td>The port where the motor is connected </td></tr>
     <tr><td class="paramname">voltage</td><td>The voltage level for the motor </td></tr>
     <tr><td class="paramname">encoderPort</td><td>The pin where the encoder is connected </td></tr>
+    <tr><td class="paramname">encoderPortSecondary</td><td>The pin where the extra encoder is connected </td></tr>
     <tr><td class="paramname">reversed</td><td>Whether the motor direction should be reversed (default: false) </td></tr>
     <tr><td class="paramname">adjustment</td><td>Power adjustment factor for calibration (default: 1.0) </td></tr>
   </table>
@@ -196,7 +209,47 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAndReset</b> ()</
       </table>
 </div><div class="memdoc">
 
-<p>Gets the current encoder counts. </p>
+<p>Gets the total encoder counts. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of encoder counts recorded </dd></dl>
+
+</div>
+</div>
+<a id="a6b6dd575c2fe50875d514e06ab040bf9" name="a6b6dd575c2fe50875d514e06ab040bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6dd575c2fe50875d514e06ab040bf9">&#9670;&#160;</a></span>PrimaryCounts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Motor::PrimaryCounts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the secondary encoder counts. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of encoder counts recorded </dd></dl>
+
+</div>
+</div>
+<a id="aa78cfed9dacc69c2be668bc2b3324489" name="aa78cfed9dacc69c2be668bc2b3324489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa78cfed9dacc69c2be668bc2b3324489">&#9670;&#160;</a></span>SecondaryCounts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Motor::SecondaryCounts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the secondary encoder counts. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of encoder counts recorded </dd></dl>
 
 </div>

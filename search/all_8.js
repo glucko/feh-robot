@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['setpercent_0',['SetPercent',['../classMotor.html#a37c5dbf0f1bba64064c68fc727b65c05',1,'Motor']]],
-  ['stopandreset_1',['stopAndReset',['../classMotor.html#a6d756f635fd8161f35dc58651f907fd3',1,'Motor']]]
+  ['redthreshold_0',['redThreshold',['../constants_8h.html#a743f89ee417a993c9eed2fb2b726255d',1,'constants.h']]],
+  ['reset_1',['reset',['../classMiniPID.html#a6e0d9e706c95119bdab25e11e9d5b34b',1,'MiniPID']]],
+  ['resetall_2',['resetAll',['../utils_8h.html#ac6cb48261b2055e553b6efbafed4197b',1,'utils.cpp']]],
+  ['robot_5fdiameter_3',['ROBOT_DIAMETER',['../constants_8h.html#a45b229acff3d0f2b6d896289270af2e3',1,'constants.h']]]
 ];

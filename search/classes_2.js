@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['motor_0',['Motor',['../classMotor.html',1,'']]]
+  ['minipid_0',['MiniPID',['../classMiniPID.html',1,'']]],
+  ['motor_1',['Motor',['../classMotor.html',1,'']]]
 ];
