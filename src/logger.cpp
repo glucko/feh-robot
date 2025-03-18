@@ -6,16 +6,16 @@
 Logger::Logger(float del, bool enabled)
     : delay(del), currentlyEnabled(enabled)
 {
-    lastLogTime = TimeNow();
 }
 
 void Logger::log(std::string msg)
 {
-    if (!currentlyEnabled || (TimeNow() - lastLogTime < delay))
+    if (!currentlyEnabled || lastLogTime + delay > TimeNow())
     {
         return;
     }
 
+    LCD.Clear();
     lastLogTime = TimeNow();
     LCD.WriteLine(msg.c_str());
 }
