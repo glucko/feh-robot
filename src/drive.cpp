@@ -22,15 +22,13 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 
     float correction = pid.getOutput(error, 0.0);
     float scalingFactor = 0.077;
-    float scaledCorrection = correction * scalingFactor;
+    int scaledCorrection = static_cast<int>(correction * scalingFactor);
 
-    logger.log("scaling facotr: " + std::to_string(scaledCorrection));
+    logger.logWithDelay("Correction: " + std::to_string(scaledCorrection));
 
     // Apply the correction to the motor power
-    int motor1Power = clamp(targetPower + static_cast<int>(scaledCorrection), 23, 27);
-    int motor2Power = clamp(targetPower - static_cast<int>(scaledCorrection), 23, 27);
-
-    // logger.log("motor 1:" + std::to_string(motor1Power) + "\nmotor2: " + std::to_string(motor2Power));
+    int motor1Power = targetPower + scaledCorrection;
+    int motor2Power = targetPower - scaledCorrection;
 
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
@@ -39,6 +37,8 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 void Drive::driveDirection(float distance, Direction direction, int power)
 {
     resetAll();
+    pid.reset();
+    pid.setOutputLimits(20, 30);
 
     Motor *mot1;
     Motor *mot2;
