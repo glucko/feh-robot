@@ -58,6 +58,12 @@ public:
     void log(std::string msg);
 
     /**
+     * @brief Logs a message with a delay, should only be used once in the code as the delay is global.
+     * @param msg The message to be logged.
+     */
+    void logWithDelay(std::string msg);
+
+    /**
      * @brief Disables the logger, preventing further logging.
      */
     void turnLoggerOff();

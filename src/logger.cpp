@@ -8,15 +8,23 @@ Logger::Logger(float del, bool enabled)
 {
 }
 
-void Logger::log(std::string msg)
+void Logger::logWithDelay(std::string msg)
 {
     if (!currentlyEnabled || lastLogTime + delay > TimeNow())
     {
         return;
     }
 
-    // LCD.Clear();
-    lastLogTime = TimeNow();
+    LCD.WriteLine(msg.c_str());
+}
+
+void Logger::log(std::string msg)
+{
+    if (!currentlyEnabled)
+    {
+        return;
+    }
+
     LCD.WriteLine(msg.c_str());
 }
 
