@@ -6,23 +6,34 @@
 #include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.1, .1, 0)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.002, .05, .05)
 {
 }
 
 void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 {
-    float correction = pid.getOutput(mot1->Counts() - mot2->Counts(), 0.0);
-    float scalingFactor = 0.1;
+    int error = mot1->Counts() - mot2->Counts();
+
+    // Apply a deadband: if error is too small, skip correction
+    if (abs(error) < 3)
+    {
+        return;
+    }
+
+    float correction = pid.getOutput(error, 0.0);
+    float scalingFactor = 0.077;
     float scaledCorrection = correction * scalingFactor;
 
-    // Scale correction for motor power
-    float maxCorrection = 5.0;
-    scaledCorrection = clamp(scaledCorrection, -maxCorrection, maxCorrection);
+    logger.log("scaling facotr: " + std::to_string(scaledCorrection));
 
-    // Apply the adjusted power to motors
-    mot1->SetPercent(targetPower + static_cast<int>(scaledCorrection));
-    mot2->SetPercent(targetPower - static_cast<int>(scaledCorrection));
+    // Apply the correction to the motor power
+    int motor1Power = clamp(targetPower + static_cast<int>(scaledCorrection), 23, 27);
+    int motor2Power = clamp(targetPower - static_cast<int>(scaledCorrection), 23, 27);
+
+    // logger.log("motor 1:" + std::to_string(motor1Power) + "\nmotor2: " + std::to_string(motor2Power));
+
+    mot1->SetPercent(motor1Power);
+    mot2->SetPercent(-motor2Power);
 }
 
 void Drive::driveDirection(float distance, Direction direction, int power)
@@ -60,7 +71,6 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        logger.log(logger.getEncoderInfo());
         correctDriveStraight(mot1, mot2, power);
     }
 

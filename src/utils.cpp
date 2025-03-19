@@ -4,7 +4,7 @@
 #include "include/constants.h"
 #include "include/motor.h"
 
-Logger logger = Logger(1.0);
+Logger logger = Logger(.3);
 
 float clamp(float value, float min, float max)
 {
