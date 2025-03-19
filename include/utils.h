@@ -52,7 +52,7 @@ void resetAll();
 /**
  * @brief Gets the color of the humidifier light
  *
- * @return int 0 for red and 1 for blue
+ * @return 0 for red and 1 for blue, and -1 if no light is detected.
  */
 int getHumidifierLight();
 
