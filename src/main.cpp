@@ -16,11 +16,11 @@ void alignBottomWindow()
 // Starting at beginning
 void driveUpRamp()
 {
-    // Go to corner
-    drive.driveDirection(30, Direction::AB);
+    // Align with ramp
+    drive.turn(60);
 
-    // Align with corner
-    drive.driveDirection(5, Direction::BC);
+    // Drive up ramp
+    drive.driveDirection(30, Direction::AB);
 }
 
 void hitButton()
@@ -28,6 +28,13 @@ void hitButton()
     // Hit button
     drive.driveDirection(-1, Direction::AB);
     drive.driveDirection(1, Direction::AB);
+}
+
+void waitUntilLight()
+{
+    while (getHumidifierLight() == 0)
+    {
+    }
 }
 
 int main()
