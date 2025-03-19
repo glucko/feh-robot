@@ -119,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2aa660e693bcd2688c239d8f8a76f8f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogger.html#a2aa660e693bcd2688c239d8f8a76f8f0">log</a> (std::string msg)</td></tr>
 <tr class="memdesc:a2aa660e693bcd2688c239d8f8a76f8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message.  <br /></td></tr>
 <tr class="separator:a2aa660e693bcd2688c239d8f8a76f8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd0cca10d065e54bd1db7856602ac3e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogger.html#abd0cca10d065e54bd1db7856602ac3e7">logWithDelay</a> (std::string msg)</td></tr>
+<tr class="memdesc:abd0cca10d065e54bd1db7856602ac3e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message with a delay, should only be used once in the code as the delay is global.  <br /></td></tr>
+<tr class="separator:abd0cca10d065e54bd1db7856602ac3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3aed0260332b738a072fc7856abd5be"><td class="memItemLeft" align="right" valign="top"><a id="af3aed0260332b738a072fc7856abd5be" name="af3aed0260332b738a072fc7856abd5be"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>turnLoggerOff</b> ()</td></tr>
 <tr class="memdesc:af3aed0260332b738a072fc7856abd5be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the logger, preventing further logging. <br /></td></tr>
@@ -246,6 +249,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>turnLoggerOn</b> ()</
 </div><div class="memdoc">
 
 <p>Logs a message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>The message to be logged. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abd0cca10d065e54bd1db7856602ac3e7" name="abd0cca10d065e54bd1db7856602ac3e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd0cca10d065e54bd1db7856602ac3e7">&#9670;&#160;</a></span>logWithDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Logger::logWithDelay </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Logs a message with a delay, should only be used once in the code as the delay is global. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">msg</td><td>The message to be logged. </td></tr>
