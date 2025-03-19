@@ -65,6 +65,12 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // accounts for the fact that wheels are at an 120 deg angle
     int targetCounts = inchesToCounts(distance);
 
+    // Reverses power if driving backwards
+    if (distance < 0)
+    {
+        power = -power;
+    }
+
     mot1->SetPercent(power);
     mot2->SetPercent(-power);
 
