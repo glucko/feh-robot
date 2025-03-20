@@ -6,7 +6,7 @@
 #include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.002, 0, 0)
 {
 }
 
@@ -27,6 +27,21 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     // Apply the correction to the motor power
     int motor1Power = targetPower + scaledCorrection;
     int motor2Power = targetPower - scaledCorrection;
+
+    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
+
+    mot1->SetPercent(motor1Power);
+    mot2->SetPercent(-motor2Power);
+}
+
+void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts){
+    int counts = (mot1->Counts() + mot2->Counts())/2;
+    int error = 0;
+    float correction = pid2.getOutput(counts, targetCounts);
+
+    // Apply the correction to the motor power
+    int motor1Power = 25 + correction;
+    int motor2Power =  25 - correction;
 
     logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
@@ -71,7 +86,8 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        correctDriveStraight(mot1, mot2, power);
+        //correctDriveStraight(mot1, mot2, power);
+        correctDriveDistance(mot1, mot2, targetCounts);
     }
 
     resetAll();
