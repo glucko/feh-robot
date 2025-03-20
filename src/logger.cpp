@@ -15,6 +15,7 @@ void Logger::logWithDelay(std::string msg)
         return;
     }
 
+    lastLogTime = TimeNow();
     LCD.WriteLine(msg.c_str());
 }
 
