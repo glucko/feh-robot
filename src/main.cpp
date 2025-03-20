@@ -8,5 +8,5 @@ int main()
 {
     waitUntilTouch();
 
-    drive.driveDirection(8, Direction::AB);
+    drive.driveDirection(15, Direction::AB);
 }

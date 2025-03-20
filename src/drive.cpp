@@ -6,7 +6,7 @@
 #include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.002, .05, .05)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0)
 {
 }
 
@@ -24,11 +24,11 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     float scalingFactor = 0.077;
     int scaledCorrection = static_cast<int>(correction * scalingFactor);
 
-    logger.logWithDelay("Correction: " + std::to_string(scaledCorrection));
-
     // Apply the correction to the motor power
     int motor1Power = targetPower + scaledCorrection;
     int motor2Power = targetPower - scaledCorrection;
+
+    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
@@ -38,7 +38,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
 {
     resetAll();
     pid.reset();
-    pid.setOutputLimits(20, 30);
+    // pid.setOutputLimits(20, 30);
 
     Motor *mot1;
     Motor *mot2;
