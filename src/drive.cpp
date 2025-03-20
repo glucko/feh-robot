@@ -6,7 +6,7 @@
 #include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.002, .05, .05)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0)
 {
 }
 
