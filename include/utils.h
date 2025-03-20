@@ -37,6 +37,14 @@ void waitUntilTouch();
 int inchesToCounts(float inches);
 
 /**
+ * @brief Converts encoder counts to distance in inches.
+ *
+ * @param int The equivalent number of encoder counts.
+ * @return float The distance in inches to convert.
+ */
+float countsToInches(float inches);
+
+/**
  * @brief Convert degrees to radians
  *
  * @param deg The angle in degrees

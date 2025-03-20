@@ -38,6 +38,11 @@ int inchesToCounts(float inches)
     return static_cast<int>(inches * (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER)));
 }
 
+float countsToInches(int counts)
+{
+    return counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER));
+}
+
 float degToRad(float deg)
 {
     return deg * M_PI / 180;
