@@ -6,7 +6,7 @@
 #include "include/MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.002, 0, 0)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.1, 0, 0)
 {
 }
 
@@ -34,14 +34,26 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     mot2->SetPercent(-motor2Power);
 }
 
-void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts){
-    int counts = (mot1->Counts() + mot2->Counts())/2;
+void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts)
+{
+    int counts = (mot1->Counts() + mot2->Counts()) / 2;
     int error = 0;
+
+    float slowdownThreshold = 1 / 5 * targetCounts;
+
     float correction = pid2.getOutput(counts, targetCounts);
 
     // Apply the correction to the motor power
-    int motor1Power = 25 + correction;
-    int motor2Power =  25 - correction;
+    int motor1Power = correction;
+    int motor2Power = correction;
+
+    // // Deceleration: Reduce power as it gets closer
+    // float distanceRemaining = abs(targetCounts - counts);
+    // if (distanceRemaining < slowdownThreshold)
+    // {
+    //     motor1Power *= (int)distanceRemaining / slowdownThreshold;
+    //     motor2Power *= (int)distanceRemaining / slowdownThreshold;
+    // }
 
     logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
@@ -53,7 +65,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
 {
     resetAll();
     pid.reset();
-    // pid.setOutputLimits(20, 30);
+    pid2.setOutputLimits(5, 10);
 
     Motor *mot1;
     Motor *mot2;
@@ -78,7 +90,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     }
 
     // accounts for the fact that wheels are at an 120 deg angle
-    int targetCounts = inchesToCounts(distance);
+    int targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
 
     mot1->SetPercent(power);
     mot2->SetPercent(-power);
@@ -86,8 +98,8 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        //correctDriveStraight(mot1, mot2, power);
-        correctDriveDistance(mot1, mot2, targetCounts);
+        correctDriveStraight(mot1, mot2, power);
+        // correctDriveDistance(mot1, mot2, targetCounts);
     }
 
     resetAll();

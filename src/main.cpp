@@ -74,9 +74,9 @@ void waitUntilLight()
 int main()
 {
     waitUntilTouch();
-    drive.turn(360);
+    // drive.turn(360);
 
-    // drive.driveDirection(15, Direction::AB);
+    drive.driveDirection(30, Direction::AB, 25);
 
     // waitUntilLight();
     // milestone2();
