@@ -1,83 +1,72 @@
-#include <FEHUtility.h>
 #include "include/utils.h"
 #include "include/constants.h"
 #include "include/drive.h"
 
 Drive drive = Drive(motorA, motorB, motorC);
-void milestone2()
+
+void alignBottomWindow(int rev = 1)
 {
-    // Hit start button
-    drive.driveDirection(-1.2, Direction::AB);
-    Sleep(1.0);
+    logger.log("Aliging bottom window");
 
-    drive.driveDirection(3, Direction::AB);
-    Sleep(1.0);
+    // Go to corner
+    drive.driveDirection(rev * 30, Direction::AB);
 
-    drive.driveDirection(6, Direction::BC);
-    Sleep(1.0);
+    // Align with corner
+    drive.driveDirection(rev * 5, Direction::BC);
 
-    drive.turn(40, true);
-    Sleep(1.0);
-
-    // Drives up ramp
-    drive.driveDirection(41, Direction::AB);
-    Sleep(1.0);
-
-    // Go to humidifier light
-    drive.turn(28, true);
-    Sleep(1.0);
-
-    // Drive until humidifier button
-    drive.driveUntilLight(Direction::CA, -NORMAL_POWER);
-    Sleep(1.0);
-
-    switch (getHumidifierLight())
-    {
-    case 0:
-        logger.log("Light is red");
-        drive.driveDirection(1, Direction::AB);
-        break;
-    case 1:
-        logger.log("Light is blue");
-        drive.driveDirection(1, Direction::CA);
-        break;
-    default:
-        float val = cdsCell.Value();
-        logger.log("Unable to read light. Value: ");
-        logger.log(std::to_string(val));
-        break;
-    }
-    Sleep(1.0);
-
-    // hit button
-    drive.driveDirection(11, Direction::CA, -NORMAL_POWER);
-    Sleep(1.0);
-
-    // Drive back down to start button
-    drive.driveDirection(25, Direction::CA);
-    Sleep(1.0);
-
-    drive.turn(30, true);
-    Sleep(1.0);
-
-    drive.driveDirection(45, Direction::BC);
-    Sleep(1.0);
+    logger.log("Aligned bottom window");
 }
 
-void waitUntilLight()
+// Assumes starting at beginning
+void driveUpRamp(int rev = 1)
 {
-    while (cdsCell.Value() > noLightThreshold)
+    logger.log("Driving up ramp");
+
+    // Align with ramp
+    drive.turn(60);
+
+    // Drive up ramp
+    drive.driveDirection(rev * 30, Direction::AB);
+
+    logger.log("Drove up ramp");
+}
+
+void hitButton(int rev = 1)
+{
+    // Hit button
+    drive.driveDirection(-1, Direction::AB);
+    drive.driveDirection(1, Direction::AB);
+
+    logger.log("Hit button");
+}
+
+void doWindow(int rev = 1)
+{
+    logger.log("Doing window");
+
+    drive.turn(60);
+    drive.driveDirection(rev * 30, Direction::BC);
+
+    logger.log("Did window");
+}
+
+void waitUntilLight(int rev = 1)
+{
+    while (getHumidifierLight() == -1)
     {
     }
 }
 
 int main()
 {
-    waitUntilTouch();
-    // drive.turn(360);
+    waitUntilLight();
+    hitButton();
+    driveUpRamp();
+    doWindow();
 
-    drive.driveDirection(30, Direction::AB, 25);
-
-    // waitUntilLight();
-    // milestone2();
+    // Do everything in reverse
+    waitUntilLight(-1);
+    hitButton(-1);
+    driveUpRamp(-1);
+    doWindow(-1);
 }
