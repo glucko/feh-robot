@@ -28,7 +28,7 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     int motor1Power = targetPower + scaledCorrection;
     int motor2Power = targetPower - scaledCorrection;
 
-    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
+    // logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
@@ -55,7 +55,7 @@ void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts)
     //     motor2Power *= (int)distanceRemaining / slowdownThreshold;
     // }
 
-    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
+    // logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
@@ -89,6 +89,12 @@ void Drive::driveDirection(float distance, Direction direction, int power)
         break;
     }
 
+    if (distance < 0)
+    {
+        power = -power;
+        distance = -distance;
+    }
+
     // accounts for the fact that wheels are at an 120 deg angle
     int targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
 
@@ -110,9 +116,10 @@ void Drive::turn(float degrees, bool clockwise, int power)
     resetAll();
 
     // If counterclockwise, invert the power
-    if (!clockwise)
+    if (!clockwise || degrees < 0)
     {
         power = -power;
+        degrees = -degrees;
     }
 
     float angleInRadians = degToRad(degrees);
@@ -127,9 +134,9 @@ void Drive::turn(float degrees, bool clockwise, int power)
     motor3.SetPercent(power);
 
     // Wait until the rotation is complete
-    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
+    while ((motor1.Counts() + motor2.Counts()) / 2 < targetCounts)
     {
-        logger.log(logger.getEncoderInfo());
+        // logger.log(logger.getEncoderInfo());
     }
 
     resetAll();
