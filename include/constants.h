@@ -11,7 +11,7 @@
 
 #include <FEHIO.h>
 #include <FEHMotor.h>
-#include "include/motor.h"
+#include "motor.h"
 
 /**
  * @brief The diameter of the circumscribed circle of the robot.

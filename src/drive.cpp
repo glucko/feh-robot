@@ -1,9 +1,8 @@
-#include <math.h>
 #include <FEHLCD.h>
-#include "include/drive.h"
-#include "include/utils.h"
-#include "include/constants.h"
-#include "include/MiniPID.h"
+#include "drive.h"
+#include "utils.h"
+#include "constants.h"
+#include "MiniPID.h"
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
     : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.1, 0, 0)
@@ -28,8 +27,6 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
     int motor1Power = targetPower + scaledCorrection;
     int motor2Power = targetPower - scaledCorrection;
 
-    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
-
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
 }
@@ -37,25 +34,12 @@ void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
 void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts)
 {
     int counts = (mot1->Counts() + mot2->Counts()) / 2;
-    int error = 0;
-
-    float slowdownThreshold = 1 / 5 * targetCounts;
 
     float correction = pid2.getOutput(counts, targetCounts);
 
     // Apply the correction to the motor power
     int motor1Power = correction;
     int motor2Power = correction;
-
-    // // Deceleration: Reduce power as it gets closer
-    // float distanceRemaining = abs(targetCounts - counts);
-    // if (distanceRemaining < slowdownThreshold)
-    // {
-    //     motor1Power *= (int)distanceRemaining / slowdownThreshold;
-    //     motor2Power *= (int)distanceRemaining / slowdownThreshold;
-    // }
-
-    logger.logWithDelay("motor1Power: " + std::to_string(motor1Power) + "\n" + "motor2Power: " + std::to_string(motor2Power));
 
     mot1->SetPercent(motor1Power);
     mot2->SetPercent(-motor2Power);
@@ -129,7 +113,6 @@ void Drive::turn(float degrees, bool clockwise, int power)
     // Wait until the rotation is complete
     while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
     {
-        logger.log(logger.getEncoderInfo());
     }
 
     resetAll();

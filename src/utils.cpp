@@ -1,10 +1,7 @@
-#include <math.h>
 #include <FEHLCD.h>
-#include "include/utils.h"
-#include "include/constants.h"
-#include "include/motor.h"
-
-Logger logger = Logger(.3);
+#include "utils.h"
+#include "constants.h"
+#include "motor.h"
 
 float clamp(float value, float min, float max)
 {
@@ -21,8 +18,8 @@ float clamp(float value, float min, float max)
 
 void waitUntilTouch()
 {
-    float left;
-    float right;
+    int left;
+    int right;
 
     while (!LCD.Touch(&left, &right))
     {

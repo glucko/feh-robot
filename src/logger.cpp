@@ -1,14 +1,14 @@
 #include <FEHLCD.h>
 #include <FEHUtility.h>
-#include "include/logger.h"
-#include "include/constants.h"
+#include "logger.h"
+#include "constants.h"
 
 Logger::Logger(float del, bool enabled)
     : delay(del), currentlyEnabled(enabled)
 {
 }
 
-void Logger::logWithDelay(std::string msg)
+void Logger::logWithDelay(String msg)
 {
     if (!currentlyEnabled || lastLogTime + delay > TimeNow())
     {
@@ -19,7 +19,7 @@ void Logger::logWithDelay(std::string msg)
     LCD.WriteLine(msg.c_str());
 }
 
-void Logger::log(std::string msg)
+void Logger::log(String msg)
 {
     if (!currentlyEnabled)
     {
@@ -29,27 +29,27 @@ void Logger::log(std::string msg)
     LCD.WriteLine(msg.c_str());
 }
 
-std::string Logger::getEncoderInfo()
+String Logger::getEncoderInfo()
 {
-    std::string encoderInfo = "Encoder A Counts: " + std::to_string(motorA.Counts()) + "\n" +
-                              "Encoder B Counts: " + std::to_string(motorB.Counts()) + "\n" +
-                              "Encoder C Counts: " + std::to_string(motorC.Counts()) + "\n\n";
+    String encoderInfo = "Encoder A Counts: " + String(motorA.Counts()) + "\n" +
+                         "Encoder B Counts: " + String(motorB.Counts()) + "\n" +
+                         "Encoder C Counts: " + String(motorC.Counts()) + "\n\n";
     return encoderInfo;
 }
 
-std::string Logger::getPrimaryEncoderInfo()
+String Logger::getPrimaryEncoderInfo()
 {
-    std::string encoderInfo = "Primary Encoder A Counts: " + std::to_string(motorA.PrimaryCounts()) + "\n" +
-                              "Primary Encoder B Counts: " + std::to_string(motorB.PrimaryCounts()) + "\n" +
-                              "Primary Encoder C Counts: " + std::to_string(motorC.PrimaryCounts()) + "\n\n";
+    String encoderInfo = "Primary Encoder A Counts: " + String(motorA.PrimaryCounts()) + "\n" +
+                         "Primary Encoder B Counts: " + String(motorB.PrimaryCounts()) + "\n" +
+                         "Primary Encoder C Counts: " + String(motorC.PrimaryCounts()) + "\n\n";
     return encoderInfo;
 }
 
-std::string Logger::getSecondaryEncoderInfo()
+String Logger::getSecondaryEncoderInfo()
 {
-    std::string encoderInfo = "Secondary Encoder A Counts: " + std::to_string(motorA.SecondaryCounts()) + "\n" +
-                              "Secondary Encoder B Counts: " + std::to_string(motorB.SecondaryCounts()) + "\n" +
-                              "Secondary Encoder C Counts: " + std::to_string(motorC.SecondaryCounts()) + "\n\n";
+    String encoderInfo = "Secondary Encoder A Counts: " + String(motorA.SecondaryCounts()) + "\n" +
+                         "Secondary Encoder B Counts: " + String(motorB.SecondaryCounts()) + "\n" +
+                         "Secondary Encoder C Counts: " + String(motorC.SecondaryCounts()) + "\n\n";
     return encoderInfo;
 }
 

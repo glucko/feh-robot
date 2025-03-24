@@ -9,7 +9,7 @@
  * @see http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-direction/improving-the-beginners-pid-introduction
  */
 
-#include "include/MiniPID.h"
+#include "MiniPID.h"
 
 //**********************************
 // Constructor functions

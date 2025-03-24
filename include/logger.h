@@ -12,7 +12,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <string>
+#include <Arduino.h>
 
 /**
  * @class Logger
@@ -35,33 +35,33 @@ public:
 
     /**
      * @brief Retrieves information about the encoders.
-     * @return A string containing the encoder information.
+     * @return A String containing the encoder information.
      */
-    std::string getEncoderInfo();
+    String getEncoderInfo();
 
     /**
      * @brief Retrieves information about the primary encoders.
-     * @return A string containing the encoder information.
+     * @return A String containing the encoder information.
      */
-    std::string getPrimaryEncoderInfo();
+    String getPrimaryEncoderInfo();
 
     /**
      * @brief Retrieves information about the secondary encoders.
-     * @return A string containing the encoder information.
+     * @return A String containing the encoder information.
      */
-    std::string getSecondaryEncoderInfo();
+    String getSecondaryEncoderInfo();
 
     /**
      * @brief Logs a message.
      * @param msg The message to be logged.
      */
-    void log(std::string msg);
+    void log(String msg);
 
     /**
      * @brief Logs a message with a delay, should only be used once in the code as the delay is global.
      * @param msg The message to be logged.
      */
-    void logWithDelay(std::string msg);
+    void logWithDelay(String msg);
 
     /**
      * @brief Disables the logger, preventing further logging.
