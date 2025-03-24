@@ -11,6 +11,9 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#include "logger.h"
+
+extern Logger logger;
 /**
  * @brief Clamps a float value between a minimum and maximum range.
  *

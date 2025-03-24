@@ -27,6 +27,7 @@ void Logger::log(String msg)
     }
 
     LCD.WriteLine(msg.c_str());
+    Serial.println(msg);
 }
 
 String Logger::getEncoderInfo()
