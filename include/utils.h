@@ -14,15 +14,6 @@
 #include "logger.h"
 
 extern Logger logger;
-/**
- * @brief Clamps a float value between a minimum and maximum range.
- *
- * @param value The value to clamp.
- * @param min The minimum allowable value.
- * @param max The maximum allowable value.
- * @return float The clamped value.
- */
-float clamp(float value, float min, float max);
 
 /**
  * @brief Stops code execution until Proteus screen is touched
