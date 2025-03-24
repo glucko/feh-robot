@@ -1,5 +1,5 @@
+#include <FEH.h>
 #include "motor.h"
-#include <FEHUtility.h>
 
 Motor::Motor(FEHMotor::FEHMotorPort motorPort, int voltage, FEHIO::FEHIOPin encoderPort, FEHIO::FEHIOPin encoderPortSecondary, bool r, float a)
     : motor(motorPort, voltage), encoder(encoderPort), encoderSecondary(encoderPortSecondary), reversed(r), adjustment(a)

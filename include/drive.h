@@ -10,7 +10,7 @@
 #ifndef DRIVE_H
 #define DRIVE_H
 
-#include <FEHIO.h>
+#include <FEH.h>
 #include "motor.h"
 #include "constants.h"
 #include "MiniPID.h"
@@ -42,7 +42,7 @@ private:
     void correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower);
 
     void correctDriveDistance(Motor *mot1, Motor *mot2, int distance);
-    
+
 public:
     /**
      * @brief Constructs a Drive object with the provided motors

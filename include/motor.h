@@ -8,8 +8,7 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-#include <FEHMotor.h>
-#include <FEHIO.h>
+#include <FEH.h>
 
 /**
  * @class Motor

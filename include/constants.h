@@ -9,8 +9,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#include <FEHIO.h>
-#include <FEHMotor.h>
+#include <FEH.h>
 #include "motor.h"
 
 /**

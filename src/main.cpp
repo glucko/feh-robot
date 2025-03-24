@@ -12,5 +12,5 @@ void ERCMain()
 
     waitUntilTouch();
 
-    drive.driveDirection(5, Direction::BC);
+    drive.driveDirection(5, Direction::AB);
 }
