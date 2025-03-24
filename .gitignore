@@ -1,5 +1,6 @@
 # Inore firmware
 fehproteusfirmware/
+.pio/
 
 # Ignore docs
 docs/
@@ -63,3 +64,6 @@ Proteus.files
 Proteus.includes
 Proteus.s19
 .vscode/settings.json
+.vscode/launch.json
+.gitignore
+.vscode/c_cpp_properties.json
