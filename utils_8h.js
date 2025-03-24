@@ -1,6 +1,5 @@
 var utils_8h =
 [
-    [ "clamp", "utils_8h.html#a5db81d5a7a3dcf2ea181f62790dc13a0", null ],
     [ "countsToInches", "utils_8h.html#a20c995cf2e47a5c2aaa7e77ad211ddc8", null ],
     [ "degToRad", "utils_8h.html#ae645817fbf89677ab8a3f779b4a10ae8", null ],
     [ "getHumidifierLight", "utils_8h.html#add91b046a29b710ad2316368aabf581f", null ],
