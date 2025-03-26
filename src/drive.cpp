@@ -82,7 +82,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     // TODO: also add a time limit
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
-        // correctDriveStraight(mot1, mot2, power);
+        correctDriveStraight(mot1, mot2, power);
         logger.log(logger.getEncoderInfo());
     }
 

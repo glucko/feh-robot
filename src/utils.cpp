@@ -47,13 +47,16 @@ int getHumidifierLight()
 
     if (val > noLightThreshold)
     {
+        logger.log("No light detected");
         return -1;
     }
 
     if (val <= redThreshold)
     {
+        logger.log("Red light detected");
         return 0;
     }
 
+    logger.log("Blue light detected");
     return 1;
 }
