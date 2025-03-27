@@ -4,6 +4,8 @@
 #include "constants.h"
 #include "MiniPID.h"
 
+const float SLEEPTIME = .5;
+
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
     : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.1, 0, 0)
 {
@@ -88,7 +90,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
 
     resetAll();
 
-    Sleep(.5);
+    Sleep(SLEEPTIME);
 }
 
 void Drive::turn(float degrees, bool clockwise, int power)
@@ -119,7 +121,7 @@ void Drive::turn(float degrees, bool clockwise, int power)
 
     resetAll();
 
-    Sleep(.5);
+    Sleep(SLEEPTIME);
 }
 
 void Drive::driveUntilLight(Direction direction, int power)
@@ -157,5 +159,6 @@ void Drive::driveUntilLight(Direction direction, int power)
     }
 
     resetAll();
-    Sleep(.5);
+
+    Sleep(SLEEPTIME);
 }

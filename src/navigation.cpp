@@ -2,6 +2,7 @@
 #include "drive.h"
 #include "constants.h"
 #include "utils.h"
+#include "navigation.h"
 
 Drive drive = Drive(motorA, motorB, motorC);
 
