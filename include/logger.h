@@ -5,8 +5,6 @@
  * This file defines the Logger class, including its methods for enabling/disabling logging,
  * retrieving encoder information, and logging messages. The Logger class is designed to
  * facilitate debugging and data recording in applications that require periodic logging.
- *
- * @author Benjamin Gluck
  */
 
 #ifndef LOGGER_H

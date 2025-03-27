@@ -41,22 +41,22 @@ void resetAll()
     motorC.stopAndReset();
 }
 
-int getHumidifierLight()
+Light getHumidifierLight()
 {
     float val = cdsCell.Value();
 
     if (val > noLightThreshold)
     {
         logger.log("No light detected");
-        return -1;
+        return Light::NOLIGHT;
     }
 
     if (val <= redThreshold)
     {
         logger.log("Red light detected");
-        return 0;
+        return Light::NOLIGHT;
     }
 
     logger.log("Blue light detected");
-    return 1;
+    return Light::BLUELIGHT;
 }

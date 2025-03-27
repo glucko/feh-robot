@@ -12,6 +12,7 @@
 #define UTILITIES_H
 
 #include "logger.h"
+#include "constants.h"
 
 extern Logger logger;
 
@@ -52,8 +53,8 @@ void resetAll();
 /**
  * @brief Gets the color of the humidifier light
  *
- * @return int 0 for red and 1 for blue
+ * @return the respective enum value for the light.
  */
-int getHumidifierLight();
+Light getHumidifierLight();
 
 #endif // UTILITIES_H

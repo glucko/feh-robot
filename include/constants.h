@@ -3,7 +3,6 @@
  * @brief Defines constants and global variables used throughout the FEH robot project
  *
  * @note All extern variables declared here must be defined in a corresponding .cpp file
- * @author FEH Robot Team
  */
 
 #ifndef CONSTANTS_H
@@ -54,6 +53,16 @@ const int COUNTS_PER_ENCODER = 318 * 2;
 const int NORMAL_POWER = 25;
 
 /**
+ * @brief The degree given for the servo to be in its lowered position.
+ */
+const int SERVO_LOWERED = 0;
+
+/**
+ * @brief The degree given for the servo to be in its raised position.
+ */
+const int SERVO_RAISED = 90;
+
+/**
  * @brief Motor instance for MotorA.
  *
  * Located between the apple bucket and stick mechanisms, connected to port P0_0.
@@ -82,6 +91,13 @@ extern Motor motorC;
 extern AnalogInputPin cdsCell;
 
 /**
+ * @brief Servo instance for controlling the robot's servo motor.
+ *
+ * This servo is used for the apple bucket and fertilizer tasks.
+ */
+extern FEHServo servo;
+
+/**
  * @brief Defines directions that the robot can travel straight in.
  */
 enum class Direction
@@ -91,4 +107,14 @@ enum class Direction
     CA
 };
 
-#endif
+/**
+ * @brief Defines possible values for the CdS sensor.
+ */
+enum class Light
+{
+    REDLIGHT = 0,
+    BLUELIGHT = 1,
+    NOLIGHT = 2
+};
+
+#endif // CONSTANTS_H

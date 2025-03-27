@@ -87,6 +87,8 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     }
 
     resetAll();
+
+    Sleep(.5);
 }
 
 void Drive::turn(float degrees, bool clockwise, int power)
@@ -116,6 +118,8 @@ void Drive::turn(float degrees, bool clockwise, int power)
     }
 
     resetAll();
+
+    Sleep(.5);
 }
 
 void Drive::driveUntilLight(Direction direction, int power)
@@ -147,11 +151,11 @@ void Drive::driveUntilLight(Direction direction, int power)
     mot1->SetPercent(power);
     mot2->SetPercent(-power);
 
-    // TODO: also add a time limit
-    while (getHumidifierLight() == -1)
+    while (getHumidifierLight() == Light::NOLIGHT)
     {
         correctDriveStraight(mot1, mot2, power);
     }
 
     resetAll();
+    Sleep(.5);
 }
