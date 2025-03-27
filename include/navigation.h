@@ -3,8 +3,8 @@
  * @brief Defines robot paths and strategies for each task.
  */
 
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#ifndef NAVIGATION_H
+#define NAVIGATION_H
 
 #include <FEH.h>
 
