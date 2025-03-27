@@ -5,6 +5,11 @@ var constants_8h =
       [ "BC", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaaf85b7b377112c272bc87f3e73f10508d", null ],
       [ "CA", "constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aaa3e8d115eb4b32b9e9479f387dbe14ee1", null ]
     ] ],
+    [ "Light", "constants_8h.html#a26d2e727d2ac8160c71b1493b44971a7", [
+      [ "REDLIGHT", "constants_8h.html#a26d2e727d2ac8160c71b1493b44971a7a8f44fb7ffa804e80b9e618a479f937f4", null ],
+      [ "BLUELIGHT", "constants_8h.html#a26d2e727d2ac8160c71b1493b44971a7a9d97352a38cb736adbcaa9110f5e067c", null ],
+      [ "NOLIGHT", "constants_8h.html#a26d2e727d2ac8160c71b1493b44971a7a093c964d87eac1956504f29012ee2182", null ]
+    ] ],
     [ "cdsCell", "constants_8h.html#aa6fa8cf61e0976e676f97e67591c7a8f", null ],
     [ "COUNTS_PER_ENCODER", "constants_8h.html#a12d7b838ceb78d05143d3fed395b6899", null ],
     [ "motorA", "constants_8h.html#ad40fe08a194dff2da8cb6e162001f912", null ],
@@ -14,5 +19,8 @@ var constants_8h =
     [ "NORMAL_POWER", "constants_8h.html#a3a043b16f522bd4f857dfcbe48038166", null ],
     [ "redThreshold", "constants_8h.html#a743f89ee417a993c9eed2fb2b726255d", null ],
     [ "ROBOT_DIAMETER", "constants_8h.html#a45b229acff3d0f2b6d896289270af2e3", null ],
+    [ "servo", "constants_8h.html#a5e60af9a8e4e3812e777436cdb5352ba", null ],
+    [ "SERVO_LOWERED", "constants_8h.html#ab82c179995b0c0e31cd36d1aba867ef9", null ],
+    [ "SERVO_RAISED", "constants_8h.html#a183ee6c95b4f27d5050e7ad5b35a5002", null ],
     [ "WHEEL_DIAMETER", "constants_8h.html#a8f307256fa2a407634b97cf749a54a6c", null ]
 ];

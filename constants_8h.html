@@ -112,6 +112,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a224b9163917ac32fc95a60d8c1eec3aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines directions that the robot can travel straight in. <br /></td></tr>
 <tr class="separator:a224b9163917ac32fc95a60d8c1eec3aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26d2e727d2ac8160c71b1493b44971a7"><td class="memItemLeft" align="right" valign="top"><a id="a26d2e727d2ac8160c71b1493b44971a7" name="a26d2e727d2ac8160c71b1493b44971a7"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a26d2e727d2ac8160c71b1493b44971a7">Light</a> { <b>REDLIGHT</b> = 0
+, <b>BLUELIGHT</b> = 1
+, <b>NOLIGHT</b> = 2
+ }</td></tr>
+<tr class="memdesc:a26d2e727d2ac8160c71b1493b44971a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines possible values for the CdS sensor. <br /></td></tr>
+<tr class="separator:a26d2e727d2ac8160c71b1493b44971a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -136,6 +142,14 @@ const float&#160;</td><td class="memItemRight" valign="bottom"><b>WHEEL_DIAMETER
 const int&#160;</td><td class="memItemRight" valign="bottom"><b>NORMAL_POWER</b> = 25</td></tr>
 <tr class="memdesc:a3a043b16f522bd4f857dfcbe48038166"><td class="mdescLeft">&#160;</td><td class="mdescRight">The power that should be used for normal operation. <br /></td></tr>
 <tr class="separator:a3a043b16f522bd4f857dfcbe48038166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab82c179995b0c0e31cd36d1aba867ef9"><td class="memItemLeft" align="right" valign="top"><a id="ab82c179995b0c0e31cd36d1aba867ef9" name="ab82c179995b0c0e31cd36d1aba867ef9"></a>
+const int&#160;</td><td class="memItemRight" valign="bottom"><b>SERVO_LOWERED</b> = 0</td></tr>
+<tr class="memdesc:ab82c179995b0c0e31cd36d1aba867ef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The degree given for the servo to be in its lowered position. <br /></td></tr>
+<tr class="separator:ab82c179995b0c0e31cd36d1aba867ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a183ee6c95b4f27d5050e7ad5b35a5002"><td class="memItemLeft" align="right" valign="top"><a id="a183ee6c95b4f27d5050e7ad5b35a5002" name="a183ee6c95b4f27d5050e7ad5b35a5002"></a>
+const int&#160;</td><td class="memItemRight" valign="bottom"><b>SERVO_RAISED</b> = 90</td></tr>
+<tr class="memdesc:a183ee6c95b4f27d5050e7ad5b35a5002"><td class="mdescLeft">&#160;</td><td class="mdescRight">The degree given for the servo to be in its raised position. <br /></td></tr>
+<tr class="separator:a183ee6c95b4f27d5050e7ad5b35a5002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad40fe08a194dff2da8cb6e162001f912"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMotor.html">Motor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ad40fe08a194dff2da8cb6e162001f912">motorA</a></td></tr>
 <tr class="memdesc:ad40fe08a194dff2da8cb6e162001f912"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> instance for MotorA.  <br /></td></tr>
 <tr class="separator:ad40fe08a194dff2da8cb6e162001f912"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,11 +162,13 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>NORMAL_POWER</b>
 <tr class="memitem:aa6fa8cf61e0976e676f97e67591c7a8f"><td class="memItemLeft" align="right" valign="top">AnalogInputPin&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aa6fa8cf61e0976e676f97e67591c7a8f">cdsCell</a></td></tr>
 <tr class="memdesc:aa6fa8cf61e0976e676f97e67591c7a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analog input pin for the CdS cell.  <br /></td></tr>
 <tr class="separator:aa6fa8cf61e0976e676f97e67591c7a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e60af9a8e4e3812e777436cdb5352ba"><td class="memItemLeft" align="right" valign="top">FEHServo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a5e60af9a8e4e3812e777436cdb5352ba">servo</a></td></tr>
+<tr class="memdesc:a5e60af9a8e4e3812e777436cdb5352ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Servo instance for controlling the robot's servo motor.  <br /></td></tr>
+<tr class="separator:a5e60af9a8e4e3812e777436cdb5352ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines constants and global variables used throughout the FEH robot project. </p>
 <dl class="section note"><dt>Note</dt><dd>All extern variables declared here must be defined in a corresponding .cpp file </dd></dl>
-<dl class="section author"><dt>Author</dt><dd>FEH Robot Team </dd></dl>
 </div><h2 class="groupheader">Variable Documentation</h2>
 <a id="aa6fa8cf61e0976e676f97e67591c7a8f" name="aa6fa8cf61e0976e676f97e67591c7a8f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa6fa8cf61e0976e676f97e67591c7a8f">&#9670;&#160;</a></span>cdsCell</h2>
@@ -303,6 +319,31 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>NORMAL_POWER</b>
 
 <p>Threshold value for detecting red light. </p>
 <p>When the CdS cell reading falls below this value, the robot will identify it as red light. </p>
+
+</div>
+</div>
+<a id="a5e60af9a8e4e3812e777436cdb5352ba" name="a5e60af9a8e4e3812e777436cdb5352ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e60af9a8e4e3812e777436cdb5352ba">&#9670;&#160;</a></span>servo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FEHServo servo</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Servo instance for controlling the robot's servo motor. </p>
+<p>This servo is used for the apple bucket and fertilizer tasks. </p>
 
 </div>
 </div>

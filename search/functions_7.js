@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['reset_0',['reset',['../classMiniPID.html#a6e0d9e706c95119bdab25e11e9d5b34b',1,'MiniPID']]],
-  ['resetall_1',['resetAll',['../utils_8h.html#ac6cb48261b2055e553b6efbafed4197b',1,'utils.cpp']]]
+  ['minipid_0',['MiniPID',['../classMiniPID.html#a1ca9ca279ee7fc3494089e3350819b2d',1,'MiniPID']]],
+  ['motor_1',['Motor',['../classMotor.html#aa9a9b07d026b32f51876d062cff94228',1,'Motor']]]
 ];

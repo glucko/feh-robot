@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['turn_0',['turn',['../classDrive.html#a1a694f6fdf49162df147bfa313c2270a',1,'Drive']]],
-  ['turnloggeroff_1',['turnLoggerOff',['../classLogger.html#af3aed0260332b738a072fc7856abd5be',1,'Logger']]],
-  ['turnloggeron_2',['turnLoggerOn',['../classLogger.html#ae773ec18d0c508993ae7597d9d00cc05',1,'Logger']]]
+  ['redthreshold_0',['redThreshold',['../constants_8h.html#a743f89ee417a993c9eed2fb2b726255d',1,'constants.h']]],
+  ['reset_1',['reset',['../classMiniPID.html#a6e0d9e706c95119bdab25e11e9d5b34b',1,'MiniPID']]],
+  ['resetall_2',['resetAll',['../utils_8h.html#ac6cb48261b2055e553b6efbafed4197b',1,'utils.cpp']]],
+  ['robot_5fdiameter_3',['ROBOT_DIAMETER',['../constants_8h.html#a45b229acff3d0f2b6d896289270af2e3',1,'constants.h']]]
 ];

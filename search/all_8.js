@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['redthreshold_0',['redThreshold',['../constants_8h.html#a743f89ee417a993c9eed2fb2b726255d',1,'constants.h']]],
-  ['reset_1',['reset',['../classMiniPID.html#a6e0d9e706c95119bdab25e11e9d5b34b',1,'MiniPID']]],
-  ['resetall_2',['resetAll',['../utils_8h.html#ac6cb48261b2055e553b6efbafed4197b',1,'utils.cpp']]],
-  ['robot_5fdiameter_3',['ROBOT_DIAMETER',['../constants_8h.html#a45b229acff3d0f2b6d896289270af2e3',1,'constants.h']]]
+  ['navigation_2eh_0',['navigation.h',['../navigation_8h.html',1,'']]],
+  ['nolightthreshold_1',['noLightThreshold',['../constants_8h.html#a08b2a7718ec290c1dab98db90922f6dc',1,'constants.h']]],
+  ['normal_5fpower_2',['NORMAL_POWER',['../constants_8h.html#a3a043b16f522bd4f857dfcbe48038166',1,'constants.h']]]
 ];

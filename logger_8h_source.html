@@ -94,37 +94,37 @@ $(document).ready(function(){initNavTree('logger_8h_source.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 <a href="logger_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#ifndef LOGGER_H</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define LOGGER_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#ifndef LOGGER_H</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define LOGGER_H</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classLogger.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classLogger.html">Logger</a></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">float</span> delay;                </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">float</span> lastLogTime = -100.0; </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">bool</span> currentlyEnabled;      </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_class" href="classLogger.html">Logger</a>(<span class="keywordtype">float</span> del = .1f, <span class="keywordtype">bool</span> currentlyEnabled = <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    String <a class="code hl_function" href="classLogger.html#ab9d1d0211db4517fdeb64112be43a88f">getEncoderInfo</a>();</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    String <a class="code hl_function" href="classLogger.html#ab9375bfb787152c798430cd7f39b42e4">getPrimaryEncoderInfo</a>();</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    String <a class="code hl_function" href="classLogger.html#a2fe7d61b001418c52a41868b73ee02a9">getSecondaryEncoderInfo</a>();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#a2b9315be83a23db20f8a4764fb0f2443">log</a>(String msg);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#a4b3bce0e5b2f272355456f92f9152f4f">logWithDelay</a>(String msg);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#af3aed0260332b738a072fc7856abd5be">turnLoggerOff</a>();</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#ae773ec18d0c508993ae7597d9d00cc05">turnLoggerOn</a>();</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>};</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif </span><span class="comment">// LOGGER_H</span></div>
-<div class="ttc" id="aclassLogger_html"><div class="ttname"><a href="classLogger.html">Logger</a></div><div class="ttdoc">A class for logging messages and encoder information with a configurable delay.</div><div class="ttdef"><b>Definition:</b> logger.h:22</div></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classLogger.html">   19</a></span><span class="keyword">class </span><a class="code hl_class" href="classLogger.html">Logger</a></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">float</span> delay;                </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">float</span> lastLogTime = -100.0; </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">bool</span> currentlyEnabled;      </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_class" href="classLogger.html">Logger</a>(<span class="keywordtype">float</span> del = .1f, <span class="keywordtype">bool</span> currentlyEnabled = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    String <a class="code hl_function" href="classLogger.html#ab9d1d0211db4517fdeb64112be43a88f">getEncoderInfo</a>();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    String <a class="code hl_function" href="classLogger.html#ab9375bfb787152c798430cd7f39b42e4">getPrimaryEncoderInfo</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    String <a class="code hl_function" href="classLogger.html#a2fe7d61b001418c52a41868b73ee02a9">getSecondaryEncoderInfo</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#a2b9315be83a23db20f8a4764fb0f2443">log</a>(String msg);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#a4b3bce0e5b2f272355456f92f9152f4f">logWithDelay</a>(String msg);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#af3aed0260332b738a072fc7856abd5be">turnLoggerOff</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classLogger.html#ae773ec18d0c508993ae7597d9d00cc05">turnLoggerOn</a>();</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>};</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif </span><span class="comment">// LOGGER_H</span></div>
+<div class="ttc" id="aclassLogger_html"><div class="ttname"><a href="classLogger.html">Logger</a></div><div class="ttdoc">A class for logging messages and encoder information with a configurable delay.</div><div class="ttdef"><b>Definition:</b> logger.h:20</div></div>
 <div class="ttc" id="aclassLogger_html_a2b9315be83a23db20f8a4764fb0f2443"><div class="ttname"><a href="classLogger.html#a2b9315be83a23db20f8a4764fb0f2443">Logger::log</a></div><div class="ttdeci">void log(String msg)</div><div class="ttdoc">Logs a message.</div><div class="ttdef"><b>Definition:</b> logger.cpp:21</div></div>
 <div class="ttc" id="aclassLogger_html_a2fe7d61b001418c52a41868b73ee02a9"><div class="ttname"><a href="classLogger.html#a2fe7d61b001418c52a41868b73ee02a9">Logger::getSecondaryEncoderInfo</a></div><div class="ttdeci">String getSecondaryEncoderInfo()</div><div class="ttdoc">Retrieves information about the secondary encoders.</div><div class="ttdef"><b>Definition:</b> logger.cpp:48</div></div>
 <div class="ttc" id="aclassLogger_html_a4b3bce0e5b2f272355456f92f9152f4f"><div class="ttname"><a href="classLogger.html#a4b3bce0e5b2f272355456f92f9152f4f">Logger::logWithDelay</a></div><div class="ttdeci">void logWithDelay(String msg)</div><div class="ttdoc">Logs a message with a delay, should only be used once in the code as the delay is global.</div><div class="ttdef"><b>Definition:</b> logger.cpp:10</div></div>
