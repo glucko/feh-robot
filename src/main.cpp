@@ -14,21 +14,21 @@ void milestone4()
     dropOffBucket();
 
     flipFertilizer();
-    Sleep(5.0);
+    // Sleep(5.0);
 
-    flipFertilizer(false);
+    // flipFertilizer(false);
 }
 
 void ERCMain()
 {
-    // RCS.initialize()
+    // RCS.initialize("1240E4ZQS");
     // the servo needs to be configured in a main function,
     // so i just do it here
     servo.SetMin(500);
     servo.SetMax(2500);
 
-    waitUntilTouch();
+    // waitUntilTouch();
+    waitUntilLight();
 
-    // milestone4();
-    servo.SetDegree(120);
+    milestone4();
 }

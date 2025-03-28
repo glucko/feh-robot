@@ -10,6 +10,7 @@ void Motor::stopAndReset()
 {
     motor.SetPercent(0);
     encoder.ResetCounts();
+    encoderSecondary.ResetCounts();
 }
 
 void Motor::SetPercent(int power)

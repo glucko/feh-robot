@@ -7,7 +7,7 @@
 const float SLEEPTIME = .5;
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.002, 0, 0), pid2(.1, 0, 0)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.003, 0, 0), pid2(.1, 0, 0)
 {
 }
 
@@ -92,7 +92,7 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
     {
         correctDriveStraight(mot1, mot2, power);
-        logger.log(logger.getEncoderInfo());
+        // logger.log(logger.getEncoderInfo());
     }
 
     resetAll();

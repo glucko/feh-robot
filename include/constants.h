@@ -55,12 +55,12 @@ const int NORMAL_POWER = 25;
 /**
  * @brief The degree given for the servo to be in its lowered position.
  */
-const int SERVO_LOWERED = 0;
+const int SERVO_LOWERED = 130;
 
 /**
  * @brief The degree given for the servo to be in its raised position.
  */
-const int SERVO_RAISED = 120;
+const int SERVO_RAISED = 0;
 
 /**
  * @brief Motor instance for MotorA.
