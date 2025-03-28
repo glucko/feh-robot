@@ -22,7 +22,7 @@ void pickUpBucket()
 
     drive.turn(-49);
 
-    servo.SetDegree(94);
+    servo.SetDegree(96);
     Sleep(1.0);
 
     drive.driveDirection(4, Direction::AB, 20);

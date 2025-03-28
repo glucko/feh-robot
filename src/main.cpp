@@ -19,6 +19,13 @@ void milestone4()
     // flipFertilizer(false);
 }
 
+void waitUntilLight(int rev = 1)
+{
+    while (getHumidifierLight() == Light::NOLIGHT)
+    {
+    }
+}
+
 void ERCMain()
 {
     // RCS.initialize("1240E4ZQS");
