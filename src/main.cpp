@@ -3,15 +3,8 @@
 #include "utils.h"
 #include "navigation.h"
 
-void ERCMain()
+void milestone4()
 {
-    // the servo needs to be configured in a main function,
-    // so i just do it here
-    servo.SetMin(500);
-    servo.SetMax(2500);
-
-    waitUntilTouch();
-
     hitButton();
 
     pickUpBucket();
@@ -24,4 +17,18 @@ void ERCMain()
     Sleep(5.0);
 
     flipFertilizer(false);
+}
+
+void ERCMain()
+{
+    // RCS.initialize()
+    // the servo needs to be configured in a main function,
+    // so i just do it here
+    servo.SetMin(500);
+    servo.SetMax(2500);
+
+    waitUntilTouch();
+
+    // milestone4();
+    servo.SetDegree(120);
 }

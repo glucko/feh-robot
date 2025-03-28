@@ -60,7 +60,7 @@ const int SERVO_LOWERED = 0;
 /**
  * @brief The degree given for the servo to be in its raised position.
  */
-const int SERVO_RAISED = 90;
+const int SERVO_RAISED = 120;
 
 /**
  * @brief Motor instance for MotorA.

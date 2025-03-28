@@ -18,11 +18,13 @@ void hitButton(int rev = 1)
 void pickUpBucket()
 {
     servo.SetDegree(SERVO_LOWERED);
+    Sleep(1.0);
 
     drive.turn(-45);
     drive.driveDirection(12, Direction::AB);
 
     servo.SetDegree(SERVO_RAISED);
+    Sleep(1.0);
 
     drive.driveDirection(-15, Direction::AB);
 
@@ -34,7 +36,9 @@ void pickUpBucket()
 void dropOffBucket()
 {
     drive.driveDirection(12, Direction::AB);
+
     servo.SetDegree(SERVO_LOWERED);
+    Sleep(1.0);
 
     logger.log("finished dropOffBucket()");
 }
@@ -50,11 +54,17 @@ void driveUpRamp(int rev)
 void flipFertilizer(bool flipUp)
 {
     if (flipUp)
+    {
         servo.SetDegree(SERVO_LOWERED);
+    }
     else
+    {
         servo.SetDegree(SERVO_RAISED);
+    }
 
-    switch (RCS.GetCorrectLever())
+    Sleep(1.0);
+
+    switch (1)
     {
         // Left lever
     case 0:
@@ -75,9 +85,15 @@ void flipFertilizer(bool flipUp)
     }
 
     if (flipUp)
+    {
         servo.SetDegree(SERVO_RAISED);
+    }
     else
+    {
         servo.SetDegree(SERVO_LOWERED);
+    }
+
+    Sleep(1.0);
 
     drive.driveDirection(2, Direction::AB);
 
