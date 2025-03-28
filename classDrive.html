@@ -113,9 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="memItemLeft" align="right" valign="top"><a id="a4baf1bd39ca2d98daa3a448b0c0fda94" name="a4baf1bd39ca2d98daa3a448b0c0fda94"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (<a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
 <tr class="separator:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a694f6fdf49162df147bfa313c2270a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a1a694f6fdf49162df147bfa313c2270a">turn</a> (float degrees, bool clockwise=true, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
-<tr class="memdesc:a1a694f6fdf49162df147bfa313c2270a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the robot by a specified angle.  <br /></td></tr>
-<tr class="separator:a1a694f6fdf49162df147bfa313c2270a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcd1d81ec972b8aa51a03e8dd5d6dfff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#adcd1d81ec972b8aa51a03e8dd5d6dfff">turn</a> (float degrees, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
+<tr class="memdesc:adcd1d81ec972b8aa51a03e8dd5d6dfff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the robot clockwise by a specified angle.  <br /></td></tr>
+<tr class="separator:adcd1d81ec972b8aa51a03e8dd5d6dfff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controls the movement of a three-motor robot with built-in drift correction. </p>
@@ -209,8 +209,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (
 
 </div>
 </div>
-<a id="a1a694f6fdf49162df147bfa313c2270a" name="a1a694f6fdf49162df147bfa313c2270a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a694f6fdf49162df147bfa313c2270a">&#9670;&#160;</a></span>turn()</h2>
+<a id="adcd1d81ec972b8aa51a03e8dd5d6dfff" name="adcd1d81ec972b8aa51a03e8dd5d6dfff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcd1d81ec972b8aa51a03e8dd5d6dfff">&#9670;&#160;</a></span>turn()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,12 +220,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>degrees</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>clockwise</em> = <code>true</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -241,11 +235,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (
       </table>
 </div><div class="memdoc">
 
-<p>Turns the robot by a specified angle. </p>
+<p>Turns the robot clockwise by a specified angle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">degrees</td><td>Angle to turn in degrees </td></tr>
-    <tr><td class="paramname">clockwise</td><td>True for clockwise rotation, false for counter-clockwise </td></tr>
+    <tr><td class="paramname">degrees</td><td>Angle to turn in degrees, negative for counterclockwise </td></tr>
     <tr><td class="paramname">power</td><td><a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> power level to use during the turn </td></tr>
   </table>
   </dd>
