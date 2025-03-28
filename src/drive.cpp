@@ -75,6 +75,13 @@ void Drive::driveDirection(float distance, Direction direction, int power)
         break;
     }
 
+    // Reverses power if distance is -
+    if (distance < 0)
+    {
+        power = -power;
+        distance = -distance;
+    }
+
     // accounts for the fact that wheels are at an 120 deg angle
     int targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
 
@@ -93,14 +100,15 @@ void Drive::driveDirection(float distance, Direction direction, int power)
     Sleep(SLEEPTIME);
 }
 
-void Drive::turn(float degrees, bool clockwise, int power)
+void Drive::turn(float degrees, int power)
 {
     resetAll();
 
     // If counterclockwise, invert the power
-    if (!clockwise)
+    if (degrees < 0)
     {
         power = -power;
+        degrees = -degrees;
     }
 
     float angleInRadians = degToRad(degrees);

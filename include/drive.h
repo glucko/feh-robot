@@ -63,12 +63,11 @@ public:
     void driveUntilLight(Direction direction, int power = NORMAL_POWER);
 
     /**
-     * @brief Turns the robot by a specified angle
-     * @param degrees Angle to turn in degrees
-     * @param clockwise True for clockwise rotation, false for counter-clockwise
+     * @brief Turns the robot clockwise by a specified angle
+     * @param degrees Angle to turn in degrees, negative for counterclockwise
      * @param power Motor power level to use during the turn
      */
-    void turn(float degrees, bool clockwise = true, int power = NORMAL_POWER);
+    void turn(float degrees, int power = NORMAL_POWER);
 };
 
 #endif // DRIVE_H
