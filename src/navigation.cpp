@@ -87,7 +87,7 @@ void flipFertilizer(bool flipUp)
     Sleep(1.0);
 
     drive.turn(-30);
-    drive.driveDirection(7, Direction::AB);
+    drive.driveDirection(6, Direction::AB);
 
     switch (1)
     {
@@ -114,8 +114,6 @@ void flipFertilizer(bool flipUp)
         drive.turn(15);
         break;
     }
-
-    drive.driveDirection(1, Direction::AB);
 
     if (flipUp)
     {
