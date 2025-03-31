@@ -80,7 +80,7 @@ void driveUpRamp(int rev)
 
     drive.driveDirection(-21, Direction::AB);
 
-    drive.turn(92);
+    drive.turn(95);
     drive.driveDirection(rev * 33, Direction::AB, 35);
 
     logger.log("finished driveUpRamp()");
