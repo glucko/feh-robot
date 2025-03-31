@@ -8,7 +8,7 @@ Drive drive = Drive(motorA, motorB, motorC);
 
 void hitButton(int rev)
 {
-    drive.driveDirection(-1, Direction::AB);
+    drive.driveDirection(-1.3, Direction::AB);
 
     drive.driveDirection(2, Direction::AB);
 
@@ -18,17 +18,26 @@ void hitButton(int rev)
 void pickUpBucket()
 {
 
-    drive.driveDirection(17, Direction::AB);
+    drive.driveDirection(17.5, Direction::AB);
 
-    drive.turn(-49);
+    drive.turn(-48);
 
     servo.SetDegree(96);
     Sleep(1.0);
 
-    drive.driveDirection(4, Direction::AB, 20);
+    drive.driveDirection(4.3, Direction::AB, 15);
 
+    servo.SetDegree(70);
+    Sleep(.1);
+    servo.SetDegree(50);
+    Sleep(.1);
+    servo.SetDegree(30);
+    Sleep(.1);
+    servo.SetDegree(20);
+    Sleep(.1);
     servo.SetDegree(0);
-    Sleep(1.0);
+
+    Sleep(.5);
 
     logger.log("finished pickUpBucket()");
 }
@@ -48,10 +57,19 @@ void dropOffBucket()
     servo.SetDegree(60);
     Sleep(.1);
     servo.SetDegree(70);
+    Sleep(.1);
+    servo.SetDegree(80);
+    Sleep(.1);
+    servo.SetDegree(90);
 
     Sleep(1.0);
 
     logger.log("finished dropOffBucket()");
+
+    servo.SetDegree(0);
+    Sleep(.5);
+
+    drive.driveDirection(1, Direction::AB);
 }
 
 void driveUpRamp(int rev)
@@ -60,7 +78,7 @@ void driveUpRamp(int rev)
     drive.driveDirection(5, Direction::CA);
     drive.turn(15);
 
-    drive.driveDirection(-21.5, Direction::AB);
+    drive.driveDirection(-21, Direction::AB);
 
     drive.turn(92);
     drive.driveDirection(rev * 33, Direction::AB, 35);
@@ -68,7 +86,7 @@ void driveUpRamp(int rev)
     logger.log("finished driveUpRamp()");
 }
 
-void flipFertilizer(bool flipUp)
+void flipFertilizer()
 {
 
     drive.driveDirection(-3, Direction::AB);
@@ -76,18 +94,11 @@ void flipFertilizer(bool flipUp)
     drive.turn(-15);
     drive.driveDirection(10, Direction::CA);
 
-    if (flipUp)
-    {
-        servo.SetDegree(SERVO_RAISED);
-    }
-    else
-    {
-        servo.SetDegree(SERVO_LOWERED);
-    }
+    servo.SetDegree(SERVO_RAISED);
     Sleep(1.0);
 
-    drive.turn(-30);
-    drive.driveDirection(6, Direction::AB);
+    drive.turn(-32);
+    drive.driveDirection(7, Direction::AB);
 
     switch (1)
     {
@@ -115,16 +126,14 @@ void flipFertilizer(bool flipUp)
         break;
     }
 
-    if (flipUp)
-    {
-        servo.SetDegree(SERVO_LOWERED);
-    }
-    else
-    {
-        servo.SetDegree(SERVO_RAISED);
-    }
+    servo.SetDegree(SERVO_LOWERED + 5);
 
     Sleep(1.0);
+
+    drive.driveDirection(-2, Direction::AB);
+
+    drive.driveDirection(2.3, Direction::AB);
+    servo.SetDegree(0);
 
     logger.log("finished flipFertilizer()");
 }

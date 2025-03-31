@@ -48,9 +48,7 @@ void driveUpRamp(int rev = 1);
  * Asssumes the robot has just finished the dropOffBucket strategy,
  * and is positioned near the crate.
  *
- * @param flipUp If true, flips the fertilizer mechanism up.
- *               If false, flips it down. Defaults to true.
  */
-void flipFertilizer(bool flipUp = true);
+void flipFertilizer();
 
 #endif // NAVIGATION_H
