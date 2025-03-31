@@ -20,7 +20,7 @@ void pickUpBucket()
 
     drive.driveDirection(17.5, Direction::AB);
 
-    drive.turn(-48);
+    drive.turn(-45);
 
     servo.SetDegree(96);
     Sleep(1.0);
@@ -130,9 +130,6 @@ void flipFertilizer()
 
     Sleep(1.0);
 
-    drive.driveDirection(-2, Direction::AB);
-
-    drive.driveDirection(2.3, Direction::AB);
     servo.SetDegree(0);
 
     logger.log("finished flipFertilizer()");
