@@ -1,74 +1,19 @@
 #include <FEH.h>
+#include <PID_v1.h>
 #include "drive.h"
 #include "utils.h"
 #include "constants.h"
-#include "MiniPID.h"
 
 const float SLEEPTIME = .5;
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.003, 0, 0), pid2(.1, 0, 0), pid3(.1, 0, 0)
+    : motor1(m1), motor2(m2), motor3(m3)
 {
 }
 
-void Drive::correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower)
-{
-    int error = mot1->Counts() - mot2->Counts();
-
-    // Apply a deadband: if error is too small, skip correction
-    if (abs(error) < 3)
-    {
-        return;
-    }
-
-    float correction = pid.getOutput(error, 0.0);
-    float scalingFactor = 0.077;
-    int scaledCorrection = static_cast<int>(correction * scalingFactor);
-
-    // Apply the correction to the motor power
-    int motor1Power = targetPower + scaledCorrection;
-    int motor2Power = targetPower - scaledCorrection;
-
-    mot1->SetPercent(motor1Power);
-    mot2->SetPercent(-motor2Power);
-}
-
-void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts)
-{
-    int counts = (mot1->Counts() + mot2->Counts()) / 2;
-
-    float correction = pid2.getOutput(counts, targetCounts);
-
-    // Apply the correction to the motor power
-    int motor1Power = correction;
-    int motor2Power = correction;
-
-    mot1->SetPercent(motor1Power);
-    mot2->SetPercent(motor2Power);
-}
-
-void Drive::correctTurn(Motor *mot1, Motor *mot2, Motor *mot3, int targetCounts)
-{
-    int counts = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
-
-    float correction = pid3.getOutput(counts, targetCounts);
-
-    // Apply the correction to the motor power
-    int motor1Power = correction;
-    int motor2Power = correction;
-    int motor3Power = correction;
-
-    mot1->SetPercent(motor1Power);
-    mot2->SetPercent(motor2Power);
-    mot3->SetPercent(motor3Power);
-}
-
-void Drive::driveDirection(float distance, Direction direction, int power)
+void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float distance)
 {
     resetAll();
-    pid.reset();
-    pid2.reset();
-    pid2.setOutputLimits(5, 10);
 
     Motor *mot1;
     Motor *mot2;
@@ -92,36 +37,68 @@ void Drive::driveDirection(float distance, Direction direction, int power)
         break;
     }
 
-    // Reverses power if distance is -
-    if (distance < 0)
+    int targetCounts = 0;
+
+    // Handle distance mode specifics
+    if (mode == DriveMode::DISTANCE)
     {
-        power = -power;
-        distance = -distance;
+        // Reverses power if distance is negative
+        if (distance < 0)
+        {
+            power = -power;
+            distance = -distance;
+        }
+
+        // accounts for the fact that wheels are at a 120 deg angle
+        targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
     }
 
-    // accounts for the fact that wheels are at an 120 deg angle
-    int targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
+    double input = mot1->Counts() - mot2->Counts();
+    double target = 0;
+    double adjustedPower = power;
 
-    mot1->SetPercent(power);
-    mot2->SetPercent(-power);
+    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
+    pid.SetMode(AUTOMATIC);
 
-    // TODO: also add a time limit
-    while ((mot1->Counts() + mot2->Counts()) / 2 <= targetCounts)
+    bool shouldContinue = true;
+    while (shouldContinue)
     {
-        correctDriveStraight(mot1, mot2, power);
-        // logger.log(logger.getEncoderInfo());
+        input = mot1->Counts() - mot2->Counts();
+        pid.Compute();
+        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
+
+        mot1->SetPercent(adjustedPower);
+        mot2->SetPercent(-adjustedPower);
+
+        // Determine if we should continue based on the mode
+        if (mode == DriveMode::DISTANCE)
+        {
+            shouldContinue = (mot1->Counts() + mot2->Counts()) / 2 <= targetCounts;
+        }
+        else if (mode == DriveMode::LIGHT)
+        {
+            shouldContinue = getHumidifierLight() == Light::NOLIGHT;
+        }
     }
 
     resetAll();
-
     Sleep(SLEEPTIME);
+}
+
+// Wrapper functions to maintain original API
+void Drive::driveDirection(float distance, Direction direction, int power)
+{
+    driveWithMode(DriveMode::DISTANCE, direction, power, distance);
+}
+
+void Drive::driveUntilLight(Direction direction, int power)
+{
+    driveWithMode(DriveMode::LIGHT, direction, power, 0);
 }
 
 void Drive::turn(float degrees, int power)
 {
     resetAll();
-    pid3.reset();
-    pid3.setOutputLimits(5, 10);
 
     Motor *mot1 = &motor1;
     Motor *mot2 = &motor2;
@@ -134,60 +111,24 @@ void Drive::turn(float degrees, int power)
         degrees = -degrees;
     }
 
-    float angleInRadians = degToRad(degrees);
-    float arcLength = (ROBOT_DIAMETER / 2) * angleInRadians;
+    float arcLength = (ROBOT_DIAMETER / 2) * degToRad(degrees);
 
-    // Convert arc length to encoder counts
-    int targetCounts = inchesToCounts(arcLength);
+    double input = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
+    double target = inchesToCounts(arcLength);
+    double adjustedPower = power;
 
-    // Set all motors to the same power to rotate the robot
-    mot1->SetPercent(power);
-    mot2->SetPercent(power);
-    mot3->SetPercent(power);
+    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
+    pid.SetMode(AUTOMATIC);
 
-    // Wait until the rotation is complete
-    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
+    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < target)
     {
-        correctTurn(mot1, mot2, mot3, targetCounts);
-    }
+        input = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
+        pid.Compute();
+        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
 
-    resetAll();
-
-    Sleep(SLEEPTIME);
-}
-
-void Drive::driveUntilLight(Direction direction, int power)
-{
-    resetAll();
-
-    Motor *mot1;
-    Motor *mot2;
-
-    // Determines which motors will be turning based on direction
-    switch (direction)
-    {
-    case Direction::AB:
-        mot1 = &motor1;
-        mot2 = &motor2;
-        break;
-
-    case Direction::BC:
-        mot1 = &motor2;
-        mot2 = &motor3;
-        break;
-
-    case Direction::CA:
-        mot1 = &motor1;
-        mot2 = &motor3;
-        break;
-    }
-
-    mot1->SetPercent(power);
-    mot2->SetPercent(-power);
-
-    while (getHumidifierLight() == Light::NOLIGHT)
-    {
-        correctDriveStraight(mot1, mot2, power);
+        mot1->SetPercent(adjustedPower);
+        mot2->SetPercent(adjustedPower);
+        mot3->SetPercent(adjustedPower);
     }
 
     resetAll();
