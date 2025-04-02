@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('classDrive.html',''); initResizable();
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classDrive-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Drive Class Reference</div></div>
@@ -102,16 +103,26 @@ $(document).ready(function(){initNavTree('classDrive.html',''); initResizable();
 
 <p><code>#include &lt;<a class="el" href="drive_8h_source.html">drive.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ab05a6708ac7054c641a304a2034b0fa4"><td class="memItemLeft" align="right" valign="top"><a id="ab05a6708ac7054c641a304a2034b0fa4" name="ab05a6708ac7054c641a304a2034b0fa4"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DriveMode</b> { <b>DISTANCE</b>
+, <b>LIGHT</b>
+ }</td></tr>
+<tr class="separator:ab05a6708ac7054c641a304a2034b0fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a49476a4e3453d505ab70444626aa9a9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a49476a4e3453d505ab70444626aa9a9c">driveWithMode</a> (DriveMode mode, <a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power, float distance)</td></tr>
+<tr class="memdesc:a49476a4e3453d505ab70444626aa9a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the robot's drive system with a specified mode, direction, power, and optional distance.  <br /></td></tr>
+<tr class="separator:a49476a4e3453d505ab70444626aa9a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fae4083755da292e3d82637306851c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a2fae4083755da292e3d82637306851c5">Drive</a> (<a class="el" href="classMotor.html">Motor</a> &amp;m1, <a class="el" href="classMotor.html">Motor</a> &amp;m2, <a class="el" href="classMotor.html">Motor</a> &amp;m3)</td></tr>
 <tr class="memdesc:a2fae4083755da292e3d82637306851c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classDrive.html" title="Controls the movement of a three-motor robot with built-in drift correction.">Drive</a> object with the provided motors.  <br /></td></tr>
 <tr class="separator:a2fae4083755da292e3d82637306851c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#ae55bc49816b1f8262641c2b61eb3cc7a">driveDirection</a> (float distance, <a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
 <tr class="memdesc:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the robot in a specified direction for a given distance.  <br /></td></tr>
 <tr class="separator:ae55bc49816b1f8262641c2b61eb3cc7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="memItemLeft" align="right" valign="top"><a id="a4baf1bd39ca2d98daa3a448b0c0fda94" name="a4baf1bd39ca2d98daa3a448b0c0fda94"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (<a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
+<tr class="memitem:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#a4baf1bd39ca2d98daa3a448b0c0fda94">driveUntilLight</a> (<a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
+<tr class="memdesc:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the robot in a specified direction until a light is detected.  <br /></td></tr>
 <tr class="separator:a4baf1bd39ca2d98daa3a448b0c0fda94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcd1d81ec972b8aa51a03e8dd5d6dfff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDrive.html#adcd1d81ec972b8aa51a03e8dd5d6dfff">turn</a> (float degrees, int power=<a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a>)</td></tr>
 <tr class="memdesc:adcd1d81ec972b8aa51a03e8dd5d6dfff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the robot clockwise by a specified angle.  <br /></td></tr>
@@ -203,6 +214,95 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>driveUntilLight</b> (
     <tr><td class="paramname">distance</td><td>Distance to travel in inches </td></tr>
     <tr><td class="paramname">direction</td><td>Direction to travel (enum Direction) </td></tr>
     <tr><td class="paramname">power</td><td><a class="el" href="classMotor.html" title="A wrapper class that combines a motor with its encoder and provides motor control functionality.">Motor</a> power level to use </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4baf1bd39ca2d98daa3a448b0c0fda94" name="a4baf1bd39ca2d98daa3a448b0c0fda94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4baf1bd39ca2d98daa3a448b0c0fda94">&#9670;&#160;</a></span>driveUntilLight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Drive::driveUntilLight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>power</em> = <code><a class="el" href="constants_8h.html#a3a043b16f522bd4f857dfcbe48038166">NORMAL_POWER</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Drives the robot in a specified direction until a light is detected. </p>
+<p>This function moves the robot in the given direction at the specified power level until a light is detected by the robot's sensors. The default power level is set to NORMAL_POWER if not provided.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">direction</td><td>The direction in which the robot should move. This is typically an enumerated type representing directions (e.g., AB, BC). </td></tr>
+    <tr><td class="paramname">power</td><td>The power level at which the robot should drive. Defaults to NORMAL_POWER if not specified. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a49476a4e3453d505ab70444626aa9a9c" name="a49476a4e3453d505ab70444626aa9a9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49476a4e3453d505ab70444626aa9a9c">&#9670;&#160;</a></span>driveWithMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Drive::driveWithMode </td>
+          <td>(</td>
+          <td class="paramtype">DriveMode&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="constants_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Controls the robot's drive system with a specified mode, direction, power, and optional distance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>The driving mode to use (e.g., tank drive, arcade drive, etc.). </td></tr>
+    <tr><td class="paramname">direction</td><td>The direction in which the robot should move (e.g., forward, backward, etc.). </td></tr>
+    <tr><td class="paramname">power</td><td>The power level to apply to the motors (range: 0 to 100). </td></tr>
+    <tr><td class="paramname">distance</td><td>The distance the robot should travel, in inches. 0 if in light mode. </td></tr>
   </table>
   </dd>
 </dl>
