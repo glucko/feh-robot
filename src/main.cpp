@@ -2,22 +2,7 @@
 #include "constants.h"
 #include "utils.h"
 #include "navigation.h"
-
-void milestone4()
-{
-    hitButton();
-
-    pickUpBucket();
-
-    driveUpRamp();
-
-    dropOffBucket();
-
-    flipFertilizer();
-    // Sleep(5.0);
-
-    // flipFertilizer(false);
-}
+#include "drive.h"
 
 void waitUntilLight(int rev = 1)
 {
@@ -34,8 +19,8 @@ void ERCMain()
     servo.SetMin(500);
     servo.SetMax(2500);
 
-    // waitUntilTouch();
-    waitUntilLight();
+    waitUntilTouch();
 
-    milestone4();
+    Drive drive = Drive(motorA, motorB, motorC);
+    drive.driveDirection(10, Direction::AB);
 }
