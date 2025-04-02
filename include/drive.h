@@ -13,7 +13,6 @@
 #include <FEH.h>
 #include "motor.h"
 #include "constants.h"
-#include "MiniPID.h"
 
 /**
  * @class Drive
@@ -24,29 +23,26 @@ class Drive
 
 private:
     Motor &motor1; /**< Reference to motor A */
-
     Motor &motor2; /**< Reference to motor B */
-
     Motor &motor3; /**< Reference to motor C */
 
-    MiniPID pid; /**< The PID system */
-
-    MiniPID pid2; /**< The PID system for distance*/
-
-    MiniPID pid3; /**< The PID system for turning*/
-    /**
-     * @brief Applies correction to keep the robot driving straight
-     * @param mot1 Pointer to the first motor currently driving
-     * @param mot2 Pointer to the second motor currently driving
-     * @param targetPower The desired power setting to maintain
-     */
-    void correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower);
-
-    void correctDriveDistance(Motor *mot1, Motor *mot2, int distance);
-
-    void correctTurn(Motor *mot1, Motor *mot2, Motor *mot3, int targetsCounts);
-
 public:
+    enum class DriveMode
+    {
+        DISTANCE,
+        LIGHT
+    };
+
+    /**
+     * @brief Controls the robot's drive system with a specified mode, direction, power, and optional distance.
+     *
+     * @param mode The driving mode to use (e.g., tank drive, arcade drive, etc.).
+     * @param direction The direction in which the robot should move (e.g., forward, backward, etc.).
+     * @param power The power level to apply to the motors (range: 0 to 100).
+     * @param distance The distance the robot should travel, in inches. 0 if in light mode.
+     */
+    void driveWithMode(DriveMode mode, Direction direction, int power, float distance);
+
     /**
      * @brief Constructs a Drive object with the provided motors
      * @param m1 Reference to motor A
@@ -63,6 +59,18 @@ public:
      */
     void driveDirection(float distance, Direction direction, int power = NORMAL_POWER);
 
+    /**
+     * @brief Drives the robot in a specified direction until a light is detected.
+     *
+     * This function moves the robot in the given direction at the specified power
+     * level until a light is detected by the robot's sensors. The default power
+     * level is set to NORMAL_POWER if not provided.
+     *
+     * @param direction The direction in which the robot should move.
+     *                  This is typically an enumerated type representing directions (e.g., AB, BC).
+     * @param power The power level at which the robot should drive.
+     *              Defaults to NORMAL_POWER if not specified.
+     */
     void driveUntilLight(Direction direction, int power = NORMAL_POWER);
 
     /**
