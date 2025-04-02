@@ -33,6 +33,7 @@ private:
 
     MiniPID pid2; /**< The PID system for distance*/
 
+    MiniPID pid3; /**< The PID system for turning*/
     /**
      * @brief Applies correction to keep the robot driving straight
      * @param mot1 Pointer to the first motor currently driving
@@ -42,6 +43,8 @@ private:
     void correctDriveStraight(Motor *mot1, Motor *mot2, int targetPower);
 
     void correctDriveDistance(Motor *mot1, Motor *mot2, int distance);
+
+    void correctTurn(Motor *mot1, Motor *mot2, Motor *mot3, int targetsCounts);
 
 public:
     /**

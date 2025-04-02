@@ -7,7 +7,7 @@
 const float SLEEPTIME = .5;
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3), pid(.003, 0, 0), pid2(.1, 0, 0)
+    : motor1(m1), motor2(m2), motor3(m3), pid(.003, 0, 0), pid2(.1, 0, 0), pid3(.1, 0, 0)
 {
 }
 
@@ -44,13 +44,30 @@ void Drive::correctDriveDistance(Motor *mot1, Motor *mot2, int targetCounts)
     int motor2Power = correction;
 
     mot1->SetPercent(motor1Power);
-    mot2->SetPercent(-motor2Power);
+    mot2->SetPercent(motor2Power);
+}
+
+void Drive::correctTurn(Motor *mot1, Motor *mot2, Motor *mot3, int targetCounts)
+{
+    int counts = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
+
+    float correction = pid3.getOutput(counts, targetCounts);
+
+    // Apply the correction to the motor power
+    int motor1Power = correction;
+    int motor2Power = correction;
+    int motor3Power = correction;
+
+    mot1->SetPercent(motor1Power);
+    mot2->SetPercent(motor2Power);
+    mot3->SetPercent(motor3Power);
 }
 
 void Drive::driveDirection(float distance, Direction direction, int power)
 {
     resetAll();
     pid.reset();
+    pid2.reset();
     pid2.setOutputLimits(5, 10);
 
     Motor *mot1;
@@ -103,6 +120,12 @@ void Drive::driveDirection(float distance, Direction direction, int power)
 void Drive::turn(float degrees, int power)
 {
     resetAll();
+    pid3.reset();
+    pid3.setOutputLimits(5, 10);
+
+    Motor *mot1 = &motor1;
+    Motor *mot2 = &motor2;
+    Motor *mot3 = &motor3;
 
     // If counterclockwise, invert the power
     if (degrees < 0)
@@ -118,13 +141,14 @@ void Drive::turn(float degrees, int power)
     int targetCounts = inchesToCounts(arcLength);
 
     // Set all motors to the same power to rotate the robot
-    motor1.SetPercent(power);
-    motor2.SetPercent(power);
-    motor3.SetPercent(power);
+    mot1->SetPercent(power);
+    mot2->SetPercent(power);
+    mot3->SetPercent(power);
 
     // Wait until the rotation is complete
     while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < targetCounts)
     {
+        correctTurn(mot1, mot2, mot3, targetCounts);
     }
 
     resetAll();
