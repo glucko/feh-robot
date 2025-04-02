@@ -22,20 +22,12 @@ void pickUpBucket()
 
     drive.turn(-45);
 
-    servo.SetDegree(96);
+    servoLeveling(0, 96);
     Sleep(1.0);
 
     drive.driveDirection(4.3, Direction::AB, 15);
 
-    servo.SetDegree(70);
-    Sleep(.1);
-    servo.SetDegree(50);
-    Sleep(.1);
-    servo.SetDegree(30);
-    Sleep(.1);
-    servo.SetDegree(20);
-    Sleep(.1);
-    servo.SetDegree(0);
+    servoLeveling(96, 0);
 
     Sleep(.5);
 
@@ -46,27 +38,13 @@ void dropOffBucket()
 {
     drive.driveDirection(1, Direction::AB);
 
-    servo.SetDegree(20);
-    Sleep(.1);
-    servo.SetDegree(30);
-    Sleep(.1);
-    servo.SetDegree(40);
-    Sleep(.1);
-    servo.SetDegree(50);
-    Sleep(.1);
-    servo.SetDegree(60);
-    Sleep(.1);
-    servo.SetDegree(70);
-    Sleep(.1);
-    servo.SetDegree(80);
-    Sleep(.1);
-    servo.SetDegree(90);
+    servoLeveling(0, 90);
 
     Sleep(1.0);
 
     logger.log("finished dropOffBucket()");
 
-    servo.SetDegree(0);
+    servoLeveling(90, 0);
     Sleep(.5);
 
     drive.driveDirection(1, Direction::AB);
@@ -133,4 +111,15 @@ void flipFertilizer()
     servo.SetDegree(0);
 
     logger.log("finished flipFertilizer()");
+}
+
+void spinCompost() 
+{
+    servoLeveling(0, 90);
+    
+    drive.turn(15);
+    drive.driveDirection(5, Direction::CA);
+    
+    
+
 }

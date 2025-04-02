@@ -60,3 +60,16 @@ Light getHumidifierLight()
     logger.log("Blue light detected");
     return Light::BLUELIGHT;
 }
+
+void servoLeveling(int currentPosition, int position){
+    int leveling = ((position-currentPosition)) / 10;
+    float rem = ((position-currentPosition)) % 10;
+    int i = 0;
+    for(i = 0; i < leveling; i++){
+        servo.SetDegree(i*leveling);
+        Sleep(.1);
+        i++;
+    }
+    currentPosition = i*leveling+rem;
+    servo.SetDegree(currentPosition);
+}
