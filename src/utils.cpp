@@ -61,15 +61,31 @@ Light getHumidifierLight()
     return Light::BLUELIGHT;
 }
 
-void servoLeveling(int currentPosition, int position){
-    int leveling = ((position-currentPosition)) / 10;
-    float rem = ((position-currentPosition)) % 10;
-    int i = 0;
-    for(i = 0; i < leveling; i++){
-        servo.SetDegree(i*leveling);
-        Sleep(.1);
-        i++;
+int currentPosition = 0;
+
+void servoLeveling(int targetPosition)
+{
+    int step = 5;
+    while (currentPosition != targetPosition)
+    {
+        if (abs(targetPosition - currentPosition) < step)
+        {
+            currentPosition += (targetPosition - currentPosition);
+        }
+        else if (targetPosition > currentPosition)
+        {
+            currentPosition += step;
+        }
+        else
+        {
+            currentPosition -= step;
+        }
+
+        currentPosition = constrain(currentPosition, 0, 180);
+        servo.SetDegree(currentPosition);
+        Sleep(0.1);
     }
-    currentPosition = i*leveling+rem;
-    servo.SetDegree(currentPosition);
+
+    currentPosition = targetPosition;
+    servo.SetDegree(targetPosition);
 }
