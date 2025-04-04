@@ -120,6 +120,49 @@ void spinCompost()
     drive.turn(15);
     drive.driveDirection(5, Direction::CA);
     
+}
+
+void spinComposterSlow()
+{
+    //Making pseudocode for Benjamin
     
 
+    //Set servo to vertical position
+    servo.SetDegree(0);
+    //Drive forward a bit from the button
+    drive.driveDirection(2, Direction::AB);
+    //Turn left to drive towards composter
+    drive.turn(-15);
+    //Drive forward til in range of composter
+    drive.driveDirection(10, Direction::BC);
+    //Turn to make arm face composter
+    drive.turn(-30);
+    int numFlips = 0;
+    //Repeat until fully spinned one way
+    while(numFlips < 5)
+    {
+        servo.SetDegree(0);
+        drive.driveDirection(2, Direction::AB);
+        servoLeveling(0, 120);
+        drive.driveDirection(-2, Direction::AB);
+        numFlips++;
+    }
+    numFlips = 0;
+
+    //Rotating back to original position (BONUS)
+    //Now do the same thing but set servo to lowest possible position, then rotate up instead of down
+    while(numFlips < 5)
+    {
+        servo.SetDegree(120);
+        drive.driveDirection(2, Direction::AB);
+        servoLeveling(120, 0);
+        drive.driveDirection(-2, Direction::AB);
+        numFlips++;
+    }
+
+    //Returning to original position
+    drive.turn(30);
+    drive.driveDirection(-10, Direction::BC);
+    drive.turn(15);
+    drive.driveDirection(-3, Direction:: AB);
 }
