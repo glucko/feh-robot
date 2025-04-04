@@ -115,11 +115,11 @@ void flipFertilizer()
 
 void spinCompost() 
 {
-    servoLeveling(0, 90);
+    servoLeveling(0, 75);
     
     drive.turn(15);
     drive.driveDirection(5, Direction::CA);
     
-    
+    drive.turn(-1440, 10);
 
 }
