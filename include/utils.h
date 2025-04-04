@@ -60,6 +60,6 @@ Light getHumidifierLight();
 /**
  * @brief Changes servo degrees in levels
  */
-void servoLeveling(int currentPosition, int position);
+void servoLeveling(int targetPosition);
 
 #endif // UTILITIES_H
