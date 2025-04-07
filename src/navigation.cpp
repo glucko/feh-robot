@@ -142,15 +142,16 @@ void spinComposterSlow()
     drive.driveDirection(9, Direction::CA);
     // Turn to make arm face composter
     drive.turn(-157);
+    drive.driveDirection(-0.5, Direction::AB);
 
     int numFlips = 0;
     // Repeat until fully spinned one way
     while (numFlips < 4)
     {
         servoLeveling(0);
-        drive.driveDirection(4, Direction::AB);
+        drive.driveDirection(3.5, Direction::AB);
         servoLeveling(150);
-        drive.driveDirection(-4, Direction::AB);
+        drive.driveDirection(-3.5, Direction::AB);
         numFlips++;
     }
     numFlips = 0;
@@ -159,8 +160,8 @@ void spinComposterSlow()
     // Now do the same thing but set servo to lowest possible position, then rotate up instead of down
     while (numFlips < 4)
     {
-        servoLeveling(150);
-        drive.driveDirection(4, Direction::AB);
+        servoLeveling(160);
+        drive.driveDirection(4.2, Direction::AB);
         servoLeveling(0);
         drive.driveDirection(-4, Direction::AB);
         numFlips++;
@@ -170,7 +171,7 @@ void spinComposterSlow()
     drive.turn(157);
     drive.driveDirection(-10, Direction::CA);
     drive.turn(-16);
-    drive.driveDirection(-14, Direction::AB);
+    drive.driveDirection(-12, Direction::AB);
     // Turn left to drive towards composter
 
     // Drive forward til in range of composter
