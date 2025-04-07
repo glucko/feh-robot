@@ -19,8 +19,7 @@ void ERCMain()
     servo.SetMin(500);
     servo.SetMax(2500);
 
-    waitUntilTouch();
-
-    Drive drive = Drive(motorA, motorB, motorC);
-    drive.driveDirection(10, Direction::AB);
+    waitUntilLight();
+    hitButton();
+    spinComposterSlow();
 }

@@ -51,4 +51,6 @@ void driveUpRamp(int rev = 1);
  */
 void flipFertilizer();
 
+void spinCompost();
+void spinComposterSlow();
 #endif // NAVIGATION_H

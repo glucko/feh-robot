@@ -65,7 +65,7 @@ int currentPosition = 0;
 
 void servoLeveling(int targetPosition)
 {
-    int step = 5;
+    int step = 10;
     while (currentPosition != targetPosition)
     {
         if (abs(targetPosition - currentPosition) < step)

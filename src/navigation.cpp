@@ -116,10 +116,10 @@ void flipFertilizer()
 void spinCompost()
 {
     servoLeveling(75);
-    
+
     drive.turn(15);
     drive.driveDirection(5, Direction::CA);
-    
+
     drive.turn(-1440, 10);
     servoLeveling(90);
 
@@ -134,39 +134,46 @@ void spinComposterSlow()
     // Set servo to vertical position
     servo.SetDegree(0);
     // Drive forward a bit from the button
-    drive.driveDirection(2, Direction::AB);
+    drive.driveDirection(9, Direction::AB);
     // Turn left to drive towards composter
-    drive.turn(-15);
+    drive.turn(16);
+
     // Drive forward til in range of composter
-    drive.driveDirection(10, Direction::BC);
+    drive.driveDirection(9, Direction::CA);
     // Turn to make arm face composter
-    drive.turn(-30);
+    drive.turn(-157);
+
     int numFlips = 0;
     // Repeat until fully spinned one way
-    while (numFlips < 5)
+    while (numFlips < 4)
     {
         servoLeveling(0);
-        drive.driveDirection(2, Direction::AB);
-        servoLeveling(120);
-        drive.driveDirection(-2, Direction::AB);
+        drive.driveDirection(4, Direction::AB);
+        servoLeveling(150);
+        drive.driveDirection(-4, Direction::AB);
         numFlips++;
     }
     numFlips = 0;
 
     // Rotating back to original position (BONUS)
     // Now do the same thing but set servo to lowest possible position, then rotate up instead of down
-    while (numFlips < 5)
+    while (numFlips < 4)
     {
-        servo.SetDegree(120);
-        drive.driveDirection(2, Direction::AB);
+        servoLeveling(150);
+        drive.driveDirection(4, Direction::AB);
         servoLeveling(0);
-        drive.driveDirection(-2, Direction::AB);
+        drive.driveDirection(-4, Direction::AB);
         numFlips++;
     }
 
     // Returning to original position
-    drive.turn(30);
-    drive.driveDirection(-10, Direction::BC);
-    drive.turn(15);
-    drive.driveDirection(-3, Direction::AB);
+    drive.turn(157);
+    drive.driveDirection(-10, Direction::CA);
+    drive.turn(-16);
+    drive.driveDirection(-14, Direction::AB);
+    // Turn left to drive towards composter
+
+    // Drive forward til in range of composter
+
+    // Turn to make arm face composter
 }
