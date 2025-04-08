@@ -1,137 +1,186 @@
 #include <FEH.h>
 #include <PID_v1.h>
+#include <math.h>
 #include "drive.h"
 #include "utils.h"
 #include "constants.h"
 
-const float SLEEPTIME = .5;
+// Sleep time between drive operations
+const float SLEEPTIME = 0.5;
 
-Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
-    : motor1(m1), motor2(m2), motor3(m3)
+Drive::Drive()
 {
+    // Initialize robot pose
+    pose.x = 0;
+    pose.y = 0;
+    pose.theta = 0;
+
+    // Initialize wheel positions (120 degrees apart)
+    wheelAngles[0] = 0;            // Motor 1 at 0 degrees
+    wheelAngles[1] = 2 * M_PI / 3; // Motor 2 at 120 degrees
+    wheelAngles[2] = 4 * M_PI / 3; // Motor 3 at 240 degrees
+
+    // Initialize previous encoder counts
+    prevCounts[0] = motorA.Counts();
+    prevCounts[1] = motorB.Counts();
+    prevCounts[2] = motorC.Counts();
+
+    // Define the ramp location (example values - adjust to your course)
+    ramp.startX = 60.0;
+    ramp.startY = 24.0;
+    ramp.endX = 72.0;
+    ramp.endY = 36.0;
+    ramp.width = 15.0;
 }
 
-void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float distance)
+// Reset pose to origin
+void Drive::resetPose()
 {
-    resetAll();
-
-    Motor *mot1;
-    Motor *mot2;
-
-    // Determines which motors will be turning based on direction
-    switch (direction)
-    {
-    case Direction::AB:
-        mot1 = &motor1;
-        mot2 = &motor2;
-        break;
-
-    case Direction::BC:
-        mot1 = &motor2;
-        mot2 = &motor3;
-        break;
-
-    case Direction::CA:
-        mot1 = &motor1;
-        mot2 = &motor3;
-        break;
-    }
-
-    int targetCounts = 0;
-
-    // Handle distance mode specifics
-    if (mode == DriveMode::DISTANCE)
-    {
-        // Reverses power if distance is negative
-        if (distance < 0)
-        {
-            power = -power;
-            distance = -distance;
-        }
-
-        // accounts for the fact that wheels are at a 120 deg angle
-        targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
-    }
-
-    double input = mot1->Counts() - mot2->Counts();
-    double target = 0;
-    double adjustedPower = power;
-
-    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
-    pid.SetMode(AUTOMATIC);
-
-    bool shouldContinue = true;
-    while (shouldContinue)
-    {
-        input = mot1->Counts() - mot2->Counts();
-        pid.Compute();
-        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
-
-        mot1->SetPercent(adjustedPower);
-        mot2->SetPercent(-adjustedPower);
-
-        // Determine if we should continue based on the mode
-        if (mode == DriveMode::DISTANCE)
-        {
-            shouldContinue = (mot1->Counts() + mot2->Counts()) / 2 <= targetCounts;
-        }
-        else if (mode == DriveMode::LIGHT)
-        {
-            shouldContinue = getHumidifierLight() == Light::NOLIGHT;
-        }
-    }
-
-    resetAll();
-    Sleep(SLEEPTIME);
+    pose.x = 0;
+    pose.y = 0;
+    pose.theta = 0;
 }
 
-// Wrapper functions to maintain original API
-void Drive::driveDirection(float distance, Direction direction, int power)
+// Update the robot's position based on encoder readings
+void Drive::updateOdometry()
 {
-    driveWithMode(DriveMode::DISTANCE, direction, power, distance);
-}
+    // Get current encoder counts
+    int currentCounts[3] = {
+        motorA.Counts(),
+        motorB.Counts(),
+        motorC.Counts()};
 
-void Drive::driveUntilLight(Direction direction, int power)
-{
-    driveWithMode(DriveMode::LIGHT, direction, power, 0);
-}
+    // Calculate change in encoder counts
+    float deltaCounts[3] = {
+        static_cast<float>(currentCounts[0] - prevCounts[0]),
+        static_cast<float>(currentCounts[1] - prevCounts[1]),
+        static_cast<float>(currentCounts[2] - prevCounts[2])};
 
-void Drive::turn(float degrees, int power)
-{
-    resetAll();
+    // Convert encoder counts to wheel distances (inches)
+    float wheelDistances[3] = {
+        countsToInches(deltaCounts[0]),
+        countsToInches(deltaCounts[1]),
+        countsToInches(deltaCounts[2])};
 
-    Motor *mot1 = &motor1;
-    Motor *mot2 = &motor2;
-    Motor *mot3 = &motor3;
+    // Calculate robot motion in local frame
+    float localMotion[3] = {0, 0, 0}; // [dx, dy, dtheta]
 
-    // If counterclockwise, invert the power
-    if (degrees < 0)
+    // For each wheel, contribute its motion to overall robot motion
+    for (int i = 0; i < 3; i++)
     {
-        power = -power;
-        degrees = -degrees;
+        // Wheel contribution to X motion
+        localMotion[0] += wheelDistances[i] * cos(wheelAngles[i]);
+
+        // Wheel contribution to Y motion
+        localMotion[1] += wheelDistances[i] * sin(wheelAngles[i]);
+
+        // Wheel contribution to rotation
+        localMotion[2] += wheelDistances[i] / ROBOT_DIAMETER / 2.0;
     }
 
-    float arcLength = (ROBOT_DIAMETER / 2) * degToRad(degrees);
+    // Normalize by number of wheels
+    localMotion[0] /= 3.0;
+    localMotion[1] /= 3.0;
+    localMotion[2] /= 3.0;
 
-    double input = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
-    double target = inchesToCounts(arcLength);
-    double adjustedPower = power;
+    // Convert local motion to global motion based on current orientation
+    float cosTheta = cos(pose.theta);
+    float sinTheta = sin(pose.theta);
 
-    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
-    pid.SetMode(AUTOMATIC);
+    float globalDx = localMotion[0] * cosTheta - localMotion[1] * sinTheta;
+    float globalDy = localMotion[0] * sinTheta + localMotion[1] * cosTheta;
 
-    while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < target)
+    // Update robot pose
+    pose.x += globalDx;
+    pose.y += globalDy;
+    pose.theta += localMotion[2];
+
+    // Normalize theta to -pi to pi
+    pose.theta = atan2(sin(pose.theta), cos(pose.theta));
+
+    // Update previous counts for next iteration
+    for (int i = 0; i < 3; i++)
     {
-        input = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
-        pid.Compute();
-        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
+        prevCounts[i] = currentCounts[i];
+    }
+}
 
-        mot1->SetPercent(adjustedPower);
-        mot2->SetPercent(adjustedPower);
-        mot3->SetPercent(adjustedPower);
+// Calculate required wheel velocities for desired robot motion
+void Drive::calculateWheelVelocities(float vx, float vy, float omega, float velocities[3])
+{
+    for (int i = 0; i < 3; i++)
+    {
+        // Calculate wheel velocity based on desired robot motion
+        velocities[i] = vx * cos(wheelAngles[i]) +
+                        vy * sin(wheelAngles[i]) +
+                        omega * ROBOT_DIAMETER / 2.0;
+    }
+}
+
+// Drive to a specific position with automatic ramp handling
+void Drive::driveToPosition(Waypoint target, int basePower)
+{
+    // Constants for position thresholds
+    const float POS_THRESHOLD = 0.5;           // 0.5 inches
+    const float ANGLE_THRESHOLD = degToRad(1); // 1 degree
+
+    // if on ramp, set pid differently
+    double outputX, outputY, outputTheta;
+    double encoderXError, encoderYError, encoderThetaError;
+    double PIDTarget = 0.0;
+
+    PID pidX = PID(&encoderXError, &outputX, &PIDTarget, .1, .1, .1, DIRECT);
+    PID pidY = PID(&encoderYError, &outputY, &PIDTarget, .1, .1, .1, DIRECT);
+    PID pidTheta = PID(&encoderThetaError, &outputTheta, &PIDTarget, .1, .1, .1, DIRECT);
+
+    pidX.SetOutputLimits(-basePower - 5, basePower + 5);
+    pidY.SetOutputLimits(-basePower - 5, basePower + 5);
+    pidTheta.SetOutputLimits(-basePower - 5, basePower + 5);
+
+    // Main control loop
+    bool reachedTarget = false;
+    while (!reachedTarget)
+    {
+        // Update current position
+        updateOdometry();
+
+        // Calculate error between current and target position
+        float errorX = target.x - pose.x;
+        float errorY = target.y - pose.y;
+
+        // Convert errors to local robot frame
+        float cosTheta = cos(pose.theta);
+        float sinTheta = sin(pose.theta);
+
+        // how far the robot is from the point
+        float localErrorX = errorX * cosTheta + errorY * sinTheta;
+        float localErrorY = -errorX * sinTheta + errorY * cosTheta;
+
+        // Calculate error in orientation (normalized to -π to π)
+        float errorTheta = target.theta - pose.theta;
+        errorTheta = atan2(sin(errorTheta), cos(errorTheta));
+
+        // Compute PID outputs
+        pidX.Compute();
+        pidY.Compute();
+        pidTheta.Compute();
+
+        // Calculate wheel velocities for the desired motion
+        float velocities[3];
+        calculateWheelVelocities(outputX, outputY, outputTheta, velocities);
+
+        // Set wheel speeds
+        motorA.SetPercent(velocities[0]);
+        motorB.SetPercent(velocities[1]);
+        motorC.SetPercent(velocities[2]);
+
+        // Check if we've reached the target
+        reachedTarget = (fabs(localErrorX) < POS_THRESHOLD &&
+                         fabs(localErrorY) < POS_THRESHOLD &&
+                         fabs(errorTheta) < ANGLE_THRESHOLD);
+
+        Sleep(.1);
     }
 
-    resetAll();
-
-    Sleep(SLEEPTIME);
+    resetAll;
 }

@@ -14,6 +14,32 @@
 #include "motor.h"
 #include "constants.h"
 
+// Define a waypoint structure for path planning
+struct Waypoint
+{
+    float x;     // X coordinate in inches
+    float y;     // Y coordinate in inches
+    float theta; // Orientation in radians
+};
+
+// Robot pose structure
+struct RobotPose
+{
+    float x;     // X position in inches
+    float y;     // Y position in inches
+    float theta; // Orientation in radians
+};
+
+// Ramp definition structure
+struct RampDefinition
+{
+    float startX; // Start X coordinate of ramp
+    float startY; // Start Y coordinate of ramp
+    float endX;   // End X coordinate of ramp
+    float endY;   // End Y coordinate of ramp
+    float width;  // Width of the ramp
+};
+
 /**
  * @class Drive
  * @brief Controls the movement of a three-motor robot with built-in drift correction
@@ -22,63 +48,26 @@ class Drive
 {
 
 private:
-    Motor &motor1; /**< Reference to motor A */
-    Motor &motor2; /**< Reference to motor B */
-    Motor &motor3; /**< Reference to motor C */
+    // Robot pose tracking
+    RobotPose pose;
+
+    // Ramp definition
+    RampDefinition ramp;
+
+    // Wheel configuration
+    float wheelAngles[3]; // Angle of each wheel in radians
+
+    // Previous encoder counts for odometry
+    int prevCounts[3];
+
+    // Odometry and control functions
+    void updateOdometry();
+    void calculateWheelVelocities(float vx, float vy, float omega, float velocities[3]);
+    void resetPose();
 
 public:
-    enum class DriveMode
-    {
-        DISTANCE,
-        LIGHT
-    };
-
-    /**
-     * @brief Controls the robot's drive system with a specified mode, direction, power, and optional distance.
-     *
-     * @param mode The driving mode to use (e.g., tank drive, arcade drive, etc.).
-     * @param direction The direction in which the robot should move (e.g., forward, backward, etc.).
-     * @param power The power level to apply to the motors (range: 0 to 100).
-     * @param distance The distance the robot should travel, in inches. 0 if in light mode.
-     */
-    void driveWithMode(DriveMode mode, Direction direction, int power, float distance);
-
-    /**
-     * @brief Constructs a Drive object with the provided motors
-     * @param m1 Reference to motor A
-     * @param m2 Reference to motor B
-     * @param m3 Reference to motor C
-     */
-    Drive(Motor &m1, Motor &m2, Motor &m3);
-
-    /**
-     * @brief Drives the robot in a specified direction for a given distance
-     * @param distance Distance to travel in inches
-     * @param direction Direction to travel (enum Direction)
-     * @param power Motor power level to use
-     */
-    void driveDirection(float distance, Direction direction, int power = NORMAL_POWER);
-
-    /**
-     * @brief Drives the robot in a specified direction until a light is detected.
-     *
-     * This function moves the robot in the given direction at the specified power
-     * level until a light is detected by the robot's sensors. The default power
-     * level is set to NORMAL_POWER if not provided.
-     *
-     * @param direction The direction in which the robot should move.
-     *                  This is typically an enumerated type representing directions (e.g., AB, BC).
-     * @param power The power level at which the robot should drive.
-     *              Defaults to NORMAL_POWER if not specified.
-     */
-    void driveUntilLight(Direction direction, int power = NORMAL_POWER);
-
-    /**
-     * @brief Turns the robot clockwise by a specified angle
-     * @param degrees Angle to turn in degrees, negative for counterclockwise
-     * @param power Motor power level to use during the turn
-     */
-    void turn(float degrees, int power = NORMAL_POWER);
+    Drive();
+    void driveToPosition(Waypoint point, int power);
 };
 
 #endif // DRIVE_H
