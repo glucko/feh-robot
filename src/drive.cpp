@@ -125,17 +125,21 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     const float ANGLE_THRESHOLD = degToRad(1); // 1 degree
 
     // if on ramp, set pid differently
-    double outputX, outputY, outputTheta;
     double encoderXError, encoderYError, encoderThetaError;
+    double outputX, outputY, outputTheta;
     double PIDTarget = 0.0;
 
-    PID pidX = PID(&encoderXError, &outputX, &PIDTarget, .1, .1, .1, DIRECT);
-    PID pidY = PID(&encoderYError, &outputY, &PIDTarget, .1, .1, .1, DIRECT);
-    PID pidTheta = PID(&encoderThetaError, &outputTheta, &PIDTarget, .1, .1, .1, DIRECT);
+    PID pidX = PID(&encoderXError, &outputX, &PIDTarget, .5, 0, 0, DIRECT);
+    PID pidY = PID(&encoderYError, &outputY, &PIDTarget, .5, 0, 0, DIRECT);
+    PID pidTheta = PID(&encoderThetaError, &outputTheta, &PIDTarget, .5, 0, 0, DIRECT);
 
-    pidX.SetOutputLimits(-basePower - 5, basePower + 5);
-    pidY.SetOutputLimits(-basePower - 5, basePower + 5);
-    pidTheta.SetOutputLimits(-basePower - 5, basePower + 5);
+    pidX.SetOutputLimits(-200, 200);
+    pidY.SetOutputLimits(-200, 200);
+    pidTheta.SetOutputLimits(-200, 200);
+
+    pidX.SetMode(AUTOMATIC);
+    pidY.SetMode(AUTOMATIC);
+    pidTheta.SetMode(AUTOMATIC);
 
     // Main control loop
     bool reachedTarget = false;
@@ -153,12 +157,12 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         float sinTheta = sin(pose.theta);
 
         // how far the robot is from the point
-        float localErrorX = errorX * cosTheta + errorY * sinTheta;
-        float localErrorY = -errorX * sinTheta + errorY * cosTheta;
+        encoderXError = errorX * cosTheta + errorY * sinTheta;
+        encoderYError = -errorX * sinTheta + errorY * cosTheta;
 
         // Calculate error in orientation (normalized to -π to π)
-        float errorTheta = target.theta - pose.theta;
-        errorTheta = atan2(sin(errorTheta), cos(errorTheta));
+        encoderThetaError = target.theta - pose.theta;
+        encoderThetaError = atan2(sin(encoderThetaError), cos(encoderThetaError));
 
         // Compute PID outputs
         pidX.Compute();
@@ -167,20 +171,36 @@ void Drive::driveToPosition(Waypoint target, int basePower)
 
         // Calculate wheel velocities for the desired motion
         float velocities[3];
+        if (isnan(outputY))
+        {
+            outputY = 0;
+        }
+
+        if (isnan(outputTheta))
+        {
+            outputTheta = 0;
+        }
+
         calculateWheelVelocities(outputX, outputY, outputTheta, velocities);
 
         // Set wheel speeds
+        String test1 = String(outputX) + " " + String(outputY) + " " + String(outputTheta);
+        logger.log(test1);
+
+        String test = String(velocities[0]) + " " + String(velocities[1]) + " " + String(velocities[2]);
+        logger.log(test);
+
         motorA.SetPercent(velocities[0]);
         motorB.SetPercent(velocities[1]);
         motorC.SetPercent(velocities[2]);
 
         // Check if we've reached the target
-        reachedTarget = (fabs(localErrorX) < POS_THRESHOLD &&
-                         fabs(localErrorY) < POS_THRESHOLD &&
-                         fabs(errorTheta) < ANGLE_THRESHOLD);
+        reachedTarget = (fabs(outputX) < POS_THRESHOLD &&
+                         fabs(outputY) < POS_THRESHOLD &&
+                         fabs(outputTheta) < ANGLE_THRESHOLD);
 
         Sleep(.1);
     }
 
-    resetAll;
+    resetAll();
 }

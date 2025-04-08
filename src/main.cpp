@@ -14,7 +14,8 @@ void ERCMain()
     // Create drive system
     Drive drive = Drive();
 
-    Waypoint point = {24, 0, 0};
+    waitUntilTouch();
+    Waypoint point = {5, 0, 0};
     drive.driveToPosition(point, 25);
 
     // // Define waypoints for your course
