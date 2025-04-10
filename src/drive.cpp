@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "constants.h"
 
-const float SLEEPTIME = .1;
+const float SLEEPTIME = .5;
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
     : motor1(m1), motor2(m2), motor3(m3)
