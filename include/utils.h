@@ -48,7 +48,7 @@ float degToRad(float deg);
 /**
  * @brief Stops all motors and resets encoders
  */
-void resetAll();
+void resetMotors();
 
 /**
  * @brief Gets the color of the humidifier light

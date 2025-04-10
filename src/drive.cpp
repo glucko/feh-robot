@@ -25,12 +25,10 @@ Drive::Drive()
     prevCounts[1] = motorB.Counts();
     prevCounts[2] = motorC.Counts();
 
-    // Define the ramp location (example values - adjust to your course)
-    ramp.startX = 60.0;
-    ramp.startY = 24.0;
-    ramp.endX = 72.0;
-    ramp.endY = 36.0;
-    ramp.width = 15.0;
+    // Initialize motor directions
+    motorDirections[0] = 1;
+    motorDirections[1] = 1;
+    motorDirections[2] = 1;
 }
 
 // Reset pose to origin
@@ -50,157 +48,94 @@ void Drive::updateOdometry()
         motorB.Counts(),
         motorC.Counts()};
 
-    // Calculate change in encoder counts
-    float deltaCounts[3] = {
-        static_cast<float>(currentCounts[0] - prevCounts[0]),
-        static_cast<float>(currentCounts[1] - prevCounts[1]),
-        static_cast<float>(currentCounts[2] - prevCounts[2])};
+    // Calculate change in encoder counts and update previous counts
+    int deltaCounts[3];
+    for (int i = 0; i < 3; i++)
+    {
+        deltaCounts[i] = motorDirections[i] * currentCounts[i] - prevCounts[i];
+        prevCounts[i] = currentCounts[i];
+    }
 
-    // Convert encoder counts to wheel distances (inches)
-    float wheelDistances[3] = {
-        countsToInches(deltaCounts[0]),
-        countsToInches(deltaCounts[1]),
-        countsToInches(deltaCounts[2])};
-
-    // Calculate robot motion in local frame
-    float localMotion[3] = {0, 0, 0}; // [dx, dy, dtheta]
-
-    // For each wheel, contribute its motion to overall robot motion
+    // Calculate change in distance
+    float deltaX = 0, deltaY = 0, deltaTheta = 0;
     for (int i = 0; i < 3; i++)
     {
         // Wheel contribution to X motion
-        localMotion[0] += wheelDistances[i] * cos(wheelAngles[i]);
-
-        // Wheel contribution to Y motion
-        localMotion[1] += wheelDistances[i] * sin(wheelAngles[i]);
-
-        // Wheel contribution to rotation
-        localMotion[2] += wheelDistances[i] / ROBOT_DIAMETER / 2.0;
+        deltaX += countsToInches(deltaCounts[i]) * cos(wheelAngles[i]);
+        deltaY += countsToInches(deltaCounts[i]) * sin(wheelAngles[i]);
+        deltaTheta += countsToInches(deltaCounts[i]) / ROBOT_DIAMETER / 2.0;
     }
 
-    // Normalize by number of wheels
-    localMotion[0] /= 3.0;
-    localMotion[1] /= 3.0;
-    localMotion[2] /= 3.0;
-
-    // Convert local motion to global motion based on current orientation
-    float cosTheta = cos(pose.theta);
-    float sinTheta = sin(pose.theta);
-
-    float globalDx = localMotion[0] * cosTheta - localMotion[1] * sinTheta;
-    float globalDy = localMotion[0] * sinTheta + localMotion[1] * cosTheta;
-
     // Update robot pose
-    pose.x += globalDx;
-    pose.y += globalDy;
-    pose.theta += localMotion[2];
+    pose.x += deltaX;
+    pose.y += deltaY;
+    pose.theta += deltaTheta;
+
+    // logger.log("x: " + String(pose.x) + " y: " + pose.y + " theta: " + pose.theta);
 
     // Normalize theta to -pi to pi
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
-
-    // Update previous counts for next iteration
-    for (int i = 0; i < 3; i++)
-    {
-        prevCounts[i] = currentCounts[i];
-    }
 }
 
-// Calculate required wheel velocities for desired robot motion
-void Drive::calculateWheelVelocities(float vx, float vy, float omega, float velocities[3])
+float mapf(float x, float in_min, float in_max, float out_min, float out_max)
 {
-    for (int i = 0; i < 3; i++)
-    {
-        // Calculate wheel velocity based on desired robot motion
-        velocities[i] = vx * cos(wheelAngles[i]) +
-                        vy * sin(wheelAngles[i]) +
-                        omega * ROBOT_DIAMETER / 2.0;
-    }
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-// Drive to a specific position with automatic ramp handling
+// Then modify your driveToPosition function to prioritize movement over rotation
 void Drive::driveToPosition(Waypoint target, int basePower)
 {
     // Constants for position thresholds
     const float POS_THRESHOLD = 0.5;           // 0.5 inches
-    const float ANGLE_THRESHOLD = degToRad(1); // 1 degree
+    const float ANGLE_THRESHOLD = degToRad(2); // Increased to 2 degrees
 
-    // if on ramp, set pid differently
-    double encoderXError, encoderYError, encoderThetaError;
-    double outputX, outputY, outputTheta;
-    double PIDTarget = 0.0;
+    // double positionError, orientationError;
+    // double outputMagnitude, outputTheta;
+    // double PIDTarget = 0.0;
 
-    PID pidX = PID(&encoderXError, &outputX, &PIDTarget, .5, 0, 0, DIRECT);
-    PID pidY = PID(&encoderYError, &outputY, &PIDTarget, .5, 0, 0, DIRECT);
-    PID pidTheta = PID(&encoderThetaError, &outputTheta, &PIDTarget, .5, 0, 0, DIRECT);
+    // // Use two PIDs instead of three - one for distance to target, one for orientation
+    // PID pidPosition = PID(&positionError, &outputMagnitude, &PIDTarget, 0.08, 0.001, 0.03, DIRECT);
+    // PID pidTheta = PID(&orientationError, &outputTheta, &PIDTarget, 0.02, 0, 0.01, DIRECT);
 
-    pidX.SetOutputLimits(-200, 200);
-    pidY.SetOutputLimits(-200, 200);
-    pidTheta.SetOutputLimits(-200, 200);
+    // pidPosition.SetOutputLimits(0, 35); // Reduced from 80 to 35
+    // pidTheta.SetOutputLimits(-15, 15);  // Reduced from -40,40 to -15,15
 
-    pidX.SetMode(AUTOMATIC);
-    pidY.SetMode(AUTOMATIC);
-    pidTheta.SetMode(AUTOMATIC);
+    // pidPosition.SetMode(AUTOMATIC);
+    // pidTheta.SetMode(AUTOMATIC);
 
-    // Main control loop
     bool reachedTarget = false;
     while (!reachedTarget)
     {
-        // Update current position
         updateOdometry();
 
-        // Calculate error between current and target position
-        float errorX = target.x - pose.x;
-        float errorY = target.y - pose.y;
+        // The vector to get to the correct location
+        float vx = -(target.x - pose.x);
+        float vy = -(target.y - pose.y);
 
-        // Convert errors to local robot frame
-        float cosTheta = cos(pose.theta);
-        float sinTheta = sin(pose.theta);
+        // Normalize so speed is independent of how close the robot is to dest
+        float magnitude = sqrt(sq(vx) + sq(vy));
+        vx = mapf(vx / magnitude, -1, 1, -30, 30);
+        vy = mapf(vy / magnitude, -1, 1, -30, 30);
 
-        // how far the robot is from the point
-        encoderXError = errorX * cosTheta + errorY * sinTheta;
-        encoderYError = -errorX * sinTheta + errorY * cosTheta;
+        const float sqrt3o2 = 1.0 * sqrt(3) / 2;
+        float v1 = -vx;
+        float v2 = .5 * vx - sqrt3o2 * vy;
+        float v3 = .5 * vx + sqrt3o2 * vy;
 
-        // Calculate error in orientation (normalized to -π to π)
-        encoderThetaError = target.theta - pose.theta;
-        encoderThetaError = atan2(sin(encoderThetaError), cos(encoderThetaError));
+        logger.log("v1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3));
+        logger.log("pose x: " + String(pose.x) + " pose y: " + String(pose.y) + "\n");
 
-        // Compute PID outputs
-        pidX.Compute();
-        pidY.Compute();
-        pidTheta.Compute();
+        motorA.SetPercent(v1);
+        motorB.SetPercent(v2);
+        motorC.SetPercent(v3);
 
-        // Calculate wheel velocities for the desired motion
-        float velocities[3];
-        if (isnan(outputY))
-        {
-            outputY = 0;
-        }
+        motorDirections[0] = v1 < 0 ? -1 : 1;
+        motorDirections[1] = v2 < 0 ? -1 : 1;
+        motorDirections[2] = v3 < 0 ? -1 : 1;
 
-        if (isnan(outputTheta))
-        {
-            outputTheta = 0;
-        }
-
-        calculateWheelVelocities(outputX, outputY, outputTheta, velocities);
-
-        // Set wheel speeds
-        String test1 = String(outputX) + " " + String(outputY) + " " + String(outputTheta);
-        logger.log(test1);
-
-        String test = String(velocities[0]) + " " + String(velocities[1]) + " " + String(velocities[2]);
-        logger.log(test);
-
-        motorA.SetPercent(velocities[0]);
-        motorB.SetPercent(velocities[1]);
-        motorC.SetPercent(velocities[2]);
-
-        // Check if we've reached the target
-        reachedTarget = (fabs(outputX) < POS_THRESHOLD &&
-                         fabs(outputY) < POS_THRESHOLD &&
-                         fabs(outputTheta) < ANGLE_THRESHOLD);
-
-        Sleep(.1);
+        reachedTarget = fabs(vx) < .5 && fabs(vy) < .5;
+        Sleep(0.1);
     }
 
-    resetAll();
+    resetMotors();
 }

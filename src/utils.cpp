@@ -34,7 +34,7 @@ float degToRad(float deg)
     return deg * M_PI / 180;
 }
 
-void resetAll()
+void resetMotors()
 {
     motorA.stopAndReset();
     motorB.stopAndReset();

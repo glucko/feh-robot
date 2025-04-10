@@ -30,16 +30,6 @@ struct RobotPose
     float theta; // Orientation in radians
 };
 
-// Ramp definition structure
-struct RampDefinition
-{
-    float startX; // Start X coordinate of ramp
-    float startY; // Start Y coordinate of ramp
-    float endX;   // End X coordinate of ramp
-    float endY;   // End Y coordinate of ramp
-    float width;  // Width of the ramp
-};
-
 /**
  * @class Drive
  * @brief Controls the movement of a three-motor robot with built-in drift correction
@@ -51,8 +41,8 @@ private:
     // Robot pose tracking
     RobotPose pose;
 
-    // Ramp definition
-    RampDefinition ramp;
+    // Motor directions for odometry
+    int motorDirections[3];
 
     // Wheel configuration
     float wheelAngles[3]; // Angle of each wheel in radians
