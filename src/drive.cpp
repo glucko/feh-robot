@@ -52,7 +52,7 @@ void Drive::updateOdometry()
     int deltaCounts[3];
     for (int i = 0; i < 3; i++)
     {
-        deltaCounts[i] = motorDirections[i] * currentCounts[i] - prevCounts[i];
+        deltaCounts[i] = motorDirections[i] * (currentCounts[i] - prevCounts[i]);
         prevCounts[i] = currentCounts[i];
     }
 
@@ -112,6 +112,8 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         float vx = -(target.x - pose.x);
         float vy = -(target.y - pose.y);
 
+        // TODO: it should somewhat scale off of distance from target, but not too much
+        // TODO: implement PID
         // Normalize so speed is independent of how close the robot is to dest
         float magnitude = sqrt(sq(vx) + sq(vy));
         vx = mapf(vx / magnitude, -1, 1, -30, 30);
@@ -133,7 +135,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = v2 < 0 ? -1 : 1;
         motorDirections[2] = v3 < 0 ? -1 : 1;
 
-        reachedTarget = fabs(vx) < .5 && fabs(vy) < .5;
+        reachedTarget = fabs(vx) < 1 && fabs(vy) < 1;
         Sleep(0.1);
     }
 
