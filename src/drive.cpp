@@ -3,6 +3,7 @@
 #include "drive.h"
 #include "utils.h"
 #include "constants.h"
+#include <pidautotuner.h>
 
 const float SLEEPTIME = .5;
 
@@ -37,52 +38,39 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
         break;
     }
 
-    int targetCounts = 0;
-
-    // Handle distance mode specifics
-    if (mode == DriveMode::DISTANCE)
-    {
-        // Reverses power if distance is negative
-        if (distance < 0)
-        {
-            power = -power;
-            distance = -distance;
-        }
-
-        // accounts for the fact that wheels are at a 120 deg angle
-        targetCounts = inchesToCounts(distance) * (30.0 / 35.0);
-    }
-
     double input = mot1->Counts() - mot2->Counts();
     double target = 0;
     double adjustedPower = power;
 
-    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
-    pid.SetMode(AUTOMATIC);
+    PIDAutotuner tuner = PIDAutotuner();
+    tuner.setTargetInputValue(0);
+    int loopInterval = 100 * 100;
+    tuner.setLoopInterval(loopInterval);
+    tuner.setOutputRange(power - 10, power + 10);
+    tuner.startTuningLoop(micros());
 
-    bool shouldContinue = true;
-    while (shouldContinue)
+    long microseconds;
+    while (!tuner.isFinished())
     {
+        microseconds = micros();
         input = mot1->Counts() - mot2->Counts();
-        pid.Compute();
-        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
+        double output = tuner.tunePID(input, microseconds);
+        logger.log(String(output));
 
-        mot1->SetPercent(adjustedPower);
-        mot2->SetPercent(-adjustedPower);
+        mot1->SetPercent(output);
+        mot2->SetPercent(-output);
 
-        // Determine if we should continue based on the mode
-        if (mode == DriveMode::DISTANCE)
-        {
-            shouldContinue = (mot1->Counts() + mot2->Counts()) / 2 <= targetCounts;
-        }
-        else if (mode == DriveMode::LIGHT)
-        {
-            shouldContinue = getHumidifierLight() == Light::NOLIGHT;
-        }
+        while (micros() - microseconds < loopInterval)
+            delayMicroseconds(1);
     }
 
+    // Get PID gains - set your PID controller's gains to these
+    double kp = tuner.getKp();
+    double ki = tuner.getKi();
+    double kd = tuner.getKd();
+
+    logger.log("kp: " + String(kp) + " ki: " + String(ki) + " kd: " + String(kd));
     resetAll();
-    Sleep(SLEEPTIME);
 }
 
 // Wrapper functions to maintain original API
