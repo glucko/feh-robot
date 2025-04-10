@@ -71,8 +71,6 @@ void Drive::updateOdometry()
     pose.y += deltaY;
     pose.theta += deltaTheta;
 
-    // logger.log("x: " + String(pose.x) + " y: " + pose.y + " theta: " + pose.theta);
-
     // Normalize theta to -pi to pi
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
 }
@@ -133,8 +131,8 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         const double sqrt3o2 = 1.0 * sqrt(3) / 2;
 
         double v1 = constrain((-vx), -30, 30);
-        double v2 = constrain((.5 * vx - sqrt3o2 * vy), -30, 30);
-        double v3 = constrain((.5 * vx + sqrt3o2 * vy), -30, 30);
+        double v2 = constrain((.5 * vx + sqrt3o2 * vy), -30, 30);
+        double v3 = constrain((.5 * vx - sqrt3o2 * vy), -30, 30);
 
         logger.log("ovx: " + String(ovx) + " ovy: " + String(ovy));
         logger.log("vx: " + String(vx) + " vy: " + String(vy));

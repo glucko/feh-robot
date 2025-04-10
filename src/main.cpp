@@ -15,20 +15,7 @@ void ERCMain()
     Drive drive = Drive();
 
     waitUntilTouch();
-    Waypoint point;
-    point.x = 10;
-    point.y = 0;
-    point.theta = 0;
+    Waypoint point = {0, 10, 0};
 
     drive.driveToPosition(point, 25);
-
-    // // Define waypoints for your course
-    // const int WAYPOINT_COUNT = 3;
-    // Waypoint course[WAYPOINT_COUNT] = {
-    //     {24.0, 0.0, degToRad(0)},   // Start point
-    //     {48.0, 12.0, degToRad(60)}, // Mid point
-    //     {96.0, 36.0, 0.0}           // End point
-    // };
-
-    // for(int i = 0; i < 3; i++)
 }
