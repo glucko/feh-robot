@@ -21,7 +21,6 @@ void ERCMain()
 
     driveToBucket();
     pickUpBucket();
-
     dropOffBucket();
 
     driveToRampFromBucket();

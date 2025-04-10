@@ -104,6 +104,8 @@ void hitButton()
 
 void goToWindowFromButton()
 {
+    drive.driveDirection(-10, Direction::AB);
+    drive.driveDirection(5, Direction::BC);
 }
 
 void pushWindow()
