@@ -9,29 +9,27 @@ Drive drive = Drive(motorA, motorB, motorC);
 void hitButton(int rev)
 {
     drive.driveDirection(-1.3, Direction::AB);
-
     drive.driveDirection(2, Direction::AB);
 
-    logger.log("finished hitButton()");
+    logger.log("Hit button");
+}
+
+void driveToBucket()
+{
+    drive.driveDirection(17.5, Direction::AB);
+    drive.turn(-45);
+
+    logger.log("Drove to button");
 }
 
 void pickUpBucket()
 {
 
-    drive.driveDirection(17.5, Direction::AB);
-
-    drive.turn(-45);
-
     servoLeveling(96);
-    Sleep(1.0);
-
     drive.driveDirection(4.3, Direction::AB, 15);
-
     servoLeveling(0);
 
-    Sleep(.5);
-
-    logger.log("finished pickUpBucket()");
+    logger.log("Picked up Bucket");
 }
 
 void dropOffBucket()
@@ -50,100 +48,86 @@ void dropOffBucket()
     drive.driveDirection(1, Direction::AB);
 }
 
-void driveUpRamp(int rev)
+void driveToRampFromBucket()
 {
     drive.turn(-15);
     drive.driveDirection(5, Direction::CA);
     drive.turn(15);
 
     drive.driveDirection(-21, Direction::AB);
+}
 
+void driveUpRampAndRealign()
+{
     drive.turn(93);
-    drive.driveDirection(rev * 33, Direction::AB, 35);
+    drive.driveDirection(33, Direction::AB, 35);
 
     logger.log("finished driveUpRamp()");
 }
 
-void flipFertilizer()
+void driveToFertilizerFromTable()
 {
-
     drive.driveDirection(-3, Direction::AB);
 
     drive.turn(-15);
     drive.driveDirection(10, Direction::CA);
 
-    servo.SetDegree(SERVO_RAISED);
-    Sleep(1.0);
+    logger.log("drove to fertilizer");
+}
 
+void flipFertilizerDown()
+{
+
+    servoLeveling(0);
     drive.turn(-32);
     drive.driveDirection(7, Direction::AB);
 
-    switch (1)
-    {
-        // Left lever
-    case 0:
-        logger.log("Flipping left lever");
-
-        drive.turn(-15);
-        drive.driveDirection(4, Direction::CA);
-        drive.turn(15);
-        break;
-
-        // Middle lever
-    case 1:
-        logger.log("Flipping middle lever");
-        break;
-
-        // Right lever
-    case 2:
-        logger.log("Flipping right lever");
-
-        drive.turn(-15);
-        drive.driveDirection(-2, Direction::CA);
-        drive.turn(15);
-        break;
-    }
-
-    servo.SetDegree(SERVO_LOWERED + 5);
-
-    Sleep(1.0);
-
-    servo.SetDegree(0);
+    servoLeveling(SERVO_LOWERED + 5);
+    servoLeveling(0);
 
     logger.log("finished flipFertilizer()");
 }
 
-void spinCompost()
+void hitButton()
 {
-    servoLeveling(75);
+    drive.driveUntilLight(Direction::AB);
+    drive.turn(-15);
+    if (getHumidifierLight() == Light::BLUELIGHT)
+        drive.driveDirection(3, Direction::BC);
+    else
+        drive.driveDirection(-3, Direction::BC);
 
     drive.turn(15);
-    drive.driveDirection(5, Direction::CA);
 
-    drive.turn(-1440, 10);
-    servoLeveling(90);
-
-    drive.turn(15);
-    drive.driveDirection(5, Direction::CA);
+    drive.driveDirection(11, Direction::AB);
 }
 
-void spinComposterSlow()
+void goToWindowFromButton()
 {
-    // Making pseudocode for Benjamin
+}
 
-    // Set servo to vertical position
-    servo.SetDegree(0);
-    // Drive forward a bit from the button
-    drive.driveDirection(9, Direction::AB);
-    // Turn left to drive towards composter
-    drive.turn(16);
+void pushWindow()
+{
+    resetAll();
 
-    // Drive forward til in range of composter
-    drive.driveDirection(9, Direction::CA);
-    // Turn to make arm face composter
-    drive.turn(-157);
-    drive.driveDirection(-0.5, Direction::AB);
+    int targetCounts = inchesToCounts(10) * (30.0 / 35.0);
+    motorA.SetPercent(45);
+    motorB.SetPercent(-35);
+    motorC.SetPercent(15);
 
+    while (!RCS.isLeverFlipped() && (motorA.Counts() + motorB.Counts()) / 2 <= targetCounts)
+    {
+    }
+
+    resetAll();
+}
+
+void driveToCompostFromWindow()
+{
+}
+
+void spinCompost()
+{
     int numFlips = 0;
     // Repeat until fully spinned one way
     while (numFlips < 4)
@@ -155,26 +139,12 @@ void spinComposterSlow()
         numFlips++;
     }
     numFlips = 0;
+}
 
-    // Rotating back to original position (BONUS)
-    // Now do the same thing but set servo to lowest possible position, then rotate up instead of down
-    while (numFlips < 4)
-    {
-        servoLeveling(160);
-        drive.driveDirection(4.2, Direction::AB);
-        servoLeveling(0);
-        drive.driveDirection(-4, Direction::AB);
-        numFlips++;
-    }
-
-    // Returning to original position
+void hitButtonFromCompost()
+{
     drive.turn(157);
     drive.driveDirection(-10, Direction::CA);
     drive.turn(-16);
     drive.driveDirection(-12, Direction::AB);
-    // Turn left to drive towards composter
-
-    // Drive forward til in range of composter
-
-    // Turn to make arm face composter
 }
