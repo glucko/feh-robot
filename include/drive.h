@@ -17,17 +17,17 @@
 // Define a waypoint structure for path planning
 struct Waypoint
 {
-    float x;     // X coordinate in inches
-    float y;     // Y coordinate in inches
-    float theta; // Orientation in radians
+    double x;     // X coordinate in inches
+    double y;     // Y coordinate in inches
+    double theta; // Orientation in radians
 };
 
 // Robot pose structure
 struct RobotPose
 {
-    float x;     // X position in inches
-    float y;     // Y position in inches
-    float theta; // Orientation in radians
+    double x;     // X position in inches
+    double y;     // Y position in inches
+    double theta; // Orientation in radians
 };
 
 /**
@@ -45,14 +45,14 @@ private:
     int motorDirections[3];
 
     // Wheel configuration
-    float wheelAngles[3]; // Angle of each wheel in radians
+    double wheelAngles[3]; // Angle of each wheel in radians
 
     // Previous encoder counts for odometry
     int prevCounts[3];
 
     // Odometry and control functions
     void updateOdometry();
-    void calculateWheelVelocities(float vx, float vy, float omega, float velocities[3]);
+    void calculateWheelVelocities(double vx, double vy, double omega, double velocities[3]);
     void resetPose();
 
 public:

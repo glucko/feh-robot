@@ -6,7 +6,7 @@
 #include "constants.h"
 
 // Sleep time between drive operations
-const float SLEEPTIME = 0.5;
+const double SLEEPTIME = 0.5;
 
 Drive::Drive()
 {
@@ -21,9 +21,9 @@ Drive::Drive()
     wheelAngles[2] = 4 * M_PI / 3; // Motor 3 at 240 degrees
 
     // Initialize previous encoder counts
-    prevCounts[0] = motorA.Counts();
-    prevCounts[1] = motorB.Counts();
-    prevCounts[2] = motorC.Counts();
+    prevCounts[0] = 0;
+    prevCounts[1] = 0;
+    prevCounts[2] = 0;
 
     // Initialize motor directions
     motorDirections[0] = 1;
@@ -57,7 +57,7 @@ void Drive::updateOdometry()
     }
 
     // Calculate change in distance
-    float deltaX = 0, deltaY = 0, deltaTheta = 0;
+    double deltaX = 0, deltaY = 0, deltaTheta = 0;
     for (int i = 0; i < 3; i++)
     {
         // Wheel contribution to X motion
@@ -77,7 +77,7 @@ void Drive::updateOdometry()
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
 }
 
-float mapf(float x, float in_min, float in_max, float out_min, float out_max)
+double mapf(double x, double in_min, double in_max, double out_min, double out_max)
 {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
@@ -85,47 +85,62 @@ float mapf(float x, float in_min, float in_max, float out_min, float out_max)
 // Then modify your driveToPosition function to prioritize movement over rotation
 void Drive::driveToPosition(Waypoint target, int basePower)
 {
+    resetMotors();
     // Constants for position thresholds
-    const float POS_THRESHOLD = 0.5;           // 0.5 inches
-    const float ANGLE_THRESHOLD = degToRad(2); // Increased to 2 degrees
+    const double POS_THRESHOLD = 0.5; // 0.5 inches
 
-    // double positionError, orientationError;
-    // double outputMagnitude, outputTheta;
-    // double PIDTarget = 0.0;
+    double vx = 0;
+    double vy = 0;
+    double xSetpoint = target.x;
+    double ySetpoint = target.y;
+    PID xPID = PID(&pose.x, &vx, &xSetpoint, .5, .1, .01, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, .5, .1, .01, REVERSE);
 
-    // // Use two PIDs instead of three - one for distance to target, one for orientation
-    // PID pidPosition = PID(&positionError, &outputMagnitude, &PIDTarget, 0.08, 0.001, 0.03, DIRECT);
-    // PID pidTheta = PID(&orientationError, &outputTheta, &PIDTarget, 0.02, 0, 0.01, DIRECT);
+    xPID.SetOutputLimits(-30, 30);
+    yPID.SetOutputLimits(-30, 30);
 
-    // pidPosition.SetOutputLimits(0, 35); // Reduced from 80 to 35
-    // pidTheta.SetOutputLimits(-15, 15);  // Reduced from -40,40 to -15,15
-
-    // pidPosition.SetMode(AUTOMATIC);
-    // pidTheta.SetMode(AUTOMATIC);
+    xPID.SetMode(AUTOMATIC);
+    yPID.SetMode(AUTOMATIC);
 
     bool reachedTarget = false;
     while (!reachedTarget)
     {
         updateOdometry();
 
-        // The vector to get to the correct location
-        float vx = -(target.x - pose.x);
-        float vy = -(target.y - pose.y);
+        if (!xPID.Compute() && !yPID.Compute())
+        {
+            continue;
+        }
 
-        // TODO: it should somewhat scale off of distance from target, but not too much
-        // TODO: implement PID
-        // Normalize so speed is independent of how close the robot is to dest
-        float magnitude = sqrt(sq(vx) + sq(vy));
-        vx = mapf(vx / magnitude, -1, 1, -30, 30);
-        vy = mapf(vy / magnitude, -1, 1, -30, 30);
+        const double ovx = vx;
+        const double ovy = vy;
 
-        const float sqrt3o2 = 1.0 * sqrt(3) / 2;
-        float v1 = -vx;
-        float v2 = .5 * vx - sqrt3o2 * vy;
-        float v3 = .5 * vx + sqrt3o2 * vy;
+        const double MIN_POWER = 10.0;
 
+        // Map vx and vy values and ensure minimum power
+        if (fabs(vx) > 0.1)
+        {
+            double direction = (vx > 0) ? 1.0 : -1.0;
+            vx = direction * fmax(mapf(fabs(vx), 0.0, 10.0, 20.0, 30.0), MIN_POWER);
+        }
+
+        if (fabs(vy) > 0.1)
+        {
+            double direction = (vy > 0) ? 1.0 : -1.0;
+            vy = direction * fmax(mapf(fabs(vy), 0.0, 10.0, 20.0, 30.0), MIN_POWER);
+        }
+
+        const double sqrt3o2 = 1.0 * sqrt(3) / 2;
+
+        double v1 = constrain((-vx), -30, 30);
+        double v2 = constrain((.5 * vx - sqrt3o2 * vy), -30, 30);
+        double v3 = constrain((.5 * vx + sqrt3o2 * vy), -30, 30);
+
+        logger.log("ovx: " + String(ovx) + " ovy: " + String(ovy));
+        logger.log("vx: " + String(vx) + " vy: " + String(vy));
         logger.log("v1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3));
-        logger.log("pose x: " + String(pose.x) + " pose y: " + String(pose.y) + "\n");
+        logger.log("ERROR x: " + String(target.x - pose.x));
+        logger.log("target.x: " + String(target.x) + " pose.x: " + String(pose.x) + "\n");
 
         motorA.SetPercent(v1);
         motorB.SetPercent(v2);
@@ -135,8 +150,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = v2 < 0 ? -1 : 1;
         motorDirections[2] = v3 < 0 ? -1 : 1;
 
-        reachedTarget = fabs(vx) < 1 && fabs(vy) < 1;
-        Sleep(0.1);
+        reachedTarget = fabs(ovx) < POS_THRESHOLD && fabs(ovy) < POS_THRESHOLD;
     }
 
     resetMotors();

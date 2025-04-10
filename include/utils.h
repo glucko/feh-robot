@@ -27,23 +27,23 @@ void waitUntilTouch();
  * @param inches The distance in inches to convert.
  * @return int The equivalent number of encoder counts.
  */
-int inchesToCounts(float inches);
+int inchesToCounts(double inches);
 
 /**
  * @brief Converts encoder counts to distance in inches.
  *
  * @param int The equivalent number of encoder counts.
- * @return float The distance in inches to convert.
+ * @return double The distance in inches to convert.
  */
-float countsToInches(float inches);
+double countsToInches(double inches);
 
 /**
  * @brief Convert degrees to radians
  *
  * @param deg The angle in degrees
- * @return float The equivalent angle in radians
+ * @return double The equivalent angle in radians
  */
-float degToRad(float deg);
+double degToRad(double deg);
 
 /**
  * @brief Stops all motors and resets encoders

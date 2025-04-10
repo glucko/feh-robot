@@ -19,17 +19,17 @@ void waitUntilTouch()
     }
 }
 
-int inchesToCounts(float inches)
+int inchesToCounts(double inches)
 {
     return static_cast<int>(inches * (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER)));
 }
 
-float countsToInches(float counts)
+double countsToInches(double counts)
 {
     return counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER));
 }
 
-float degToRad(float deg)
+double degToRad(double deg)
 {
     return deg * M_PI / 180;
 }
@@ -43,7 +43,7 @@ void resetMotors()
 
 Light getHumidifierLight()
 {
-    float val = cdsCell.Value();
+    double val = cdsCell.Value();
 
     if (val > noLightThreshold)
     {
