@@ -13,13 +13,18 @@ void waitUntilLight(int rev = 1)
 
 void ERCMain()
 {
+    Drive drive = Drive(motorA, motorB, motorC);
+
     // RCS.initialize("1240E4ZQS");
     // the servo needs to be configured in a main function,
     // so i just do it here
     servo.SetMin(500);
     servo.SetMax(2500);
 
-    waitUntilLight();
-    hitButton();
-    spinComposterSlow();
+    // waitUntilLight();
+    // hitButton();
+    // spinComposterSlow();
+
+    waitUntilTouch();
+    drive.turn(360);
 }

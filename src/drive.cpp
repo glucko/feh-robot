@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "constants.h"
 
-const float SLEEPTIME = .5;
+const float SLEEPTIME = .1;
 
 Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
     : motor1(m1), motor2(m2), motor3(m3)
@@ -65,7 +65,6 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
     {
         input = mot1->Counts() - mot2->Counts();
         pid.Compute();
-        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
 
         mot1->SetPercent(adjustedPower);
         mot2->SetPercent(-adjustedPower);
@@ -117,14 +116,13 @@ void Drive::turn(float degrees, int power)
     double target = inchesToCounts(arcLength);
     double adjustedPower = power;
 
-    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
+    PID pid(&input, &adjustedPower, &target, .1, 0.001, 0.01, DIRECT);
     pid.SetMode(AUTOMATIC);
 
     while ((motor1.Counts() + motor2.Counts() + motor3.Counts()) / 3 < target)
     {
         input = (mot1->Counts() + mot2->Counts() + mot3->Counts()) / 3;
         pid.Compute();
-        adjustedPower = constrain(adjustedPower, power - 5, power + 5);
 
         mot1->SetPercent(adjustedPower);
         mot2->SetPercent(adjustedPower);
