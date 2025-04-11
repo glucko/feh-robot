@@ -14,12 +14,13 @@ void waitUntilLight(int rev = 1)
 
 void ERCMain()
 {
-    // RCS.initialize("1240E4ZQS");
+    RCS.InitializeTouchMenu("1240E4ZQS");
     servo.SetMin(500);
     servo.SetMax(2500);
 
     waitUntilTouch();
     waitUntilLight();
+    hitStartButton();
     
     driveToBucket();
     pickUpBucket();
