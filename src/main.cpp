@@ -18,17 +18,12 @@ void ERCMain()
     servo.SetMax(2500);
 
     waitUntilTouch();
-
+    
     driveToBucket();
     pickUpBucket();
-    dropOffBucket();
-
     driveToRampFromBucket();
     driveUpRampAndRealign();
-
-    driveToFertilizerFromTable();
-    flipFertilizerDown();
-
+    dropOffBucket();
     hitButton();
 
     goToWindowFromButton();

@@ -6,7 +6,7 @@
 
 Drive drive = Drive(motorA, motorB, motorC);
 
-void hitButton(int rev)
+void hitStartButton()
 {
     drive.driveDirection(-1.3, Direction::AB);
     drive.driveDirection(2, Direction::AB);
@@ -16,7 +16,7 @@ void hitButton(int rev)
 
 void driveToBucket()
 {
-    drive.driveDirection(17.5, Direction::AB);
+    drive.driveDirection(18, Direction::AB);
     drive.turn(-45);
 
     logger.log("Drove to button");
@@ -34,6 +34,7 @@ void pickUpBucket()
 
 void dropOffBucket()
 {
+
     drive.driveDirection(1, Direction::AB);
 
     servoLeveling(90);
@@ -77,7 +78,6 @@ void driveToFertilizerFromTable()
 
 void flipFertilizerDown()
 {
-
     servoLeveling(0);
     drive.turn(-32);
     drive.driveDirection(7, Direction::AB);
@@ -90,16 +90,16 @@ void flipFertilizerDown()
 
 void hitButton()
 {
-    drive.driveUntilLight(Direction::AB);
-    drive.turn(-15);
+    drive.driveDirection(-1, Direction::AB);
+    drive.turn(-90);
+    /*drive.driveUntilLight(Direction::AB);
+
     if (getHumidifierLight() == Light::BLUELIGHT)
         drive.driveDirection(3, Direction::BC);
     else
-        drive.driveDirection(-3, Direction::BC);
+        drive.driveDirection(-3, Direction::BC);*/
 
-    drive.turn(15);
-
-    drive.driveDirection(11, Direction::AB);
+    drive.driveDirection(28, Direction::AB);
 }
 
 void goToWindowFromButton()
@@ -117,7 +117,7 @@ void pushWindow()
     motorB.SetPercent(-35);
     motorC.SetPercent(15);
 
-    while (!RCS.isLeverFlipped() && (motorA.Counts() + motorB.Counts()) / 2 <= targetCounts)
+    while (!RCS.isWindowOpen() && (motorA.Counts() + motorB.Counts()) / 2 <= targetCounts)
     {
     }
 
@@ -126,6 +126,54 @@ void pushWindow()
 
 void driveToCompostFromWindow()
 {
+    drive.driveDirection(5, Direction::CA);
+    drive.driveDirection(-15, Direction::AB);
+    drive.driveDirection(1.5, Direction::AB);
+    drive.turn(90);
+    drive.driveDirection(-18, Direction::AB);
+    drive.turn(-90);
+    drive.driveDirection(10, Direction::AB);
+}
+
+void driveToCompostFromStart()
+{
+    // Making pseudocode for Benjamin
+
+    // Set servo to vertical position
+    servo.SetDegree(0);
+    // Drive forward a bit from the button
+    drive.driveDirection(9, Direction::AB);
+    // Turn left to drive towards composter
+    drive.turn(16);
+
+    // Drive forward til in range of composter
+    drive.driveDirection(9, Direction::CA);
+    // Turn to make arm face composter
+    drive.turn(-157);
+    drive.driveDirection(-0.5, Direction::AB);
+
+    int numFlips = 0;
+    // Repeat until fully spinned one way
+    while (numFlips < 4)
+    {
+        servoLeveling(0);
+        drive.driveDirection(3.5, Direction::AB);
+        servoLeveling(150);
+        drive.driveDirection(-3.5, Direction::AB);
+        numFlips++;
+    }
+    numFlips = 0;
+
+    // Rotating back to original position (BONUS)
+    // Now do the same thing but set servo to lowest possible position, then rotate up instead of down
+    while (numFlips < 4)
+    {
+        servoLeveling(160);
+        drive.driveDirection(4.2, Direction::AB);
+        servoLeveling(0);
+        drive.driveDirection(-4, Direction::AB);
+        numFlips++;
+    }
 }
 
 void spinCompost()

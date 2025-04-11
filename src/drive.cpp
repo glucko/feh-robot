@@ -57,7 +57,7 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
     double target = 0;
     double adjustedPower = power;
 
-    PID pid(&input, &adjustedPower, &target, 0, 0, 0, DIRECT);
+    PID pid(&input, &adjustedPower, &target, 0.1, 0.001, 0.01, DIRECT);
     pid.SetMode(AUTOMATIC);
 
     bool shouldContinue = true;
