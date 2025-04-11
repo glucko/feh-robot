@@ -4,9 +4,10 @@
 #include "navigation.h"
 #include "drive.h"
 
-void aitUntilLight(int rev = 1)
+void waitUntilLight(int rev = 1)
 {
-    while (getHumidifierLight() == Light::NOLIGHT)
+    float time = TimeNow();
+    while (getHumidifierLight() == Light::NOLIGHT && TimeNow() - time < 30)
     {
     }
 }
@@ -18,6 +19,7 @@ void ERCMain()
     servo.SetMax(2500);
 
     waitUntilTouch();
+    waitUntilLight();
     
     driveToBucket();
     pickUpBucket();
