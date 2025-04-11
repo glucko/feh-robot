@@ -21,7 +21,7 @@ void ERCMain()
     waitUntilTouch();
     waitUntilLight();
     hitStartButton();
-    
+
     driveToBucket();
     pickUpBucket();
     driveToRampFromBucket();
