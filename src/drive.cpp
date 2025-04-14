@@ -86,15 +86,15 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     updateOdometry();
     resetMotors();
 
-    const double POS_THRESHOLD = 0.5;
+    const double POS_THRESHOLD = 1;
 
     double vx = 0;
     double vy = 0;
     double xSetpoint = target.x;
     double ySetpoint = target.y;
 
-    PID xPID = PID(&pose.x, &vx, &xSetpoint, 3, .2, .05, REVERSE);
-    PID yPID = PID(&pose.y, &vy, &ySetpoint, 3, .2, .05, REVERSE);
+    PID xPID = PID(&pose.x, &vx, &xSetpoint, 4, 0, 0, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, 4, 0, 0, REVERSE);
 
     xPID.SetOutputLimits(-30, 30);
     yPID.SetOutputLimits(-30, 30);
@@ -102,34 +102,64 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     xPID.SetMode(AUTOMATIC);
     yPID.SetMode(AUTOMATIC);
 
+    // Inital compute to avoid bad first values
+    xPID.Compute();
+    yPID.Compute();
+
     bool reachedTarget = false;
     while (!reachedTarget)
     {
         updateOdometry();
 
-        if (!xPID.Compute() && !yPID.Compute())
+        // do not put these directly in the if because short circuiting will make the pid not evaluate
+        bool a = xPID.Compute();
+        bool b = yPID.Compute();
+        if (!a && !b)
         {
             continue;
         }
 
+        double deadband = 20;
+        double vxa = vx;
+        double vya = vy;
+        if (fabs(vy) > POS_THRESHOLD && fabs(vy) < deadband)
+        {
+            // Create a smooth curve within the deadband
+            double ratio = abs(vy) / deadband; // 0.0 to 1.0
+            double sign = (vy >= 0) ? 1.0 : -1.0;
+
+            // Use ratio to smoothly scale from deadband to deadband + small extra push
+            vya = sign * (deadband + ratio * 3.0);
+        }
+
+        if (fabs(vx) > 1 && fabs(vx) < deadband)
+        {
+            // Create a smooth curve within the deadband
+            double ratio = abs(vx) / deadband; // 0.0 to 1.0
+            double sign = (vx >= 0) ? 1.0 : -1.0;
+
+            // Use ratio to smoothly scale from deadband to deadband + small extra push
+            vxa = sign * (deadband + ratio * 5.0);
+        }
+
         const double sqrt3o2 = 1.0 * sqrt(3) / 2;
-
-        double v1 = constrain((-vx), -30, 30);
-        double v2 = constrain((.5 * vx + sqrt3o2 * vy), -30, 30);
-        double v3 = constrain((.5 * vx - sqrt3o2 * vy), -30, 30);
-
-        logger.log("vx: " + String(vx) + " vy: " + String(vy));
-        logger.log("v1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3));
-        logger.log("ERROR x: " + String(target.x - pose.x));
-        logger.log("target.x: " + String(target.x) + " pose.x: " + String(pose.x) + "\n");
-
-        motorA.SetPercent(v1);
-        motorB.SetPercent(v2);
-        motorC.SetPercent(v3);
+        double v1 = -constrain((-vxa), -30, 30);
+        double v2 = -constrain((.5 * vxa + sqrt3o2 * vya), -30, 30);
+        double v3 = -constrain((.5 * vxa - sqrt3o2 * vya), -30, 30);
 
         motorDirections[0] = v1 < 0 ? -1 : 1;
         motorDirections[1] = v2 < 0 ? -1 : 1;
         motorDirections[2] = v3 < 0 ? -1 : 1;
+
+        logger.log("vx: " + String(vx) + " vy: " + String(vy));
+        logger.log("vxa: " + String(vxa) + " vya: " + String(vya));
+        logger.log("v1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3));
+        logger.log("target.x: " + String(target.x) + " pose.x: " + String(pose.x));
+        logger.log("target.y: " + String(target.y) + " pose.y: " + String(pose.y) + "\n");
+
+        motorA.SetPercent(v1);
+        motorB.SetPercent(v2);
+        motorC.SetPercent(v3);
 
         reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
     }
