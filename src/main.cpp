@@ -15,7 +15,7 @@ void ERCMain()
     Drive drive = Drive();
 
     waitUntilTouch();
-    Waypoint point = {0, 10, 0};
+    Waypoint point = {10, 10, 0};
 
     drive.driveToPosition(point, 25);
 }

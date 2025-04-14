@@ -94,7 +94,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     double ySetpoint = target.y;
 
     PID xPID = PID(&pose.x, &vx, &xSetpoint, 4, 0, 0, REVERSE);
-    PID yPID = PID(&pose.y, &vy, &ySetpoint, 4, 0, 0, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, 4, 0, 0, DIRECT);
 
     xPID.SetOutputLimits(-30, 30);
     yPID.SetOutputLimits(-30, 30);
@@ -106,6 +106,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     xPID.Compute();
     yPID.Compute();
 
+    // double lastTime = TimeNow();
     bool reachedTarget = false;
     while (!reachedTarget)
     {
@@ -118,6 +119,11 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         {
             continue;
         }
+
+        // double currentTime = TimeNow();
+        // double deltaTime = currentTime - lastTime;
+        // logger.log("Loop time: " + String(deltaTime) + " s");
+        // lastTime = currentTime;
 
         double deadband = 20;
         double vxa = vx;
@@ -143,23 +149,24 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         }
 
         const double sqrt3o2 = 1.0 * sqrt(3) / 2;
-        double v1 = -constrain((-vxa), -30, 30);
-        double v2 = -constrain((.5 * vxa + sqrt3o2 * vya), -30, 30);
-        double v3 = -constrain((.5 * vxa - sqrt3o2 * vya), -30, 30);
+        double va = constrain((-vxa), -30, 30);
+        double vb = constrain((.5 * vxa + sqrt3o2 * vya), -30, 30);
+        double vc = constrain((.5 * vxa - sqrt3o2 * vya), -30, 30);
 
-        motorDirections[0] = v1 < 0 ? -1 : 1;
-        motorDirections[1] = v2 < 0 ? -1 : 1;
-        motorDirections[2] = v3 < 0 ? -1 : 1;
+        motorDirections[0] = va < 0 ? -1 : 1;
+        motorDirections[1] = vb < 0 ? -1 : 1;
+        motorDirections[2] = vc < 0 ? -1 : 1;
 
-        logger.log("vx: " + String(vx) + " vy: " + String(vy));
-        logger.log("vxa: " + String(vxa) + " vya: " + String(vya));
-        logger.log("v1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3));
-        logger.log("target.x: " + String(target.x) + " pose.x: " + String(pose.x));
-        logger.log("target.y: " + String(target.y) + " pose.y: " + String(pose.y) + "\n");
+        // This code significantly slows down the loop
+        // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
+        //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
+        //            "\nv1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3) +
+        //            "\ntarget: (" + String(target.x) + "," + String(target.y) +
+        //            ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
 
-        motorA.SetPercent(v1);
-        motorB.SetPercent(v2);
-        motorC.SetPercent(v3);
+        motorA.SetPercent(va);
+        motorB.SetPercent(vb);
+        motorC.SetPercent(vc);
 
         reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
     }
