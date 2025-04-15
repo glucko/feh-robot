@@ -29,11 +29,6 @@ double countsToInches(double counts)
     return ((counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER))) * (35/30));
 }
 
-double degToRad(double deg)
-{
-    return deg * M_PI / 180;
-}
-
 void resetMotors()
 {
     motorA.stopAndReset();

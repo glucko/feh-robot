@@ -38,14 +38,6 @@ int inchesToCounts(double inches);
 double countsToInches(double inches);
 
 /**
- * @brief Convert degrees to radians
- *
- * @param deg The angle in degrees
- * @return double The equivalent angle in radians
- */
-double degToRad(double deg);
-
-/**
  * @brief Stops all motors and resets encoders
  */
 void resetMotors();

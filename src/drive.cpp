@@ -63,7 +63,7 @@ void Drive::updateOdometry()
         // Wheel contribution to X motion
         deltaX += countsToInches(deltaCounts[i]) * cos(wheelAngles[i]);
         deltaY += countsToInches(deltaCounts[i]) * sin(wheelAngles[i]);
-        deltaTheta += countsToInches(deltaCounts[i]) / ROBOT_DIAMETER / 2.0;
+        deltaTheta += (countsToInches(deltaCounts[i]) / ROBOT_RADIUS) / 3.0;
     }
 
     // Update robot pose
@@ -73,11 +73,6 @@ void Drive::updateOdometry()
 
     // Normalize theta to -pi to pi
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
-}
-
-double mapf(double x, double in_min, double in_max, double out_min, double out_max)
-{
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 // Then modify your driveToPosition function to prioritize movement over rotation
@@ -96,8 +91,8 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     PID xPID = PID(&pose.x, &vx, &xSetpoint, 1.56, .12, .16, REVERSE);
     PID yPID = PID(&pose.y, &vy, &ySetpoint, 2.08, .15, .2, DIRECT);
 
-    xPID.SetOutputLimits(-50, 50);
-    yPID.SetOutputLimits(-50, 50);
+    xPID.SetOutputLimits(-basePower, basePower);
+    yPID.SetOutputLimits(-basePower, basePower);
 
     xPID.SetMode(AUTOMATIC);
     yPID.SetMode(AUTOMATIC);
@@ -149,15 +144,14 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         }
 
         const double sqrt3o2 = 1.0 * sqrt(3) / 2;
-        double va = constrain((-vxa), -30, 30);
-        double vb = constrain((.5 * vxa + sqrt3o2 * vya), -30, 30);
-        double vc = constrain((.5 * vxa - sqrt3o2 * vya), -30, 30);
+        double va = constrain((-vxa), -basePower, basePower);
+        double vb = constrain((.5 * vxa + sqrt3o2 * vya), -basePower, basePower);
+        double vc = constrain((.5 * vxa - sqrt3o2 * vya), -basePower, basePower);
 
         motorDirections[0] = va < 0 ? -1 : 1;
         motorDirections[1] = vb < 0 ? -1 : 1;
         motorDirections[2] = vc < 0 ? -1 : 1;
 
-        
         // This code significantly slows down the loop
         // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
         //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
@@ -170,6 +164,83 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorC.SetPercent(vc);
 
         reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
+    }
+
+    resetMotors();
+}
+
+void Drive::turn(double targetAngle, int basePower)
+{
+    targetAngle = targetAngle * DEG_TO_RAD;
+    updateOdometry();
+    resetMotors();
+
+    const double THRESHOLD = 1 * DEG_TO_RAD;
+
+    // Normalize target angle to -pi to pi
+    targetAngle = atan2(sin(targetAngle), cos(targetAngle));
+
+    // PID for angular control
+    double vtheta = 0;
+    double rotationSetpoint = targetAngle;
+    PID rotationPID = PID(&pose.theta, &vtheta, &rotationSetpoint, 3.0, 0.1, 0.2, DIRECT);
+
+    rotationPID.SetOutputLimits(-basePower, basePower);
+    rotationPID.SetMode(AUTOMATIC);
+
+    // Initial compute to avoid bad first values
+    rotationPID.Compute();
+
+    bool reachedAngle = false;
+    double prevOutput = 0;
+    while (!reachedAngle)
+    {
+        updateOdometry();
+
+        // Fix the setpoint to handle wraparound between -pi and pi
+        double angleDiff = targetAngle - pose.theta;
+        // Normalize the angle difference to [-pi, pi]
+        angleDiff = atan2(sin(angleDiff), cos(angleDiff));
+        rotationSetpoint = pose.theta + angleDiff;
+
+        if (!rotationPID.Compute())
+        {
+            reachedAngle = fabs(angleDiff) < THRESHOLD;
+            continue;
+        }
+
+        // Smooth sudden changes in output
+        double alpha = 0.3; // Smoothing factor (0-1)
+        double rotationOutput = alpha * vtheta + (1 - alpha) * prevOutput;
+        prevOutput = rotationOutput;
+
+        // Apply minimum power if we're very close but not quite there
+        double minPower = 20;
+        if (fabs(rotationOutput) < minPower && fabs(rotationOutput) > THRESHOLD)
+        {
+            double sign = (rotationOutput > 0) ? 1.0 : -1.0;
+            rotationOutput = sign * minPower; // Minimum power to overcome static friction
+        }
+
+        // Calculate motor powers for pure rotation movement
+        double motorPower = rotationOutput;
+
+        motorDirections[0] = motorPower < 0 ? -1 : 1;
+        motorDirections[1] = motorPower < 0 ? -1 : 1;
+        motorDirections[2] = motorPower < 0 ? -1 : 1;
+
+        motorA.SetPercent(motorPower);
+        motorB.SetPercent(motorPower);
+        motorC.SetPercent(motorPower);
+
+        logger.log("vtheta: " + String(vtheta) +
+                   "\noutput: " + String(rotationOutput) +
+                   "\ndiff: " + String(angleDiff) +
+                   "\ntarget: " + String(targetAngle) +
+                   ")\npose: " + String(pose.theta) + "\n");
+
+        // Check if the angle difference is small enough
+        reachedAngle = fabs(angleDiff) < THRESHOLD;
     }
 
     resetMotors();
