@@ -26,7 +26,7 @@ int inchesToCounts(double inches)
 
 double countsToInches(double counts)
 {
-    return counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER));
+    return (counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER)));
 }
 
 double degToRad(double deg)

@@ -14,7 +14,7 @@
 /**
  * @brief The diameter of the circumscribed circle of the robot.
  */
-const float ROBOT_DIAMETER = 7.3;
+const float ROBOT_DIAMETER = 7.3f;
 
 /**
  * @brief The diameter of the robot's wheels in inches.

@@ -93,11 +93,11 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     double xSetpoint = target.x;
     double ySetpoint = target.y;
 
-    PID xPID = PID(&pose.x, &vx, &xSetpoint, 4, 0, 0, REVERSE);
-    PID yPID = PID(&pose.y, &vy, &ySetpoint, 4, 0, 0, DIRECT);
+    PID xPID = PID(&pose.x, &vx, &xSetpoint, 1.56, .12, .16, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, 2.08, .15, .2, DIRECT);
 
-    xPID.SetOutputLimits(-30, 30);
-    yPID.SetOutputLimits(-30, 30);
+    xPID.SetOutputLimits(-50, 50);
+    yPID.SetOutputLimits(-50, 50);
 
     xPID.SetMode(AUTOMATIC);
     yPID.SetMode(AUTOMATIC);
@@ -157,18 +157,22 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = vb < 0 ? -1 : 1;
         motorDirections[2] = vc < 0 ? -1 : 1;
 
+        
         // This code significantly slows down the loop
-        // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
-        //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
-        //            "\nv1: " + String(v1) + " v2: " + String(v2) + " v3: " + String(v3) +
-        //            "\ntarget: (" + String(target.x) + "," + String(target.y) +
-        //            ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
+         logger.log("vx: " + String(vx) + " vy: " + String(vy) +
+                    "\nvxa: " + String(vxa) + " vya: " + String(vya) +
+                    "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
+                    "\ntarget: (" + String(target.x) + "," + String(target.y) +
+                    ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
 
         motorA.SetPercent(va);
         motorB.SetPercent(vb);
         motorC.SetPercent(vc);
 
         reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
+        if(reachedTarget){
+            resetMotors();
+        }
     }
 
     resetMotors();
