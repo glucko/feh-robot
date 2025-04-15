@@ -170,9 +170,6 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorC.SetPercent(vc);
 
         reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
-        if(reachedTarget){
-            resetMotors();
-        }
     }
 
     resetMotors();
