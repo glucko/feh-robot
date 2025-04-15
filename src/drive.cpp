@@ -63,7 +63,7 @@ void Drive::updateOdometry()
         // Wheel contribution to X motion
         deltaX += countsToInches(deltaCounts[i]) * cos(wheelAngles[i]);
         deltaY += countsToInches(deltaCounts[i]) * sin(wheelAngles[i]);
-        deltaTheta += countsToInches(deltaCounts[i]) / ROBOT_RADIUS;
+        deltaTheta += (countsToInches(deltaCounts[i]) / ROBOT_RADIUS) / 3.0;
     }
 
     // Update robot pose
@@ -175,15 +175,15 @@ void Drive::turn(double targetAngle, int basePower)
     updateOdometry();
     resetMotors();
 
-    const double THRESHOLD = .5;
+    const double THRESHOLD = 1 * DEG_TO_RAD;
 
     // Normalize target angle to -pi to pi
     targetAngle = atan2(sin(targetAngle), cos(targetAngle));
 
     // PID for angular control
-    double rotationOutput = 0;
+    double vtheta = 0;
     double rotationSetpoint = targetAngle;
-    PID rotationPID = PID(&pose.theta, &rotationOutput, &rotationSetpoint, 3.0, 0.1, 0.2, DIRECT);
+    PID rotationPID = PID(&pose.theta, &vtheta, &rotationSetpoint, 3.0, 0.1, 0.2, DIRECT);
 
     rotationPID.SetOutputLimits(-basePower, basePower);
     rotationPID.SetMode(AUTOMATIC);
@@ -197,14 +197,21 @@ void Drive::turn(double targetAngle, int basePower)
     {
         updateOdometry();
 
+        // Fix the setpoint to handle wraparound between -pi and pi
+        double angleDiff = targetAngle - pose.theta;
+        // Normalize the angle difference to [-pi, pi]
+        angleDiff = atan2(sin(angleDiff), cos(angleDiff));
+        rotationSetpoint = pose.theta + angleDiff;
+
         if (!rotationPID.Compute())
         {
+            reachedAngle = fabs(angleDiff) < THRESHOLD;
             continue;
         }
 
         // Smooth sudden changes in output
         double alpha = 0.3; // Smoothing factor (0-1)
-        rotationOutput = alpha * rotationOutput + (1 - alpha) * prevOutput;
+        double rotationOutput = alpha * vtheta + (1 - alpha) * prevOutput;
         prevOutput = rotationOutput;
 
         // Apply minimum power if we're very close but not quite there
@@ -226,11 +233,14 @@ void Drive::turn(double targetAngle, int basePower)
         motorB.SetPercent(motorPower);
         motorC.SetPercent(motorPower);
 
-        logger.log("vtheta: " + String(rotationOutput) +
+        logger.log("vtheta: " + String(vtheta) +
+                   "\noutput: " + String(rotationOutput) +
+                   "\ndiff: " + String(angleDiff) +
                    "\ntarget: " + String(targetAngle) +
-                   ")\npose: " + String(pose.theta) + ", " + String(RAD_TO_DEG * pose.theta) + "\n");
+                   ")\npose: " + String(pose.theta) + "\n");
 
-        reachedAngle = fabs(rotationOutput) < THRESHOLD;
+        // Check if the angle difference is small enough
+        reachedAngle = fabs(angleDiff) < THRESHOLD;
     }
 
     resetMotors();
