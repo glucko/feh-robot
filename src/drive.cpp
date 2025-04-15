@@ -31,12 +31,11 @@ Drive::Drive()
     motorDirections[2] = 1;
 }
 
-// Reset pose to origin
-void Drive::resetPose()
+void Drive::resetPrevCounts()
 {
-    pose.x = 0;
-    pose.y = 0;
-    pose.theta = 0;
+    prevCounts[0] = 0;
+    prevCounts[1] = 0;
+    prevCounts[2] = 0;
 }
 
 // Update the robot's position based on encoder readings
@@ -75,7 +74,6 @@ void Drive::updateOdometry()
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
 }
 
-// Then modify your driveToPosition function to prioritize movement over rotation
 void Drive::driveToPosition(Waypoint target, int basePower)
 {
     updateOdometry();
@@ -167,6 +165,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     }
 
     resetMotors();
+    resetPrevCounts();
 }
 
 void Drive::turn(double targetAngle, int basePower)
@@ -244,4 +243,5 @@ void Drive::turn(double targetAngle, int basePower)
     }
 
     resetMotors();
+    resetPrevCounts();
 }

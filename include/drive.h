@@ -53,7 +53,7 @@ private:
     // Odometry and control functions
     void updateOdometry();
     void calculateWheelVelocities(double vx, double vy, double omega, double velocities[3]);
-    void resetPose();
+    void resetPrevCounts();
 
 public:
     Drive();
