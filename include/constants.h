@@ -12,9 +12,9 @@
 #include "motor.h"
 
 /**
- * @brief The diameter of the circumscribed circle of the robot.
+ * @brief The radius of the circumscribed circle of the robot.
  */
-const float ROBOT_DIAMETER = 7.3f;
+const float ROBOT_RADIUS = 3.907f;
 
 /**
  * @brief The diameter of the robot's wheels in inches.
