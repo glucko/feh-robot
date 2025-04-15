@@ -159,11 +159,11 @@ void Drive::driveToPosition(Waypoint target, int basePower)
 
         
         // This code significantly slows down the loop
-         logger.log("vx: " + String(vx) + " vy: " + String(vy) +
-                    "\nvxa: " + String(vxa) + " vya: " + String(vya) +
-                    "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
-                    "\ntarget: (" + String(target.x) + "," + String(target.y) +
-                    ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
+        // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
+        //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
+        //            "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
+        //            "\ntarget: (" + String(target.x) + "," + String(target.y) +
+        //            ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
 
         motorA.SetPercent(va);
         motorB.SetPercent(vb);
