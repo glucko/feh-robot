@@ -31,12 +31,11 @@ Drive::Drive()
     motorDirections[2] = 1;
 }
 
-// Reset pose to origin
-void Drive::resetPose()
+void Drive::resetPrevCounts()
 {
-    pose.x = 0;
-    pose.y = 0;
-    pose.theta = 0;
+    prevCounts[0] = 0;
+    prevCounts[1] = 0;
+    prevCounts[2] = 0;
 }
 
 // Update the robot's position based on encoder readings
@@ -75,8 +74,7 @@ void Drive::updateOdometry()
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
 }
 
-// Then modify your driveToPosition function to prioritize movement over rotation
-void Drive::driveToPosition(Waypoint target, int basePower)
+void Drive::driveToPosition(Waypoint target, int basePower, bool ramp)
 {
     updateOdometry();
     resetMotors();
@@ -88,8 +86,17 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     double xSetpoint = target.x;
     double ySetpoint = target.y;
 
-    PID xPID = PID(&pose.x, &vx, &xSetpoint, 1.56, .12, .16, REVERSE);
-    PID yPID = PID(&pose.y, &vy, &ySetpoint, 2.08, .15, .2, DIRECT);
+    double dpx = 1.56;
+    double dpy = 2.08;
+
+    if (ramp)
+    {
+        dpx *= 2;
+        dpy *= 2;
+    }
+
+    PID xPID = PID(&pose.x, &vx, &xSetpoint, dpx, .12, .16, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, dpy, .15, .2, DIRECT);
 
     xPID.SetOutputLimits(-basePower, basePower);
     yPID.SetOutputLimits(-basePower, basePower);
@@ -112,7 +119,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         bool b = yPID.Compute();
         if (!a && !b)
         {
-                    reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
+            reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
             continue;
         }
 
@@ -153,12 +160,12 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = vb < 0 ? -1 : 1;
         motorDirections[2] = vc < 0 ? -1 : 1;
 
-        //This code significantly slows down the loop
-        // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
-        //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
-        //            "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
-        //            "\ntarget: (" + String(target.x) + "," + String(target.y) +
-        //            ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
+        // This code significantly slows down the loop
+        //  logger.log("vx: " + String(vx) + " vy: " + String(vy) +
+        //             "\nvxa: " + String(vxa) + " vya: " + String(vya) +
+        //             "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
+        //             "\ntarget: (" + String(target.x) + "," + String(target.y) +
+        //             ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
 
         motorA.SetPercent(va);
         motorB.SetPercent(vb);
@@ -168,6 +175,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     }
 
     resetMotors();
+    resetPrevCounts();
 }
 
 void Drive::turn(double targetAngle, int basePower)
@@ -234,15 +242,16 @@ void Drive::turn(double targetAngle, int basePower)
         motorB.SetPercent(motorPower);
         motorC.SetPercent(motorPower);
 
-        logger.log("vtheta: " + String(vtheta) +
-                   "\noutput: " + String(rotationOutput) +
-                   "\ndiff: " + String(angleDiff) +
-                   "\ntarget: " + String(targetAngle) +
-                   ")\npose: " + String(pose.theta) + "\n");
+        // logger.log("vtheta: " + String(vtheta) +
+        //            "\noutput: " + String(rotationOutput) +
+        //            "\ndiff: " + String(angleDiff) +
+        //            "\ntarget: " + String(targetAngle) +
+        //            ")\npose: " + String(pose.theta) + "\n");
 
         // Check if the angle difference is small enough
         reachedAngle = fabs(angleDiff) < THRESHOLD;
     }
 
     resetMotors();
+    resetPrevCounts();
 }

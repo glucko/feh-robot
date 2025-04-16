@@ -53,11 +53,11 @@ private:
     // Odometry and control functions
     void updateOdometry();
     void calculateWheelVelocities(double vx, double vy, double omega, double velocities[3]);
-    void resetPose();
+    void resetPrevCounts();
 
 public:
     Drive();
-    void driveToPosition(Waypoint point, int basePower = 30);
+    void driveToPosition(Waypoint point, int basePower = 30, bool ramp = false);
     void turn(double targetAngle, int basePower = 30);
 };
 

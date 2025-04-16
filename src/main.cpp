@@ -27,7 +27,7 @@ void ERCMain()
     drive.driveToPosition({6, -1, 0}, 25);
 
     // Drive up ramp to table
-    drive.driveToPosition({30, -2, 0}, 35);
+    drive.driveToPosition({30, -2, 0}, 40, true);
 
     // Drive to window
     drive.driveToPosition({22, 5, 0}, 25);
