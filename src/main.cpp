@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "utils.h"
 #include "drive.h"
+#include "tasks.h"
 
 void ERCMain()
 {
@@ -19,9 +20,9 @@ void ERCMain()
     drive.driveToPosition({-2, -1, 0}, 25);
 
     // Drive to Apple Bucket
-    drive.driveToPosition({10, 13, 0}, 25);
-    drive.turn(120);
-
+    drive.driveToPosition({11, 13, 0}, 25);
+    drive.turn(-120);
+    pickUpBucket();
 
     // Drive to ramp
     drive.driveToPosition({6, -1, 0}, 25);
