@@ -19,7 +19,7 @@ void ERCMain()
     drive.driveToPosition({-2, -1, 0}, 25);
 
     // Drive to Apple Bucket
-    drive.driveToPosition({12, 16, 0}, 25);
+    drive.driveToPosition({10, 15, 0}, 25);
 
     // Drive to ramp
     drive.driveToPosition({6, -1, 0}, 25);
