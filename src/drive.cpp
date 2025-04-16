@@ -270,7 +270,6 @@ void Drive::driveUpRamp()
     PID pid(&input, &adjustedPower, &target, 1, 0, 0, DIRECT);
     pid.SetMode(AUTOMATIC);
 
-    bool shouldContinue = true;
     while ((motorA.Counts() + motorB.Counts() / 2) < inchesToCounts(20))
     {
         input = motorA.Counts() - motorB.Counts();
