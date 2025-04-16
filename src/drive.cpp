@@ -110,7 +110,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         bool b = yPID.Compute();
         if (!a && !b)
         {
-                    reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
+            reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
             continue;
         }
 
@@ -151,12 +151,12 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = vb < 0 ? -1 : 1;
         motorDirections[2] = vc < 0 ? -1 : 1;
 
-        //This code significantly slows down the loop
-        // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
-        //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
-        //            "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
-        //            "\ntarget: (" + String(target.x) + "," + String(target.y) +
-        //            ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
+        // This code significantly slows down the loop
+        //  logger.log("vx: " + String(vx) + " vy: " + String(vy) +
+        //             "\nvxa: " + String(vxa) + " vya: " + String(vya) +
+        //             "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +
+        //             "\ntarget: (" + String(target.x) + "," + String(target.y) +
+        //             ")\npose: (" + String(pose.x) + "," + String(pose.y) + ")\n");
 
         motorA.SetPercent(va);
         motorB.SetPercent(vb);
@@ -233,11 +233,11 @@ void Drive::turn(double targetAngle, int basePower)
         motorB.SetPercent(motorPower);
         motorC.SetPercent(motorPower);
 
-        logger.log("vtheta: " + String(vtheta) +
-                   "\noutput: " + String(rotationOutput) +
-                   "\ndiff: " + String(angleDiff) +
-                   "\ntarget: " + String(targetAngle) +
-                   ")\npose: " + String(pose.theta) + "\n");
+        // logger.log("vtheta: " + String(vtheta) +
+        //            "\noutput: " + String(rotationOutput) +
+        //            "\ndiff: " + String(angleDiff) +
+        //            "\ntarget: " + String(targetAngle) +
+        //            ")\npose: " + String(pose.theta) + "\n");
 
         // Check if the angle difference is small enough
         reachedAngle = fabs(angleDiff) < THRESHOLD;
