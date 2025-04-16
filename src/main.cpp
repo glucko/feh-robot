@@ -15,20 +15,22 @@ void ERCMain()
     Drive drive = Drive();
 
     waitUntilTouch();
-    // Drive to Apple Bucket
+    // Drive to start button
     drive.driveToPosition({-2, -1, 0}, 25);
 
     // Drive to Apple Bucket
-    drive.driveToPosition({10, 15, 0}, 25);
+    drive.driveToPosition({10, 13, 0}, 25);
+    drive.turn(120);
+
 
     // Drive to ramp
     drive.driveToPosition({6, -1, 0}, 25);
 
     // Drive up ramp to table
-    drive.driveToPosition({30, -1, 0}, 35);
+    drive.driveToPosition({30, -2, 0}, 35);
 
     // Drive to window
-    drive.driveToPosition({25, 5, 0}, 25);
+    drive.driveToPosition({22, 5, 0}, 25);
 
     // Open window
     drive.driveToPosition({25, 15, 0}, 25);
