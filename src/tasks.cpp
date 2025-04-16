@@ -10,7 +10,7 @@ void pickUpBucket()
 {
 
     servoLeveling(96);
-    drive.driveToPosition({11, 15, 0}, 25);
+    drive.driveToPosition({11, 15});
     servoLeveling(0);
 
     logger.log("Picked up Bucket");
@@ -40,12 +40,10 @@ void flipFertilizerDown()
 
 void hitButton()
 {
-
 }
 
 void pushWindow()
 {
-    
 }
 
 // void driveToCompostFromStart()

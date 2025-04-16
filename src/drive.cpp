@@ -60,8 +60,8 @@ void Drive::updateOdometry()
     for (int i = 0; i < 3; i++)
     {
         // Wheel contribution to X motion
-        deltaX += countsToInches(deltaCounts[i]) * cos(wheelAngles[i]);
-        deltaY += countsToInches(deltaCounts[i]) * sin(wheelAngles[i]);
+        deltaX += countsToInches(deltaCounts[i]) * cos(pose.theta + wheelAngles[i]);
+        deltaY += countsToInches(deltaCounts[i]) * sin(pose.theta + wheelAngles[i]);
         deltaTheta += (countsToInches(deltaCounts[i]) / ROBOT_RADIUS) / 3.0;
     }
 
@@ -129,6 +129,8 @@ void Drive::driveToPosition(Waypoint target, int basePower, bool ramp)
         // lastTime = currentTime;
 
         double deadband = 20;
+        if (ramp)
+            deadband = 30;
         double vxa = vx;
         double vya = vy;
         if (fabs(vy) > POS_THRESHOLD && fabs(vy) < deadband)
@@ -252,6 +254,35 @@ void Drive::turn(double targetAngle, int basePower)
         reachedAngle = fabs(angleDiff) < THRESHOLD;
     }
 
+    resetMotors();
+    resetPrevCounts();
+}
+
+void Drive::driveUpRamp()
+{
+    resetMotors();
+
+    double input = motorA.Counts() - motorB.Counts();
+    double target = 0;
+    double basePower = 30;
+    double adjustedPower;
+
+    PID pid(&input, &adjustedPower, &target, 1, 0, 0, DIRECT);
+    pid.SetMode(AUTOMATIC);
+
+    while ((motorA.Counts() + motorB.Counts() / 2) < inchesToCounts(20))
+    {
+        input = motorA.Counts() - motorB.Counts();
+        pid.Compute();
+        adjustedPower = constrain(adjustedPower, basePower - 5, basePower + 5);
+
+        motorA.SetPercent(adjustedPower);
+        motorB.SetPercent(-adjustedPower);
+    }
+
+    // manually set pose
+    pose.x = 30;
+    pose.y = -1;
     resetMotors();
     resetPrevCounts();
 }

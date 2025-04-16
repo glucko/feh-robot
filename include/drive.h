@@ -17,9 +17,8 @@
 // Define a waypoint structure for path planning
 struct Waypoint
 {
-    double x;     // X coordinate in inches
-    double y;     // Y coordinate in inches
-    double theta; // Orientation in radians
+    double x; // X coordinate in inches
+    double y; // Y coordinate in inches
 };
 
 // Robot pose structure
@@ -57,8 +56,9 @@ private:
 
 public:
     Drive();
-    void driveToPosition(Waypoint point, int basePower = 30, bool ramp = false);
+    void driveToPosition(Waypoint point, int basePower = 25, bool ramp = false);
     void turn(double targetAngle, int basePower = 30);
+    void driveUpRamp();
 };
 
 #endif // DRIVE_H
