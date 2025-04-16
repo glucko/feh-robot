@@ -112,6 +112,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         bool b = yPID.Compute();
         if (!a && !b)
         {
+                    reachedTarget = fabs(vx) < POS_THRESHOLD && fabs(vy) < POS_THRESHOLD;
             continue;
         }
 
@@ -152,7 +153,7 @@ void Drive::driveToPosition(Waypoint target, int basePower)
         motorDirections[1] = vb < 0 ? -1 : 1;
         motorDirections[2] = vc < 0 ? -1 : 1;
 
-        // This code significantly slows down the loop
+        //This code significantly slows down the loop
         // logger.log("vx: " + String(vx) + " vy: " + String(vy) +
         //            "\nvxa: " + String(vxa) + " vya: " + String(vya) +
         //            "\nv1: " + String(va) + " v2: " + String(vb) + " v3: " + String(vc) +

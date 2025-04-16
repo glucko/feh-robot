@@ -21,12 +21,12 @@ void waitUntilTouch()
 
 int inchesToCounts(double inches)
 {
-    return static_cast<int>((inches * (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER))) * (30/35));
+    return static_cast<int>((inches * (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER))) * (35.0/24));
 }
 
 double countsToInches(double counts)
 {
-    return ((counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER))) * (35/30));
+    return ((counts / (COUNTS_PER_ENCODER / (M_PI * WHEEL_DIAMETER))) * (24.0/35));
 }
 
 void resetMotors()

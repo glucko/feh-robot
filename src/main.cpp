@@ -15,7 +15,10 @@ void ERCMain()
     Drive drive = Drive();
 
     waitUntilTouch();
-    drive.driveToPosition({14, 17, 0}, 25);
+    drive.driveToPosition({12, 16, 0}, 25);
+
+    drive.driveToPosition({-6, -17, 0}, 25);
+
     /*drive.driveToPosition({-2, -1, 0}, 25);
     drive.driveToPosition({10, 15, 0}, 25);
     drive.driveToPosition({10, 0, 0}, 25);
