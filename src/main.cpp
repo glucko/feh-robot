@@ -16,42 +16,36 @@ void ERCMain()
 
     waitUntilTouch();
     // Drive to start button
-    drive.driveToPosition({-2, -1, 0}, 25);
+    drive.driveToPosition({-2, -1});
 
     // Drive to Apple Bucket
-    drive.driveToPosition({10, 13, 0}, 25);
-    drive.turn(120);
-
+    drive.driveToPosition({10, 13});
 
     // Drive to ramp
-    drive.driveToPosition({6, -1, 0}, 25);
+    drive.driveToPosition({6, -1});
 
     // Drive up ramp to table
-    drive.driveToPosition({30, -2, 0}, 40, true);
+    drive.turn(-120 * DEG_TO_RAD);
+    drive.driveUpRamp();
 
     // Drive to window
-    drive.driveToPosition({22, 5, 0}, 25);
+    drive.driveToPosition({22, 5});
 
     // Open window
-    drive.driveToPosition({25, 15, 0}, 25);
+    drive.driveToPosition({25, 15});
 
     // Drive to and hit button
-    drive.driveToPosition({27, 20, 0}, 25);
+    drive.driveToPosition({27, 20});
 
     // Drive to top of ramp
-    drive.driveToPosition({30, -1, 0}, 25);
+    drive.driveToPosition({30, -1});
 
     // Drive down ramp
-    drive.driveToPosition({6, -1, 0}, 25);
+    drive.driveToPosition({6, -1});
 
     // Drive to compost
-    drive.driveToPosition({-5, 10, 0}, 25);
+    drive.driveToPosition({-5, 10});
 
     // Drive to start button
-    drive.driveToPosition({-2, -1, 0}, 25);
-
-    /*drive.driveToPosition({-2, -1, 0}, 25);
-    drive.driveToPosition({10, 15, 0}, 25);
-    drive.driveToPosition({10, 0, 0}, 25);
-    drive.driveToPosition({30, 0, 0}, 35);*/
+    drive.driveToPosition({-2, -1});
 }
