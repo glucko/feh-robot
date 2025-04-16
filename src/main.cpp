@@ -17,12 +17,10 @@ void ERCMain()
 
     waitUntilTouch();
     // Drive to start button
-    drive.driveToPosition({-2, -1, 0}, 25);
+    drive.driveToPosition({0, 0, 0}, 25);
 
     // Drive to Apple Bucket
     drive.driveToPosition({11, 13, 0}, 25);
-    drive.turn(-120);
-    pickUpBucket();
 
     // Drive to ramp
     drive.driveToPosition({6, -1, 0}, 25);
