@@ -57,7 +57,7 @@ private:
 
 public:
     Drive();
-    void driveToPosition(Waypoint point, int basePower = 30);
+    void driveToPosition(Waypoint point, int basePower = 30, bool ramp = false);
     void turn(double targetAngle, int basePower = 30);
 };
 

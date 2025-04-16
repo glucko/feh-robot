@@ -74,7 +74,7 @@ void Drive::updateOdometry()
     pose.theta = atan2(sin(pose.theta), cos(pose.theta));
 }
 
-void Drive::driveToPosition(Waypoint target, int basePower)
+void Drive::driveToPosition(Waypoint target, int basePower, bool ramp)
 {
     updateOdometry();
     resetMotors();
@@ -86,8 +86,17 @@ void Drive::driveToPosition(Waypoint target, int basePower)
     double xSetpoint = target.x;
     double ySetpoint = target.y;
 
-    PID xPID = PID(&pose.x, &vx, &xSetpoint, 1.56, .12, .16, REVERSE);
-    PID yPID = PID(&pose.y, &vy, &ySetpoint, 2.08, .15, .2, DIRECT);
+    double dpx = 1.56;
+    double dpy = 2.08;
+
+    if (ramp)
+    {
+        dpx *= 2;
+        dpy *= 2;
+    }
+
+    PID xPID = PID(&pose.x, &vx, &xSetpoint, dpx, .12, .16, REVERSE);
+    PID yPID = PID(&pose.y, &vy, &ySetpoint, dpy, .15, .2, DIRECT);
 
     xPID.SetOutputLimits(-basePower, basePower);
     yPID.SetOutputLimits(-basePower, basePower);
