@@ -26,10 +26,10 @@ void ERCMain()
     dropOffBucket();
     hitButton();
 
-    goToWindowFromButton();
-    pushWindow();
+    //goToWindowFromButton();
+    //pushWindow();
 
     driveToCompostFromWindow();
     spinCompost();
-    hitButtonFromCompost();
+    //hitButtonFromCompost();
 }

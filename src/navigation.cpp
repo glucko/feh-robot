@@ -42,11 +42,11 @@ void dropOffBucket()
     Sleep(1.0);
 
     logger.log("finished dropOffBucket()");
-
-    servoLeveling(90);
+    
     Sleep(.5);
 
     drive.driveDirection(1, Direction::AB);
+    servoLeveling(0);
 }
 
 void driveToRampFromBucket()
@@ -60,8 +60,8 @@ void driveToRampFromBucket()
 
 void driveUpRampAndRealign()
 {
-    drive.turn(93);
-    drive.driveDirection(33, Direction::AB, 35);
+    drive.turn(91);
+    drive.driveDirection(35, Direction::AB, 35);
 
     logger.log("finished driveUpRamp()");
 }
@@ -91,7 +91,7 @@ void flipFertilizerDown()
 void hitButton()
 {
     drive.driveDirection(-1, Direction::AB);
-    drive.turn(-90);
+    drive.turn(-31.5);
     /*drive.driveUntilLight(Direction::AB);
 
     if (getHumidifierLight() == Light::BLUELIGHT)
@@ -99,7 +99,7 @@ void hitButton()
     else
         drive.driveDirection(-3, Direction::BC);*/
 
-    drive.driveDirection(28, Direction::AB);
+    drive.driveDirection(24, Direction::CA);
 }
 
 void goToWindowFromButton()
@@ -126,13 +126,19 @@ void pushWindow()
 
 void driveToCompostFromWindow()
 {
-    drive.driveDirection(5, Direction::CA);
-    drive.driveDirection(-15, Direction::AB);
-    drive.driveDirection(1.5, Direction::AB);
-    drive.turn(90);
-    drive.driveDirection(-18, Direction::AB);
-    drive.turn(-90);
-    drive.driveDirection(10, Direction::AB);
+    // drive.driveDirection(5, Direction::CA);
+    // drive.driveDirection(-15, Direction::AB);
+    // drive.driveDirection(1.5, Direction::AB);
+    // drive.turn(90);
+    // drive.driveDirection(-18, Direction::AB);
+    // drive.turn(-90);
+    // drive.driveDirection(10, Direction::AB);
+
+    drive.driveDirection(-24, Direction::CA);
+    drive.turn(31.5);
+    drive.driveDirection(-30, Direction::AB);
+    drive.turn(-135);
+    drive.driveDirection(15, Direction::AB);
 }
 
 void driveToCompostFromStart()
