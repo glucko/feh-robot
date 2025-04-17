@@ -59,6 +59,7 @@ public:
     void driveToPosition(Waypoint point, int basePower = 25, bool ramp = false);
     void turn(double targetAngle, int basePower = 30);
     void driveUpRamp();
+    void driveDownRamp();
 };
 
 #endif // DRIVE_H

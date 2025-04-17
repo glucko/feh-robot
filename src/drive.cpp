@@ -194,7 +194,7 @@ void Drive::turn(double targetAngle, int basePower)
     // PID for angular control
     double vtheta = 0;
     double rotationSetpoint = targetAngle;
-    PID rotationPID = PID(&pose.theta, &vtheta, &rotationSetpoint, 3.0, 0.1, 0.2, DIRECT);
+    PID rotationPID = PID(&pose.theta, &vtheta, &rotationSetpoint, 2, 0.1, 0.2, DIRECT);
 
     rotationPID.SetOutputLimits(-basePower, basePower);
     rotationPID.SetMode(AUTOMATIC);
@@ -264,6 +264,35 @@ void Drive::driveUpRamp()
 
     double input = motorA.Counts() - motorB.Counts();
     double target = 0;
+    double basePower = 35;
+    double adjustedPower;
+
+    PID pid(&input, &adjustedPower, &target, 1, 0.1, 0.2, DIRECT);
+    pid.SetMode(AUTOMATIC);
+
+    while ((motorA.Counts() + motorB.Counts() / 2) < inchesToCounts(28))
+    {
+        input = motorA.Counts() - motorB.Counts();
+        pid.Compute();
+        adjustedPower = constrain(adjustedPower, basePower - 5, basePower + 5);
+
+        motorA.SetPercent(adjustedPower);
+        motorB.SetPercent(-adjustedPower);
+    }
+
+    // manually set pose
+    pose.x = 30;
+    pose.y = -1;
+    resetMotors();
+    resetPrevCounts();
+}
+
+void Drive::driveDownRamp()
+{
+    resetMotors();
+
+    double input = motorA.Counts() - motorB.Counts();
+    double target = 0;
     double basePower = 30;
     double adjustedPower;
 
@@ -276,12 +305,12 @@ void Drive::driveUpRamp()
         pid.Compute();
         adjustedPower = constrain(adjustedPower, basePower - 5, basePower + 5);
 
-        motorA.SetPercent(adjustedPower);
-        motorB.SetPercent(-adjustedPower);
+        motorA.SetPercent(-adjustedPower);
+        motorB.SetPercent(adjustedPower);
     }
 
     // manually set pose
-    pose.x = 30;
+    pose.x = 6;
     pose.y = -1;
     resetMotors();
     resetPrevCounts();

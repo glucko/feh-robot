@@ -8,12 +8,17 @@ Drive drive = Drive();
 
 void pickUpBucket()
 {
-
+    drive.turn(-72);
     servoLeveling(96);
-    drive.driveToPosition({11, 15});
+    float time = TimeNow();
+    while(TimeNow()-time < .8){
+        motorA.SetPercent(20);
+        motorB.SetPercent(-20);
+    }
     servoLeveling(0);
+    drive.turn(-3);
 
-    logger.log("Picked up Bucket");
+    //logger.log("Picked up Bucket");
 }
 
 void dropOffBucket()
@@ -44,6 +49,11 @@ void hitButton()
 
 void pushWindow()
 {
+    drive.turn(180);
+    servoLeveling(30);
+    drive.driveToPosition({-25, -15});
+    drive.turn(0);
+    servoLeveling(0);
 }
 
 // void driveToCompostFromStart()
