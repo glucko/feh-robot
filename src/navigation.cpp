@@ -26,7 +26,7 @@ void pickUpBucket()
 {
 
     servoLeveling(96);
-    drive.driveDirection(4.3, Direction::AB, 15);
+    drive.driveDirection(4.3, Direction::AB, 15, 5.0);
     servoLeveling(0);
 
     logger.log("Picked up Bucket");

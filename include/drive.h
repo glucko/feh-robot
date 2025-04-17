@@ -41,7 +41,7 @@ public:
      * @param power The power level to apply to the motors (range: 0 to 100).
      * @param distance The distance the robot should travel, in inches. 0 if in light mode.
      */
-    void driveWithMode(DriveMode mode, Direction direction, int power, float distance);
+    void driveWithMode(DriveMode mode, Direction direction, int power, float distance, float timeOut);
 
     /**
      * @brief Constructs a Drive object with the provided motors
@@ -57,7 +57,7 @@ public:
      * @param direction Direction to travel (enum Direction)
      * @param power Motor power level to use
      */
-    void driveDirection(float distance, Direction direction, int power = NORMAL_POWER);
+    void driveDirection(float distance, Direction direction, int power = NORMAL_POWER, float timeOut = 10.0);
 
     /**
      * @brief Drives the robot in a specified direction until a light is detected.
@@ -71,7 +71,7 @@ public:
      * @param power The power level at which the robot should drive.
      *              Defaults to NORMAL_POWER if not specified.
      */
-    void driveUntilLight(Direction direction, int power = NORMAL_POWER);
+    void driveUntilLight(Direction direction, int power = NORMAL_POWER, float timeOut = 10.0);
 
     /**
      * @brief Turns the robot clockwise by a specified angle

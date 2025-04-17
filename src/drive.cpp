@@ -11,7 +11,7 @@ Drive::Drive(Motor &m1, Motor &m2, Motor &m3)
 {
 }
 
-void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float distance)
+void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float distance, float timeOut)
 {
     resetAll();
 
@@ -60,6 +60,7 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
     PID pid(&input, &adjustedPower, &target, 0.1, 0.001, 0.01, DIRECT);
     pid.SetMode(AUTOMATIC);
 
+    float startTime = TimeNow();
     bool shouldContinue = true;
     while (shouldContinue)
     {
@@ -71,7 +72,11 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
         mot2->SetPercent(-adjustedPower);
 
         // Determine if we should continue based on the mode
-        if (mode == DriveMode::DISTANCE)
+        if (TimeNow() - startTime > timeOut)
+        {
+            shouldContinue = false;
+        }
+        else if (mode == DriveMode::DISTANCE)
         {
             shouldContinue = (mot1->Counts() + mot2->Counts()) / 2 <= targetCounts;
         }
@@ -86,14 +91,14 @@ void Drive::driveWithMode(DriveMode mode, Direction direction, int power, float 
 }
 
 // Wrapper functions to maintain original API
-void Drive::driveDirection(float distance, Direction direction, int power)
+void Drive::driveDirection(float distance, Direction direction, int power, float startTime)
 {
-    driveWithMode(DriveMode::DISTANCE, direction, power, distance);
+    driveWithMode(DriveMode::DISTANCE, direction, power, distance, startTime);
 }
 
-void Drive::driveUntilLight(Direction direction, int power)
+void Drive::driveUntilLight(Direction direction, int power, float startTime)
 {
-    driveWithMode(DriveMode::LIGHT, direction, power, 0);
+    driveWithMode(DriveMode::LIGHT, direction, power, 0, startTime);
 }
 
 void Drive::turn(float degrees, int power)

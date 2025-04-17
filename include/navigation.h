@@ -8,7 +8,7 @@
 
 #include <FEH.h>
 
-void hitButton();
+void hitStartButton();
 
 void driveToBucket();
 void pickUpBucket();

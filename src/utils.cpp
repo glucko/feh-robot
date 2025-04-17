@@ -13,10 +13,10 @@ void waitUntilTouch()
     while (!LCD.Touch(&left, &right))
     {
     }
-
     while (LCD.Touch(&left, &right))
     {
     }
+    logger.log("Pressed");
 }
 
 int inchesToCounts(float inches)
