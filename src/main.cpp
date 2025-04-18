@@ -31,13 +31,11 @@ void ERCMain()
     write("No light value: " + String(cdsCell.Value()));
 
     // Red light
-    LCD.Clear();
     write("\nPrepare for red light");
     waitUntilTouch();
     write("red light value: " + String(cdsCell.Value()));
 
     // Blue light
-    LCD.Clear();
     write("\nPrepare for blue light");
     waitUntilTouch();
     write("blue light value: " + String(cdsCell.Value()));
