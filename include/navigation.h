@@ -22,6 +22,7 @@ void driveToFertilizerFromTable();
 void flipFertilizerDown();
 
 void hitButton();
+void fertilizerFromButton();
 
 void goToWindowFromButton();
 void pushWindow();

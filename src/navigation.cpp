@@ -102,6 +102,17 @@ void hitButton()
     drive.driveDirection(24, Direction::CA);
 }
 
+void fertilizerFromButton(){
+    drive.driveDirection(-2, Direction::CA);
+    drive.turn(31.5);
+    drive.driveDirection(5, Direction::AB);
+    servoLeveling(SERVO_LOWERED + 5);
+    servoLeveling(0);
+    drive.driveDirection(-5, Direction::AB);
+    drive.turn(-31.5);
+    drive.driveDirection(2, Direction::CA);
+}
+
 void goToWindowFromButton()
 {
     drive.driveDirection(-10, Direction::AB);

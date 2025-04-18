@@ -28,7 +28,7 @@ void ERCMain()
     driveUpRampAndRealign();
     dropOffBucket();
     hitButton();
-
+    fertilizerFromButton();
     //goToWindowFromButton();
     //pushWindow();
 
